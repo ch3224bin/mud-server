@@ -1,0 +1,29 @@
+spring:
+    profiles:
+        active: local
+
+---
+spring:
+    profiles: test
+    h2:
+        console:
+            enabled: true  # H2 웹 콘솔을 사용하겠다는 의미
+            path: /test_db  # 콘솔의 경로
+    datasource:
+        driver-class-name: org.h2.Driver  #h2 드라이버 설정
+        url: jdbc:h2:mem:testdb  #접속 URL
+        username: sa
+        sql-script-encoding: UTF-8
+        platform: h2
+    jpa:      show-sql: true
+      generate-ddl: true
+
+---
+spring:
+    profiles: local
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/mud?serverTimezone=UTC&characterEncoding=UTF-8
+        username: user1
+        password: 1234
+        initialization-mode: never
