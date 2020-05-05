@@ -4,7 +4,7 @@ function connect() {
 	var sock = new SockJS("http://localhost:8080/mud-server");
     client = Stomp.over(sock);
     client.connect({}, function (frame) {
-    	client.subscribe('/history', function (response) {
+    	client.subscribe('/user/history', function (response) {
             showGreeting(response.body); // JSON.parse(response.body).content
         });
     });
