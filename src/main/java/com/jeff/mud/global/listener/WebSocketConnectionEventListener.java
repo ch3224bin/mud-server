@@ -1,6 +1,5 @@
 package com.jeff.mud.global.listener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.event.EventListener;
@@ -11,10 +10,10 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 @Component
 public class WebSocketConnectionEventListener {
 	
-	private List<WebSocketConnectionListener> listeners = new ArrayList<>();
+	private final List<WebSocketConnectionListener> listeners;
 	
-	public void addListener(WebSocketConnectionListener listener) {
-		this.listeners.add(listener);
+	public WebSocketConnectionEventListener(List<WebSocketConnectionListener> listeners) {
+		this.listeners = listeners;
 	}
 
 	@EventListener

@@ -8,7 +8,7 @@ create table player (id bigint not null auto_increment, name varchar(255) not nu
 
 create table room (id bigint not null auto_increment, description varchar(255) not null, summary varchar(255) not null, primary key (id));
 
-create table exit (id bigint not null auto_increment, direction varchar(255) not null, room_id bigint not null, next_room_id bigint, primary key (id));
+create table exit (id bigint not null auto_increment, direction varchar(255) not null, room_id bigint not null, next_room_id bigint, is_locked boolean not null, is_show boolean not null, primary key (id));
 
 alter table account add constraint UK_ACCOUNT_USERNAME unique(username);
 

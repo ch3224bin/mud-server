@@ -12,7 +12,6 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import com.jeff.mud.domain.player.dao.PlayerRepository;
 import com.jeff.mud.domain.player.dto.PlayerDc;
 import com.jeff.mud.global.account.dao.AccountRepository;
-import com.jeff.mud.global.listener.WebSocketConnectionEventListener;
 import com.jeff.mud.global.listener.WebSocketConnectionListener;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,9 +36,7 @@ public class CurrentUserManager implements WebSocketConnectionListener {
 	
 	public CurrentUserManager(
 			AccountRepository accountRepository,
-			PlayerRepository playerRepository,
-			WebSocketConnectionEventListener webSocketConnectionEventListener) {
-		webSocketConnectionEventListener.addListener(this);
+			PlayerRepository playerRepository) {
 		this.accountRepository = accountRepository;
 		this.playerRepository = playerRepository;
 	}

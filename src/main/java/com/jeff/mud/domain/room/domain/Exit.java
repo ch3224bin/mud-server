@@ -2,12 +2,16 @@ package com.jeff.mud.domain.room.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.jeff.mud.domain.room.constants.Direction;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,10 +30,17 @@ public class Exit {
 	@Column(name = "room_id", nullable = false)
 	private long roomId;
 	
+	@Enumerated(EnumType.STRING)
 	@Column(name = "direction", nullable = false)
-	private String direction;
+	private Direction direction;
 	
 	@OneToOne
-    @JoinColumn(name = "next_room_id")
+    @JoinColumn(name = "next_room_id", nullable = false)
 	private Room nextRoom;
+	
+	@Column(name = "is_show", nullable = false)
+	private boolean isShow = true;
+	
+	@Column(name = "is_locked", nullable = false)
+	private boolean isLocked = false;
 }

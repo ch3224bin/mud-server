@@ -8,7 +8,8 @@ import lombok.Getter;
 
 @Getter
 public enum CommandConstants {
-	WHO (new String[]{"누구"}, "who")
+	WHO (new String[] {"누구"}, "who"),
+	SEE (new String[] {"봐", "보다"}, "room") //TODO template location이 여기에 들어가면 안된다..
 	;
 	
 	private String location;

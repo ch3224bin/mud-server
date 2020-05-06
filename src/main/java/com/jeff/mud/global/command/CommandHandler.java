@@ -1,16 +1,15 @@
 package com.jeff.mud.global.command;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
 @Component
 public class CommandHandler {
-	private final List<Command> commands = new ArrayList<>();
+	private final List<Command> commands;
 	
-	public void addCommand(Command command) {
-		this.commands.add(command);
+	public CommandHandler(List<Command> commands) {
+		this.commands = commands;
 	}
 	
 	public void handle(String msg) {
