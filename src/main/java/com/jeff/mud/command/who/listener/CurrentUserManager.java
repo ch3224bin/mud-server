@@ -1,13 +1,17 @@
 package com.jeff.mud.command.who.listener;
 
-import java.security.Principal;
-import java.util.Set;
+import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
+import com.jeff.mud.domain.player.dao.PlayerRepository;
+import com.jeff.mud.domain.player.dto.PlayerDc;
+import com.jeff.mud.global.account.dao.AccountRepository;
 import com.jeff.mud.global.listener.WebSocketConnectionEventListener;
 import com.jeff.mud.global.listener.WebSocketConnectionListener;
 
@@ -22,28 +26,45 @@ import lombok.extern.slf4j.Slf4j;
  * @see com.jeff.mud.global.listener.WebSocketConnectionEventListener
  */
 @Slf4j
+@Transactional
 @Component
 public class CurrentUserManager implements WebSocketConnectionListener {
 	
-	Set<String> currentUserSet = ConcurrentHashMap.newKeySet();
+	private final Map<String, PlayerDc> currentUserStore = new ConcurrentHashMap<>();
 	
-	public CurrentUserManager(WebSocketConnectionEventListener webSocketConnectionEventListener) {
+	private final AccountRepository accountRepository;
+	private final PlayerRepository playerRepository;
+	
+	public CurrentUserManager(
+			AccountRepository accountRepository,
+			PlayerRepository playerRepository,
+			WebSocketConnectionEventListener webSocketConnectionEventListener) {
 		webSocketConnectionEventListener.addListener(this);
+		this.accountRepository = accountRepository;
+		this.playerRepository = playerRepository;
 	}
 
 	@Override
 	public void connected(SessionConnectedEvent event) {
 //		StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-		Principal user = event.getUser();
-		log.info("Connected : " + user.getName());
-		currentUserSet.add(user.getName());
+		String username = event.getUser().getName();
+		PlayerDc player = accountRepository.findByUsername(username)
+				.map(account -> playerRepository.findByAccount(account).get())
+				.map(PlayerDc::new)
+				.get();
+		currentUserStore.put(username, player);
+		log.info("Connected : " + username);
 	}
 
 	@Override
 	public void disconnect(SessionDisconnectEvent event) {
-		Principal user = event.getUser();
-		log.info("Disconnected : " + user.getName());
-		currentUserSet.remove(user.getName());
+		String username = event.getUser().getName();
+		currentUserStore.remove(username);
+		log.info("Disconnected : " + username);
+	}
+	
+	public Collection<PlayerDc> getCurrentPlayers() {
+		return currentUserStore.values();
 	}
 
 }

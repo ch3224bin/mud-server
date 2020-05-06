@@ -7,3 +7,6 @@ insert into role (id, role) values
 
 insert into account_role (account_id, role_id) values
 (1, 1);
+
+insert into player (name, account_id) values
+('액션가면', 1);
