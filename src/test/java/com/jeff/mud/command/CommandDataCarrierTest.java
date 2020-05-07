@@ -1,4 +1,4 @@
-package com.jeff.mud.global.command;
+package com.jeff.mud.command;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

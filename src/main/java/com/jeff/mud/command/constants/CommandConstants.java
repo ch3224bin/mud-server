@@ -9,7 +9,8 @@ import lombok.Getter;
 @Getter
 public enum CommandConstants {
 	who (new String[] {"누구"}),
-	see (new String[] {"봐", "보다"})
+	see (new String[] {"봐", "보다"}),
+	noop (new String[] {}) // 아무것도 하지 않는다.
 	;
 	
 	private Set<String> commands;

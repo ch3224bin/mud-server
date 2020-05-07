@@ -1,4 +1,4 @@
-package com.jeff.mud.global.command;
+package com.jeff.mud.command;
 
 import java.security.Principal;
 

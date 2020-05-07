@@ -9,6 +9,7 @@ import com.jeff.mud.domain.player.dao.PlayerRepository;
 import com.jeff.mud.domain.player.domain.Player;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
 import com.jeff.mud.state.PlayerState;
+import com.jeff.mud.state.PlayerStateHandlerManager;
 
 /**
  * 사용자 들어왔을때, 떠났을때 처리.
@@ -25,10 +26,15 @@ public class Receptionist {
 	
 	private final CustomMessagingTemplate customMessagingTemplate;
 	private final PlayerRepository playerRepository;
+	private final PlayerStateHandlerManager playerStateHandlerManager;
 	
-	public Receptionist(CustomMessagingTemplate customMessagingTemplate, PlayerRepository playerRepository) {
+	public Receptionist(
+			CustomMessagingTemplate customMessagingTemplate,
+			PlayerRepository playerRepository,
+			PlayerStateHandlerManager playerStateHandlerManager) {
 		this.customMessagingTemplate = customMessagingTemplate;
 		this.playerRepository = playerRepository;
+		this.playerStateHandlerManager = playerStateHandlerManager;
 	}
 	
 	@EventListener
@@ -41,14 +47,12 @@ public class Receptionist {
 			// 2. 공지사항등
 			
 			// 3. 첫번째로 할 행동을 취한다.
-			// 처음 왔으면 이름 정하는 등의 캐릭터 생성
-			// 보통은 현재 위치를 보여줌
-			playerRepository.findByUsername(accessor.getUser().getName())
+			Player player = playerRepository.findByUsername(accessor.getUser().getName())
 				.orElse(Player.builder()
 							.state(PlayerState.character_create1)
 							.build());
 			
-			// TODO first action
+			playerStateHandlerManager.welcome(accessor.getUser(), player, player.getState());
 		}
 	}
 }
