@@ -22,7 +22,7 @@ public class RoomDc {
 		this.id = room.getId();
 		this.summary = room.getSummary();
 		this.description = room.getDescription();
-		this.exits = room.getExits().stream()
+		this.exits = room.getWayouts().stream()
 			.map(ExitDc::new)
 			.sorted()
 			.collect(Collectors.toList());

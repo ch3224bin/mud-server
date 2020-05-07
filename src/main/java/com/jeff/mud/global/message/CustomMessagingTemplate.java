@@ -23,9 +23,9 @@ public class CustomMessagingTemplate {
 		this.simpMessagingTemplate = simpMessagingTemplate;
 	}
 	
-	public void convertAndSendToYou(String location, Object payload) {
+	public void convertAndSendToYou(String username, String location, Object payload) {
 		String message = getCompileString(location, payload);
-		simpMessagingTemplate.convertAndSendToUser("user", USER_DESTINATION, message);
+		simpMessagingTemplate.convertAndSendToUser(username, USER_DESTINATION, message);
 	}
 	
 	private String getCompileString(String location, Object payload) {

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -18,10 +19,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "exit")
+@Table(name = "wayout")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Exit {
+public class Wayout {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,9 +39,11 @@ public class Exit {
     @JoinColumn(name = "next_room_id", nullable = false)
 	private Room nextRoom;
 	
+	@ManyToOne
+	@JoinColumn(name = "door_id", nullable = false)
+	private Door door;
+	
 	@Column(name = "is_show", nullable = false)
 	private boolean isShow = true;
 	
-	@Column(name = "is_locked", nullable = false)
-	private boolean isLocked = false;
 }

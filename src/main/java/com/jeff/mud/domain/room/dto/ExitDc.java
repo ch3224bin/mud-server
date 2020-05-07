@@ -1,7 +1,7 @@
 package com.jeff.mud.domain.room.dto;
 
 import com.jeff.mud.domain.room.constants.Direction;
-import com.jeff.mud.domain.room.domain.Exit;
+import com.jeff.mud.domain.room.domain.Wayout;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,14 +14,16 @@ public class ExitDc implements Comparable<ExitDc> {
 	private long roomId;
 	private RoomDc nextRoom;
 	private Direction direction;
-	private boolean isShow = true;
-	private boolean isLocked = false;
+	private boolean isShow;
+	private boolean isLocked;
 	
-	public ExitDc(Exit exit) {
+	public ExitDc(Wayout exit) {
 		this.id = exit.getId();
 		this.roomId = exit.getRoomId();
 		this.nextRoom = new RoomDc(exit.getNextRoom());
 		this.direction = exit.getDirection();
+		this.isShow = exit.isShow();
+		this.isLocked = exit.getDoor().isLocked();
 	}
 
 	@Override

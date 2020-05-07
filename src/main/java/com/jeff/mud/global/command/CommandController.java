@@ -1,5 +1,7 @@
 package com.jeff.mud.global.command;
 
+import java.security.Principal;
+
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 
@@ -13,7 +15,7 @@ public class CommandController {
 	}
 	
 	@MessageMapping("/command")
-    public void send(String msg) throws Exception {
-		commandHandler.handle(msg);
+    public void send(Principal principal, String msg) throws Exception {
+		commandHandler.handle(principal, msg);
     }
 }

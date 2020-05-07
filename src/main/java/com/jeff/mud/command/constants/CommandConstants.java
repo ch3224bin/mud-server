@@ -8,16 +8,14 @@ import lombok.Getter;
 
 @Getter
 public enum CommandConstants {
-	WHO (new String[] {"누구"}, "who"),
-	SEE (new String[] {"봐", "보다"}, "room") //TODO template location이 여기에 들어가면 안된다..
+	who (new String[] {"누구"}),
+	see (new String[] {"봐", "보다"})
 	;
 	
-	private String location;
 	private Set<String> commands;
 
-	CommandConstants(String[] commands, String location) {
+	CommandConstants(String[] commands) {
 		this.commands = new HashSet<>(Arrays.asList(commands));
-		this.location = location;
 	}
 	
 	public boolean matched(String command) {

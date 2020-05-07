@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
@@ -12,7 +13,6 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import com.jeff.mud.domain.player.dao.PlayerRepository;
 import com.jeff.mud.domain.player.dto.PlayerDc;
 import com.jeff.mud.global.account.dao.AccountRepository;
-import com.jeff.mud.global.listener.WebSocketConnectionListener;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,12 +22,11 @@ import lombok.extern.slf4j.Slf4j;
  * WebSocketConnectionEventListener에 등록하여 현재 접속자를 Map으로 관리한다. 
  * 
  * @author ch3224bin
- * @see com.jeff.mud.global.listener.WebSocketConnectionEventListener
  */
 @Slf4j
 @Transactional
 @Component
-public class CurrentUserManager implements WebSocketConnectionListener {
+public class CurrentUserManager {
 	
 	private final Map<String, PlayerDc> currentUserStore = new ConcurrentHashMap<>();
 	
@@ -40,9 +39,9 @@ public class CurrentUserManager implements WebSocketConnectionListener {
 		this.accountRepository = accountRepository;
 		this.playerRepository = playerRepository;
 	}
-
-	@Override
-	public void connected(SessionConnectedEvent event) {
+	
+	@EventListener
+	public void handleWebSocketConnectListener(SessionConnectedEvent event) {
 //		StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
 		String username = event.getUser().getName();
 		PlayerDc player = accountRepository.findByUsername(username)
@@ -52,9 +51,9 @@ public class CurrentUserManager implements WebSocketConnectionListener {
 		currentUserStore.put(username, player);
 		log.info("Connected : " + username);
 	}
-
-	@Override
-	public void disconnect(SessionDisconnectEvent event) {
+	
+	@EventListener
+	public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
 		String username = event.getUser().getName();
 		currentUserStore.remove(username);
 		log.info("Disconnected : " + username);
