@@ -11,9 +11,14 @@ import lombok.NoArgsConstructor;
 public class PlayerDc {
 	private long id;
 	private String name;
+	private String flashState;
 	
 	public PlayerDc(Player player) {
 		this.id = player.getId();
 		this.name = player.getName();
+	}
+	
+	public void setFlashState(String flashState) {
+		this.flashState = flashState;
 	}
 }

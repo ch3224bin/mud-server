@@ -42,7 +42,6 @@ public class CurrentUserManager {
 	
 	@EventListener
 	public void handleWebSocketConnectListener(SessionConnectedEvent event) {
-//		StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
 		String username = event.getUser().getName();
 		PlayerDc player = accountRepository.findByUsername(username)
 				.map(account -> playerRepository.findByAccount(account).get())
@@ -61,6 +60,10 @@ public class CurrentUserManager {
 	
 	public Collection<PlayerDc> getCurrentPlayers() {
 		return currentUserStore.values();
+	}
+	
+	public PlayerDc getPlayer(String username) {
+		return currentUserStore.get(username);
 	}
 
 }
