@@ -1,10 +1,15 @@
 package com.jeff.mud.welcome.listener;
 
+import java.security.Principal;
+
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
+import com.jeff.mud.command.CommandDataCarrier;
+import com.jeff.mud.command.CommandHandler;
+import com.jeff.mud.command.constants.CommandConstants;
 import com.jeff.mud.domain.player.dao.PlayerRepository;
 import com.jeff.mud.domain.player.domain.Player;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
@@ -27,14 +32,17 @@ public class Receptionist {
 	private final CustomMessagingTemplate customMessagingTemplate;
 	private final PlayerRepository playerRepository;
 	private final PlayerStateHandlerManager playerStateHandlerManager;
+	private final CommandHandler commandHandler;
 	
 	public Receptionist(
 			CustomMessagingTemplate customMessagingTemplate,
 			PlayerRepository playerRepository,
-			PlayerStateHandlerManager playerStateHandlerManager) {
+			PlayerStateHandlerManager playerStateHandlerManager,
+			CommandHandler commandHandler) {
 		this.customMessagingTemplate = customMessagingTemplate;
 		this.playerRepository = playerRepository;
 		this.playerStateHandlerManager = playerStateHandlerManager;
+		this.commandHandler = commandHandler;
 	}
 	
 	@EventListener
@@ -52,7 +60,17 @@ public class Receptionist {
 							.state(PlayerState.character_create1)
 							.build());
 			
-			playerStateHandlerManager.welcome(accessor.getUser(), player, player.getState());
+			welcome(accessor.getUser(), player, player.getState());
 		}
+	}
+	
+	private void welcome(Principal principal, Player player, PlayerState state) {
+		CommandDataCarrier dc = new CommandDataCarrier(principal, player, "봐");
+		if (state == PlayerState.normal) {
+			playerStateHandlerManager.handle(state, commandHandler.getCommand(CommandConstants.see), dc);
+			return;
+		}
+		
+		playerStateHandlerManager.handle(state, commandHandler.getCommand(CommandConstants.noop), dc);
 	}
 }

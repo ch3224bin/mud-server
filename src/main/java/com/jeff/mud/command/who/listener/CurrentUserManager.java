@@ -47,6 +47,7 @@ public class CurrentUserManager {
 				.map(account -> playerRepository.findByAccount(account).get())
 				.map(PlayerDc::new)
 				.get();
+			
 		currentUserStore.put(username, player);
 		log.info("Connected : " + username);
 	}
