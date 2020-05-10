@@ -1,5 +1,6 @@
 package com.jeff.mud.command.see.command;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -34,8 +35,7 @@ public class SeeCommand implements Command {
 
 	@Override
 	public List<PlayerState> allowStates() {
-		// TODO Auto-generated method stub
-		return null;
+		return Arrays.asList(PlayerState.normal, PlayerState.combat);
 	}
 
 	@Override

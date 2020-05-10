@@ -9,4 +9,5 @@ import com.jeff.mud.global.account.domain.Account;
 
 public interface PlayerRepository extends JpaRepository<Player, Long>, PlayerCustomRepository {
 	Optional<Player> findByAccount(Account account);
+	Optional<Player> findByName(String name);
 }

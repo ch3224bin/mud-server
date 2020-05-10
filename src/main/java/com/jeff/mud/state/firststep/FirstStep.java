@@ -1,6 +1,7 @@
 package com.jeff.mud.state.firststep;
 
 public enum FirstStep {
+	cc0,
 	cc1,
 	cc2,
 	cc3,
@@ -10,13 +11,11 @@ public enum FirstStep {
 	;
 	
 	public static boolean contains(String str) {
-
 	    for (FirstStep c : FirstStep.values()) {
 	        if (c.name().equals(str)) {
 	            return true;
 	        }
 	    }
-
 	    return false;
 	}
 }

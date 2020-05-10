@@ -1,7 +1,5 @@
 package com.jeff.mud.command;
 
-import java.security.Principal;
-
 import com.jeff.mud.domain.player.domain.Player;
 
 import lombok.Getter;
@@ -13,8 +11,8 @@ public class CommandDataCarrier {
 	private String msg;
 	private String command;
 	
-	public CommandDataCarrier(Principal principal, Player player, String msg) {
-		this.username = principal.getName();
+	public CommandDataCarrier(String username, Player player, String msg) {
+		this.username = username;
 		this.player = player;
 		this.msg = msg;
 		parse();

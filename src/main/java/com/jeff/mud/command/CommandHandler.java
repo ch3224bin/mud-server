@@ -1,16 +1,14 @@
 package com.jeff.mud.command;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Collection;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.jeff.mud.command.constants.CommandConstants;
 import com.jeff.mud.domain.player.dao.PlayerRepository;
 import com.jeff.mud.domain.player.domain.Player;
-import com.jeff.mud.state.PlayerStateHandlerManager;
+import com.jeff.mud.state.PlayerStateHandler;
 
 /**
  * 명령어 처리기
@@ -21,31 +19,27 @@ import com.jeff.mud.state.PlayerStateHandlerManager;
  *
  * @author ChangHo Vin
  */
+@Transactional
 @Component
 public class CommandHandler {
-	private final Map<CommandConstants, Command> commandMap = new HashMap<>();
+	private final CommandManager commandManager;
 	private final PlayerRepository playerRepository;
-	private final PlayerStateHandlerManager playerStateHandlerManager;
+	private final PlayerStateHandler playerStateHandler;
 	
-	public CommandHandler(List<Command> commands,
+	public CommandHandler(CommandManager commandManager,
 			PlayerRepository playerRepository,
-			PlayerStateHandlerManager playerStateHandlerManager) {
+			PlayerStateHandler playerStateHandler) {
+		this.commandManager = commandManager;
 		this.playerRepository = playerRepository;
-		this.playerStateHandlerManager = playerStateHandlerManager;
-		for (Command commmand : commands) {
-			commandMap.put(commmand.commandConstants(), commmand);
-		}
-	}
-	
-	public Command getCommand(CommandConstants commandConstants) {
-		return commandMap.get(commandConstants);
+		this.playerStateHandler = playerStateHandler;
 	}
 	
 	public void handle(Principal principal, String msg) {
 		Player player = playerRepository.findByUsername(principal.getName()).get();
-		CommandDataCarrier dc = new CommandDataCarrier(principal, player, msg);
-		for (Command command : commandMap.values()) {
-			boolean executed = playerStateHandlerManager.handle(player.getState(), command, dc);
+		CommandDataCarrier dc = new CommandDataCarrier(principal.getName(), player, msg.strip());
+		Collection<Command> commands = commandManager.getCommands();
+		for (Command command : commands) {
+			boolean executed = playerStateHandler.handle(player.getState(), command, dc);
 			if (executed) {
 				break;
 			}

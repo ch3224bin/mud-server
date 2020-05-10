@@ -15,18 +15,18 @@ public class RoomDc {
 	private long id;
 	private String summary;
 	private String description;
-	private List<ExitDc> exits;
+	private List<WayoutDc> wayouts;
 	private String exitString;
 	
 	public RoomDc(Room room) {
 		this.id = room.getId();
 		this.summary = room.getSummary();
 		this.description = room.getDescription();
-		this.exits = room.getWayouts().stream()
-			.map(ExitDc::new)
+		this.wayouts = room.getWayouts().stream()
+			.map(WayoutDc::new)
 			.sorted()
 			.collect(Collectors.toList());
-		this.exitString = exits.stream()
+		this.exitString = wayouts.stream()
 			.filter(x -> x.isShow())
 			.map(x -> x.toString())
 			.collect(Collectors.joining(" "));

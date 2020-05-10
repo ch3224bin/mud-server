@@ -1,20 +1,14 @@
 package com.jeff.mud.welcome.listener;
 
-import java.security.Principal;
-
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
-import com.jeff.mud.command.CommandDataCarrier;
-import com.jeff.mud.command.CommandHandler;
-import com.jeff.mud.command.constants.CommandConstants;
 import com.jeff.mud.domain.player.dao.PlayerRepository;
 import com.jeff.mud.domain.player.domain.Player;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
-import com.jeff.mud.state.PlayerState;
-import com.jeff.mud.state.PlayerStateHandlerManager;
+import com.jeff.mud.state.StateStarter;
 
 /**
  * 사용자 들어왔을때, 떠났을때 처리.
@@ -31,18 +25,15 @@ public class Receptionist {
 	
 	private final CustomMessagingTemplate customMessagingTemplate;
 	private final PlayerRepository playerRepository;
-	private final PlayerStateHandlerManager playerStateHandlerManager;
-	private final CommandHandler commandHandler;
+	private final StateStarter stateStarter;
 	
 	public Receptionist(
 			CustomMessagingTemplate customMessagingTemplate,
 			PlayerRepository playerRepository,
-			PlayerStateHandlerManager playerStateHandlerManager,
-			CommandHandler commandHandler) {
+			StateStarter stateStarter) {
 		this.customMessagingTemplate = customMessagingTemplate;
 		this.playerRepository = playerRepository;
-		this.playerStateHandlerManager = playerStateHandlerManager;
-		this.commandHandler = commandHandler;
+		this.stateStarter = stateStarter;
 	}
 	
 	@EventListener
@@ -55,22 +46,9 @@ public class Receptionist {
 			// 2. 공지사항등
 			
 			// 3. 첫번째로 할 행동을 취한다.
-			Player player = playerRepository.findByUsername(accessor.getUser().getName())
-				.orElse(Player.builder()
-							.state(PlayerState.character_create1)
-							.build());
+			Player player = playerRepository.findByUsername(accessor.getUser().getName()).get();
 			
-			welcome(accessor.getUser(), player, player.getState());
+			stateStarter.start(accessor.getUser().getName(), player);
 		}
-	}
-	
-	private void welcome(Principal principal, Player player, PlayerState state) {
-		CommandDataCarrier dc = new CommandDataCarrier(principal, player, "봐");
-		if (state == PlayerState.normal) {
-			playerStateHandlerManager.handle(state, commandHandler.getCommand(CommandConstants.see), dc);
-			return;
-		}
-		
-		playerStateHandlerManager.handle(state, commandHandler.getCommand(CommandConstants.noop), dc);
 	}
 }

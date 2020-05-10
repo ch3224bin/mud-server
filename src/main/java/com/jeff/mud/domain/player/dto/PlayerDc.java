@@ -12,6 +12,7 @@ public class PlayerDc {
 	private long id;
 	private String name;
 	private String flashState;
+	private String temp1;
 	
 	public PlayerDc(Player player) {
 		this.id = player.getId();
@@ -20,5 +21,9 @@ public class PlayerDc {
 	
 	public void setFlashState(String flashState) {
 		this.flashState = flashState;
+	}
+
+	public void setTemp1(String temp1) {
+		this.temp1 = temp1;
 	}
 }

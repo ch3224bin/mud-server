@@ -12,6 +12,7 @@ function connect() {
 
 function sendName() {
 	client.send("/app/command", {}, $("#name").val()); // JSON.stringify({'name': $("#name").val()})
+	$("#name").val('');
 }
 
 function showGreeting(message) {

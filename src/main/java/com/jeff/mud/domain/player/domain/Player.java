@@ -51,4 +51,12 @@ public class Player {
 		this.state = state;
 		this.account = account;
 	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void changeState(PlayerState state) {
+		this.state = state;
+	}
 }
