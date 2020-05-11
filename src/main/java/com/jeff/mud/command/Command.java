@@ -16,23 +16,23 @@ import com.jeff.mud.state.PlayerState;
  * @author ChangHo Vin
  *
  */
-public interface Command {
-	default boolean execute(CommandDataCarrier input) {
+public abstract class Command {
+	public boolean execute(CommandDataCarrier input) {
 		if (!commandConstants().matched(input.getCommand())) {
 			return false;
 		}
 		// 명령어에는 해당하지만 상태가 맞지 않을때
 		if (allowStates().stream()
 				.noneMatch(x -> x == input.getPlayer().getState())) {
-			handleDenyState(input.getPlayer().getState());
+			handleDenyState(input);
 			return true;
 		}
 		
 		handle(input);
 		return true;
 	}
-	List<PlayerState> allowStates();
-	CommandConstants commandConstants();
-	void handle(CommandDataCarrier input);
-	void handleDenyState(PlayerState state);
+	protected abstract List<PlayerState> allowStates();
+	protected abstract CommandConstants commandConstants();
+	protected abstract void handle(CommandDataCarrier input);
+	protected abstract void handleDenyState(CommandDataCarrier input);
 }

@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "wayout")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Wayout {
+public class Wayout implements Comparable<Wayout> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +43,16 @@ public class Wayout {
 	@JoinColumn(name = "door_id", nullable = false)
 	private Door door;
 	
-	@Column(name = "is_show", nullable = false)
+	@Column(name = "is_show", nullable = false, columnDefinition = "boolean default true")
 	private boolean isShow = true;
+	
+	@Override
+	public int compareTo(Wayout o) {
+		return Integer.compare(this.direction.ordinal(), o.direction.ordinal());
+	}
+	
+	public String toString() {
+		return direction.toString() + (this.getDoor().isLocked() ? "(잠김)" : "");
+	}
 	
 }

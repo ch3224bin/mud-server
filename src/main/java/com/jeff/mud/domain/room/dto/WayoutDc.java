@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class WayoutDc implements Comparable<WayoutDc> {
+public class WayoutDc {
 	private long id;
 	private long roomId;
-	private RoomDc nextRoom;
+	private long nextRoomId;
 	private Direction direction;
 	private boolean isShow;
 	private boolean isLocked;
@@ -20,18 +20,9 @@ public class WayoutDc implements Comparable<WayoutDc> {
 	public WayoutDc(Wayout wayout) {
 		this.id = wayout.getId();
 		this.roomId = wayout.getRoomId();
-		this.nextRoom = new RoomDc(wayout.getNextRoom());
+		this.nextRoomId = wayout.getNextRoom().getId();
 		this.direction = wayout.getDirection();
 		this.isShow = wayout.isShow();
 		this.isLocked = wayout.getDoor().isLocked();
-	}
-
-	@Override
-	public int compareTo(WayoutDc o) {
-		return Integer.compare(this.direction.getOrder(), o.direction.getOrder());
-	}
-	
-	public String toString() {
-		return direction.toString() + (isLocked ? "(잠김)" : "");
 	}
 }

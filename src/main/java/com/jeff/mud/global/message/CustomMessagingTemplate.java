@@ -23,13 +23,14 @@ public class CustomMessagingTemplate {
 		this.simpMessagingTemplate = simpMessagingTemplate;
 	}
 	
-	public void convertAndSendToYou(String username, String location, Object payload) {
-		String message = getCompileString(location, payload);
+	public void convertAndSendToYou(String username, Pathable pathable, Object payload) {
+		String message = getCompileString(pathable, payload);
 		simpMessagingTemplate.convertAndSendToUser(username, USER_DESTINATION, message);
 	}
 	
-	private String getCompileString(String location, Object payload) {
+	private String getCompileString(Pathable pathable, Object payload) {
 		try {
+			String location = pathable.getPath();
 			Template template = templateMap.get(location);
 			if (template == null) { // handlebars.compile(location) 연산을 피하기 위해
 				template = handlebars.compile(TEMPLATES_PATH + location);

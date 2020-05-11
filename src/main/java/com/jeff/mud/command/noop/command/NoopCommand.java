@@ -11,25 +11,25 @@ import com.jeff.mud.command.constants.CommandConstants;
 import com.jeff.mud.state.PlayerState;
 
 @Component
-public class NoopCommand implements Command {
+public class NoopCommand extends Command {
 
 	@Override
-	public List<PlayerState> allowStates() {
+	protected List<PlayerState> allowStates() {
 		return Collections.emptyList();
 	}
 
 	@Override
-	public CommandConstants commandConstants() {
+	protected CommandConstants commandConstants() {
 		return CommandConstants.noop;
 	}
 
 	@Override
-	public void handle(CommandDataCarrier input) {
+	protected void handle(CommandDataCarrier input) {
 		
 	}
 
 	@Override
-	public void handleDenyState(PlayerState state) {
+	protected void handleDenyState(CommandDataCarrier input) {
 		
 	}
 

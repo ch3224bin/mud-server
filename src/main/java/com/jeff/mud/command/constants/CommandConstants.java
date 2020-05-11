@@ -4,12 +4,15 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.jeff.mud.domain.room.constants.Direction;
+
 import lombok.Getter;
 
 @Getter
 public enum CommandConstants {
 	who (new String[] {"누구"}),
 	see (new String[] {"봐", "보다"}),
+	move (Direction.stringValues()),
 	noop (new String[] {}) // 아무것도 하지 않는다.
 	;
 	

@@ -8,12 +8,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.jeff.mud.domain.room.domain.Room;
 import com.jeff.mud.global.account.domain.Account;
 import com.jeff.mud.state.PlayerState;
 
@@ -45,6 +47,12 @@ public class Player {
 	@JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
 	private Account account;
 	
+	@OneToOne
+	@JoinTable(name = "player_room",
+		joinColumns = @JoinColumn(name = "player_id", nullable = false),
+		inverseJoinColumns = @JoinColumn(name = "room_id", nullable = false))
+	private Room room;
+	
 	@Builder
 	public Player(String name, PlayerState state, Account account) {
 		this.name = name;
@@ -58,5 +66,9 @@ public class Player {
 	
 	public void changeState(PlayerState state) {
 		this.state = state;
+	}
+
+	public void moveTo(Room nextRoom) {
+		this.room = nextRoom;
 	}
 }

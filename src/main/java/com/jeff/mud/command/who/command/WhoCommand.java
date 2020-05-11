@@ -12,6 +12,7 @@ import com.jeff.mud.command.who.dto.WhoDc;
 import com.jeff.mud.command.who.listener.CurrentUserManager;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
 import com.jeff.mud.state.PlayerState;
+import com.jeff.mud.template.Template;
 
 /**
  * "누구" 명령어 처리기
@@ -22,9 +23,7 @@ import com.jeff.mud.state.PlayerState;
  *
  */
 @Component
-public class WhoCommand implements Command {
-	
-	private final static String TEMPLATE_LOCATION = "who";
+public class WhoCommand extends Command {
 	
 	private final CustomMessagingTemplate customMessagingTemplate;
 	private final CurrentUserManager currentUserManager;
@@ -35,25 +34,23 @@ public class WhoCommand implements Command {
 	}
 
 	@Override
-	public CommandConstants commandConstants() {
+	protected CommandConstants commandConstants() {
 		return CommandConstants.who;
 	}
 
 	@Override
-	public void handle(CommandDataCarrier input) {
-		customMessagingTemplate.convertAndSendToYou(input.getUsername(), TEMPLATE_LOCATION, new WhoDc(currentUserManager.getCurrentPlayers()));
+	protected void handle(CommandDataCarrier input) {
+		customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.who, new WhoDc(currentUserManager.getCurrentPlayers()));
 	}
 
 	@Override
-	public List<PlayerState> allowStates() {
+	protected List<PlayerState> allowStates() {
 		return Arrays.asList(PlayerState.normal);
 	}
 
 	@Override
-	public void handleDenyState(PlayerState state) {
-		if (PlayerState.combat == state) {
-			// 전투중에는 이동할 수 없습니다.
-		}
+	protected void handleDenyState(CommandDataCarrier input) {
+		
 	}
 
 }

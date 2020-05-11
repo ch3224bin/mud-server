@@ -12,6 +12,7 @@ import com.jeff.mud.global.message.CustomMessagingTemplate;
 import com.jeff.mud.state.PlayerState;
 import com.jeff.mud.state.StateHandler;
 import com.jeff.mud.state.StateStarter;
+import com.jeff.mud.template.Template;
 
 @Component
 public class FirstStepStateHandler implements StateHandler {
@@ -92,7 +93,7 @@ public class FirstStepStateHandler implements StateHandler {
 		if (nextstep != null) {
 			player.setFlashState(nextstep.toString());
 		}
-		customMessagingTemplate.convertAndSendToYou(username, "default_message", message);
+		customMessagingTemplate.convertAndSendToYou(username, Template.defaultMessage, message);
 	}
 
 	@Override
