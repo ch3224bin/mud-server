@@ -13,6 +13,7 @@ public enum CommandConstants {
 	who (new String[] {"누구"}),
 	see (new String[] {"봐", "보다"}),
 	move (Direction.stringValues()),
+	get (new String[] {"주워", "줍", "가져"}),
 	noop (new String[] {}) // 아무것도 하지 않는다.
 	;
 	

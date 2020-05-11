@@ -1,4 +1,4 @@
-package com.jeff.mud.command.see.command;
+package com.jeff.mud.command.see;
 
 import java.util.Arrays;
 import java.util.List;

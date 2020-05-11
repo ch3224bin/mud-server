@@ -33,3 +33,15 @@ insert into wayout (room_id, door_id, direction, next_room_id) values
 (4, 3, '북', 1),
 (1, 4, '북', 5),
 (5, 4, '남', 1);
+
+insert into item (dtype, id, name, description) values
+('key', 1, '북문 열쇠', '북쪽문을 열 수 있는 열쇠이다.');
+
+insert into keey (id) values
+(1);
+
+insert into key_door (key_id, door_id) values
+(1, 4);
+
+insert into item_room(room_id, item_id) values
+(1, 1);

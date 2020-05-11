@@ -1,5 +1,10 @@
 <div class="room">
-	<p class="summary">{{summary}}</p>
-	<p class="description">{{{description}}}</p>
-	<p class="exit">출구 : [{{exitString}}]</p>
+	<div class="summary">{{summary}}</div>
+	<div class="description">{{{description}}}</div>
+	<div class="exit">출구 : [{{exitString}}]</div>
+	<ul class="items">
+{{#each items}}
+	<li>{{name}}이(가) 떨어져있다.</li>
+{{/each}}
+	</ul>
 </div>

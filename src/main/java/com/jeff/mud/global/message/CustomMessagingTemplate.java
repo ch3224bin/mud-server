@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
+import com.jeff.mud.command.CommandDataCarrier;
 
 @Component
 public class CustomMessagingTemplate {
@@ -42,5 +43,9 @@ public class CustomMessagingTemplate {
 			e.printStackTrace();
 			throw new RuntimeException();
 		}
+	}
+
+	public void convertAndSendToRoomWithOutMe(CommandDataCarrier input, Pathable pathable, String message) {
+		// TODO 방안에 메세지 전송
 	}
 }

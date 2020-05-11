@@ -17,6 +17,7 @@ function sendName() {
 
 function showGreeting(message) {
     $("#greetings").append(message);
+    $('#greetings').scrollTop($('#greetings')[0].scrollHeight);
 }
 
 $(function () {

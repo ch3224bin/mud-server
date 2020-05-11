@@ -1,4 +1,4 @@
-package com.jeff.mud.command.who.command;
+package com.jeff.mud.command.who;
 
 import java.util.Arrays;
 import java.util.List;
