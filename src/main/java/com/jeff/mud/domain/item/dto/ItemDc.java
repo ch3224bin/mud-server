@@ -16,7 +16,6 @@ public class ItemDc implements Seeable {
 	private String name;
 	private String description;
 	private List<ItemDc> items;
-	private boolean isContainer;
 	
 	public ItemDc(Item item) {
 		this.id = item.getId();
@@ -26,7 +25,6 @@ public class ItemDc implements Seeable {
 	
 	public ItemDc(Item item, List<Item> items) {
 		this(item);
-		this.isContainer = true;
 		this.items = items.stream()
 				.map(ItemDc::new)
 				.collect(Collectors.toList());

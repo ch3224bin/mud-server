@@ -34,7 +34,6 @@ create table item (dtype varchar(31) not null,
 	id bigint not null auto_increment,
 	description varchar(255) not null,
 	is_getable boolean default true not null,
-	is_container boolean default false not null,
 	name varchar(255) not null, primary key (id));
 
 create table keey (id bigint not null, primary key (id));
@@ -52,7 +51,7 @@ create table item_broker (dtype varchar(31) not null,
 	id bigint not null auto_increment,
 	item_id bigint not null, primary key (id));
 alter table item_broker add constraint UK_ITEM_BROKER_ITEM_ID unique (item_id);
-alter table item_broker add constraint FKoulq6v3dsjl0hv3rm197fl1bb foreign key (item_id) references item(id);
+alter table item_broker add constraint FK_ITEM_BROKER_01 foreign key (item_id) references item(id);
 
 create table item_broker_player_bag (id bigint not null, player_bag_id bigint not null, primary key (id));
 alter table item_broker_player_bag add constraint FK_ITEM_BROKER_PLAYER_BAG_01 foreign key (player_bag_id) references player_bag(id);

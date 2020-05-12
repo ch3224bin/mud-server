@@ -2,7 +2,6 @@ package com.jeff.mud.command.see.finder;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -10,11 +9,10 @@ import org.springframework.stereotype.Component;
 import com.jeff.mud.command.CommandDataCarrier;
 import com.jeff.mud.command.common.finder.Finder;
 import com.jeff.mud.command.see.model.Seeable;
-import com.jeff.mud.domain.item.dao.ItemBrokerRepository;
 import com.jeff.mud.domain.item.domain.Container;
 import com.jeff.mud.domain.item.domain.Item;
-import com.jeff.mud.domain.item.domain.ItemBroker;
 import com.jeff.mud.domain.item.dto.ItemDc;
+import com.jeff.mud.domain.item.service.ContainerItemBrokerService;
 import com.jeff.mud.domain.item.service.RoomItemBrokerService;
 import com.jeff.mud.domain.room.domain.Room;
 
@@ -28,11 +26,11 @@ import com.jeff.mud.domain.room.domain.Room;
 public class ItemInTheRoomSeeFinder implements Finder<Seeable> {
 	
 	private final RoomItemBrokerService roomItemBrokerService;
-	private final ItemBrokerRepository itemBrokerRepository;
+	private final ContainerItemBrokerService containerItemBrokerService;
 	
-	public ItemInTheRoomSeeFinder(RoomItemBrokerService roomItemBrokerService, ItemBrokerRepository itemBrokerRepository) {
+	public ItemInTheRoomSeeFinder(RoomItemBrokerService roomItemBrokerService, ContainerItemBrokerService containerItemBrokerService) {
 		this.roomItemBrokerService = roomItemBrokerService;
-		this.itemBrokerRepository = itemBrokerRepository;
+		this.containerItemBrokerService = containerItemBrokerService;
 	}
 	
 	@Override
@@ -44,9 +42,7 @@ public class ItemInTheRoomSeeFinder implements Finder<Seeable> {
 		Optional<Item> item = roomItemBrokerService.getItemByName(room, input.getTarget());
 		if (item.isPresent()) {
 			if (item.get() instanceof Container) {
-				List<Item> items = itemBrokerRepository.findByItem(item.get()).stream()
-					.map(ItemBroker::getItem)
-					.collect(Collectors.toList());
+				List<Item> items = containerItemBrokerService.getItemByContainer((Container) item.get());
 				result = new ItemDc(item.get(), items);
 			} else {
 				result = new ItemDc(item.get());

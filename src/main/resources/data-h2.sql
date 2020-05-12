@@ -37,14 +37,17 @@ insert into wayout (room_id, door_id, direction, next_room_id) values
 (1, 4, '북', 5),
 (5, 4, '남', 1);
 
-insert into item (dtype, id, name, description, is_getable, is_container) values
-('key', 1, '북쪽 열쇠', '북쪽문을 열 수 있는 열쇠이다.', true, false),
-('container', 2, '서랍', '하얀 플라스틱으로 만들어진 1단 서랍이다.', true, false),
-('key', 3, '남쪽 열쇠', '남쪽문을 열 수 있는 열쇠이다.', false, true);
+insert into item (dtype, id, name, description, is_getable) values
+('key', 1, '북쪽 열쇠', '북쪽문을 열 수 있는 열쇠이다.', true),
+('container', 2, '서랍', '하얀 플라스틱으로 만들어진 1단 서랍이다.', false),
+('key', 3, '남쪽 열쇠', '남쪽문을 열 수 있는 열쇠이다.', true);
 
 insert into keey (id) values
 (1),
 (3);
+
+insert into container (id) values
+(2);
 
 insert into key_door (key_id, door_id) values
 (1, 4),
@@ -52,15 +55,12 @@ insert into key_door (key_id, door_id) values
 
 insert into item_broker (dtype, id, item_id) values
 ('room', 1, 1),
-('container', 2, 3)
+('container', 2, 3),
 ('room', 3, 2);
 
 insert into item_broker_room(id, room_id) values
 (1, 1),
 (3, 1);
-
-insert into container (id) values
-(2);
 
 insert into item_broker_container(id, container_id) values
 (2, 2);
