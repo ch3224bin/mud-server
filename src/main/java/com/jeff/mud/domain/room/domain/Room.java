@@ -10,12 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.google.common.base.Strings;
-import com.jeff.mud.domain.item.domain.Item;
 import com.jeff.mud.domain.room.constants.Direction;
 
 import lombok.AccessLevel;
@@ -42,12 +40,6 @@ public class Room {
 	@JoinColumn(name = "room_id")
 	private List<Wayout> wayouts;
 	
-	@OneToMany
-	@JoinTable(name = "item_room",
-			joinColumns = @JoinColumn(name = "room_id", nullable = false),
-			inverseJoinColumns = @JoinColumn(name = "item_id", nullable = false))
-	private List<Item> items;
-	
 	public List<Wayout> getSortedWayouts() {
 		return wayouts.stream()
 				.sorted()
@@ -65,19 +57,6 @@ public class Room {
 	public Optional<Wayout> getWayoutByDirection(Direction direction) {
 		return this.wayouts.stream()
 			.filter(wayout -> wayout.getDirection() == direction)
-			.findFirst();
-	}
-	
-	public Optional<Item> getItem(String itemName) {
-		return this.items.stream()
-			.filter(item -> {
-				String[] names = item.getName().split(" ");
-				for (String name : names) {
-					if (name.startsWith(itemName)) {
-						return true;
-					}
-				}
-				return false;})
 			.findFirst();
 	}
 }

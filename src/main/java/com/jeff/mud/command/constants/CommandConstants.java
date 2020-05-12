@@ -12,8 +12,12 @@ import lombok.Getter;
 public enum CommandConstants {
 	who (new String[] {"누구"}),
 	see (new String[] {"봐", "보다"}),
+	bag (new String[] {"소지품"}),
 	move (Direction.stringValues()),
 	get (new String[] {"주워", "줍", "가져"}),
+	drop (new String[] {"버려"}),
+	unlock (new String[] {"열어"}),
+	lock (new String[] {"잠궈"}),
 	noop (new String[] {}) // 아무것도 하지 않는다.
 	;
 	

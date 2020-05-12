@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.jeff.mud.command.Command;
 import com.jeff.mud.command.CommandDataCarrier;
 import com.jeff.mud.command.constants.CommandConstants;
+import com.jeff.mud.domain.room.RoomService;
 import com.jeff.mud.domain.room.constants.Direction;
 import com.jeff.mud.domain.room.domain.Room;
 import com.jeff.mud.domain.room.domain.Wayout;
@@ -20,9 +21,11 @@ import com.jeff.mud.template.Template;
 public class MoveCommand extends Command {
 	
 	private final CustomMessagingTemplate customMessagingTemplate;
+	private final RoomService roomService;
 	
-	public MoveCommand(CustomMessagingTemplate customMessagingTemplate) {
+	public MoveCommand(CustomMessagingTemplate customMessagingTemplate, RoomService roomService) {
 		this.customMessagingTemplate = customMessagingTemplate;
+		this.roomService = roomService;
 	}
 
 	@Override
@@ -43,7 +46,7 @@ public class MoveCommand extends Command {
 			if (!wayout.get().getDoor().isLocked()) {
 				Room nextRoom = wayout.get().getNextRoom();
 				input.getPlayer().moveTo(nextRoom);
-				customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.room, nextRoom);
+				customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.room, roomService.getRoomDcWithItems(nextRoom));
 			} else {
 				customMessagingTemplate.convertAndSendToYou(input.getUsername(),
 						Template.defaultMessage,

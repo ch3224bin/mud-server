@@ -1,6 +1,5 @@
 package com.jeff.mud.domain.item.domain;
 
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -15,22 +16,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "item")
+@Table(name = "item_broker")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "dtype")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Item {
+public class ItemBroker {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column(name = "name", nullable = false)
-	private String name;
+	@OneToOne
+	@JoinColumn(name = "item_id", nullable = false, unique = true, updatable = false)
+	private Item item;
 	
-	@Column(name = "description", nullable = false)
-	private String description;
-	
-	@Column(name = "is_getable", nullable = false, updatable = false, columnDefinition = "boolean default true")
-	private boolean isGetable = true;
+	public ItemBroker(Item item) {
+		this.item = item;
+	}
 }

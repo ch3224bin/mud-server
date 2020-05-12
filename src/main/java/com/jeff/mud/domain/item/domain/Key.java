@@ -11,9 +11,12 @@ import javax.persistence.Table;
 
 import com.jeff.mud.domain.room.domain.Door;
 
+import lombok.Getter;
+
 @Entity
 @Table(name = "keey")
 @DiscriminatorValue("key")
+@Getter
 public class Key extends Item {
 	@ManyToMany
 	@JoinTable(name = "key_door",

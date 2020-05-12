@@ -1,4 +1,14 @@
 <div class="item">
 	<div class="name">{{name}}</div>
 	<div class="description">{{description}}</div>
+{{#if isContainer}}
+	<p>{{name}} 안에 아래의 물건들이 들어 있습니다.</p>
+	<ul class="items">
+	{{#each items}}
+		<li>{{name}}</li>
+	{{else}}
+		<li>없음</li>
+	{{/each}}
+	</ul>
+{{/if}}
 </div>

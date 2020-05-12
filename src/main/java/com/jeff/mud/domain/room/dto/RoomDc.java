@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.jeff.mud.command.see.model.Seeable;
+import com.jeff.mud.domain.item.domain.Item;
 import com.jeff.mud.domain.item.dto.ItemDc;
 import com.jeff.mud.domain.room.domain.Room;
 import com.jeff.mud.template.Template;
@@ -28,7 +29,11 @@ public class RoomDc implements Seeable {
 		this.description = room.getDescription();
 		this.wayouts = getSortedWayouts(room);
 		this.exitString = room.getExitString();
-		this.items = room.getItems().stream()
+	}
+	
+	public RoomDc(Room room, List<Item> items) {
+		this(room);
+		this.items = items.stream()
 					.map(ItemDc::new)
 					.collect(Collectors.toList());
 	}

@@ -11,6 +11,7 @@ public enum Template implements Pathable {
 	defaultMessage ("default_message"),
 	room ("room"),
 	item ("item"),
+	playerBag ("player_bag"),
 	notFoundObject ("not_found_object"),
 	seeDenyObject ("see_deny_object")
 	;

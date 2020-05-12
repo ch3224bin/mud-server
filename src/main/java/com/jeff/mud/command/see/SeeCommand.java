@@ -17,10 +17,11 @@ import com.jeff.mud.state.PlayerState;
 public class SeeCommand extends Command {
 	
 	private final CustomMessagingTemplate customMessagingTemplate;
-	private final SeeFinder seeFinder = new SeeFinder();
+	private final SeeFinder seeFinder;
 	
-	public SeeCommand(CustomMessagingTemplate customMessagingTemplate) {
+	public SeeCommand(CustomMessagingTemplate customMessagingTemplate, SeeFinder seeFinder) {
 		this.customMessagingTemplate = customMessagingTemplate;
+		this.seeFinder = seeFinder;
 	}
 
 	@Override

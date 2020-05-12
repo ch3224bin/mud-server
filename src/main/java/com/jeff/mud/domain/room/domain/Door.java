@@ -23,4 +23,12 @@ public class Door {
 	
 	@Column(name = "is_locked", nullable = false, columnDefinition = "boolean default false")
 	private boolean isLocked = false;
+
+	public void unlock() {
+		this.isLocked = false;
+	}
+
+	public void lock() {
+		this.isLocked = true;
+	}
 }

@@ -53,6 +53,9 @@ public class Player {
 		inverseJoinColumns = @JoinColumn(name = "room_id", nullable = false))
 	private Room room;
 	
+	@OneToOne(mappedBy = "player")
+	private PlayerBag playerBag;
+	
 	@Builder
 	public Player(String name, PlayerState state, Account account) {
 		this.name = name;
