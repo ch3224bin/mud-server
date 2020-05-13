@@ -42,7 +42,7 @@ public class ItemInTheRoomSeeFinder implements Finder<Seeable> {
 		Optional<Item> item = roomItemBrokerService.getItemByName(room, input.getTarget());
 		if (item.isPresent()) {
 			if (item.get() instanceof Container) {
-				List<Item> items = containerItemBrokerService.getItemByContainer((Container) item.get());
+				List<Item> items = containerItemBrokerService.getItemsByContainer((Container) item.get());
 				result = new ItemDc(item.get(), items);
 			} else {
 				result = new ItemDc(item.get());

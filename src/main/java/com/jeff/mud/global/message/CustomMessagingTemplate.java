@@ -45,7 +45,7 @@ public class CustomMessagingTemplate {
 		}
 	}
 
-	public void convertAndSendToRoomWithOutMe(CommandDataCarrier input, Pathable pathable, String message) {
+	public void convertAndSendToRoomWithOutMe(CommandDataCarrier input, Pathable pathable, Object payload) {
 		// TODO 방안에 메세지 전송
 	}
 }

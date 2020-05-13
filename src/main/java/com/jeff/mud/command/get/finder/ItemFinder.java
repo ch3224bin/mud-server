@@ -10,11 +10,11 @@ import com.jeff.mud.command.common.finder.Finder;
 import com.jeff.mud.domain.item.domain.Item;
 
 @Component
-public class GetFinder {
+public class ItemFinder {
 	
 	private final List<Finder<Item>> finders;
 	
-	public GetFinder(List<Finder<Item>> finders) {
+	public ItemFinder(List<Finder<Item>> finders) {
 		this.finders = finders;
 	}
 	

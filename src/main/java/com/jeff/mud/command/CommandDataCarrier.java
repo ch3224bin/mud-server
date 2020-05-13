@@ -1,5 +1,7 @@
 package com.jeff.mud.command;
 
+import java.util.Arrays;
+
 import com.google.common.base.Strings;
 import com.jeff.mud.domain.player.domain.Player;
 
@@ -12,6 +14,8 @@ public class CommandDataCarrier {
 	private String msg;
 	private String target;
 	private String command;
+	private String adverb;
+	private String secondTarget;
 	
 	public CommandDataCarrier(String username, Player player, String msg) {
 		this.username = username;
@@ -27,9 +31,24 @@ public class CommandDataCarrier {
 		if (length > 1) {
 			this.target = words[0];
 		}
+		if (length == 3) {
+			this.secondTarget = this.adverb = words[1];
+		}
+		if (length > 3) {
+			this.secondTarget = words[1];
+			this.adverb = String.join(" ", Arrays.copyOfRange(words, 2, length-1));
+		}
 	}
 	
 	public boolean hasTarget() {
 		return !Strings.isNullOrEmpty(target);
+	}
+	
+	public boolean hasSecondTarget() {
+		return !Strings.isNullOrEmpty(secondTarget);
+	}
+	
+	public boolean hasAdverb() {
+		return !Strings.isNullOrEmpty(adverb);
 	}
 }

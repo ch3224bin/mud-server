@@ -38,6 +38,11 @@ public class DropCommand extends Command {
 
 	@Override
 	protected void handle(CommandDataCarrier input) {
+		if (!input.hasTarget()) {
+			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("무엇을 버릴까요?"));
+			return;
+		}
+		
 		Optional<Item> item = input.getPlayer().getPlayerBag().getItem(input.getTarget());
 		if (item.isEmpty()) {
 			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("당신의 소지품에는 %s이(가) 없습니다.", input.getTarget()));

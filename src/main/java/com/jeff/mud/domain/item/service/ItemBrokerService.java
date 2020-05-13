@@ -5,6 +5,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 import com.jeff.mud.domain.item.dao.ItemBrokerRepository;
+import com.jeff.mud.domain.item.domain.Container;
+import com.jeff.mud.domain.item.domain.ContainerItemBroker;
 import com.jeff.mud.domain.item.domain.Item;
 import com.jeff.mud.domain.item.domain.ItemBroker;
 import com.jeff.mud.domain.item.domain.PlayerBagItemBroker;
@@ -40,12 +42,23 @@ public class ItemBrokerService {
 	}
 
 	public void moveToRoom(Item item, Player player) {
+		removeItemFromPlayerBag(player, item);
+		
+		RoomItemBroker roomItemBroker = new RoomItemBroker(item, player.getRoom());
+		itemBrokerRepository.save(roomItemBroker);
+	}
+
+	public void moveToContainer(Player player, Container container, Item item) {
+		removeItemFromPlayerBag(player, item);
+		
+		ContainerItemBroker containerItemBroker = new ContainerItemBroker(item, container);
+		itemBrokerRepository.save(containerItemBroker);
+	}
+
+	private void removeItemFromPlayerBag(Player player, Item item) {
 		Optional<PlayerBagItemBroker> itemBroker = player.getPlayerBag().getItemBroker(item);
 		player.getPlayerBag().removeItemBroker(itemBroker.get());
 		itemBrokerRepository.delete(itemBroker.get());
 		itemBrokerRepository.flush();
-		
-		RoomItemBroker roomItemBroker = new RoomItemBroker(item, player.getRoom());
-		itemBrokerRepository.save(roomItemBroker);
 	}
 }
