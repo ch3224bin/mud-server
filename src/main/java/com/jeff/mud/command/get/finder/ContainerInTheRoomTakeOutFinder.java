@@ -20,7 +20,7 @@ public class ContainerInTheRoomTakeOutFinder implements Finder<Container> {
 
 	@Override
 	public Optional<Container> find(CommandDataCarrier input) {
-		return containerItemBrokerService.getContainerByRoom(input.getPlayer().getRoom());
+		return containerItemBrokerService.getContainerByRoom(input.getPlayer().getRoom(), input.getTarget());
 	}
 
 }

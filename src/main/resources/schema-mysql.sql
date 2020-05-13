@@ -39,8 +39,9 @@ create table item (dtype varchar(31) not null,
 create table keey (id bigint not null, primary key (id));
 alter table keey add constraint FK_KEEY_01 foreign key (id) references item(id);
 
-create table container (is_locked boolean default false not null, id bigint not null, primary key (id));
+create table container (id bigint not null, door_id bigint, primary key (id));
 alter table container add constraint FK_CONTAINER_01 foreign key (id) references item(id);
+alter table container add constraint FK_CONTAINER_02 foreign key (door_id) references door(id);
 
 create table key_door (door_id bigint not null, key_id bigint not null);
 alter table key_door add constraint FK_KEY_DOOR_01 foreign key (key_id) references keey(id);

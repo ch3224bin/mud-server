@@ -25,7 +25,7 @@ insert into player_room (player_id, room_id) values
 (1, 1);
 
 insert into door (id, is_locked) values
-(1, 0), (2, 0), (3, 0), (4, 1);
+(1, 0), (2, 0), (3, 0), (4, 1), (5, 1);
 
 insert into wayout (room_id, door_id, direction, next_room_id) values
 (1, 1, '동', 2),
@@ -40,27 +40,33 @@ insert into wayout (room_id, door_id, direction, next_room_id) values
 insert into item (dtype, id, name, description, is_getable) values
 ('key', 1, '북쪽 열쇠', '북쪽문을 열 수 있는 열쇠이다.', true),
 ('container', 2, '서랍', '하얀 플라스틱으로 만들어진 1단 서랍이다.', false),
-('key', 3, '남쪽 열쇠', '남쪽문을 열 수 있는 열쇠이다.', true);
+('key', 3, '남쪽 열쇠', '남쪽문을 열 수 있는 열쇠이다.', true),
+('container', 4, '낡은 금고', '페인트가 벗겨지고 녹이슨 철제 금고이다.', false),
+('key', 5, '금고 열쇠', '낡은 금고 열쇠이다.', true);
 
 insert into keey (id) values
-(1),
-(3);
+(1), (3), (5);
 
-insert into container (id) values
-(2);
+insert into container (id, door_id) values
+(2, null), (4, 5);
 
 insert into key_door (key_id, door_id) values
 (1, 4),
-(3, 3);
+(3, 3),
+(5, 5);
 
 insert into item_broker (dtype, id, item_id) values
 ('room', 1, 1),
-('container', 2, 3),
-('room', 3, 2);
+('container', 2, 5),
+('room', 3, 2),
+('room', 4, 4),
+('container', 5, 3);
 
 insert into item_broker_room(id, room_id) values
 (1, 1),
-(3, 1);
+(3, 1),
+(4, 1);
 
 insert into item_broker_container(id, container_id) values
-(2, 2);
+(2, 2),
+(5, 4);

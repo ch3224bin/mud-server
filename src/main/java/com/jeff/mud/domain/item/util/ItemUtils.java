@@ -7,6 +7,11 @@ import com.jeff.mud.domain.item.domain.Item;
 
 public class ItemUtils {
 	public static Optional<Item> getItemByName(Stream<Item> stream, String itemName) {
+		return getItemByNameStream(stream, itemName)
+		.findFirst();
+	}
+
+	public static Stream<Item> getItemByNameStream(Stream<Item> stream, String itemName) {
 		return stream.filter(item -> {
 			String[] names = item.getName().split(" ");
 			for (String name : names) {
@@ -14,7 +19,6 @@ public class ItemUtils {
 					return true;
 				}
 			}
-			return false;})
-		.findFirst();
+			return false;});
 	}
 }

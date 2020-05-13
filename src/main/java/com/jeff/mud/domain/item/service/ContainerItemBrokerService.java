@@ -3,6 +3,7 @@ package com.jeff.mud.domain.item.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Component;
 
@@ -36,10 +37,10 @@ public class ContainerItemBrokerService {
 		return ItemUtils.getItemByName(getItemsByContainer(container).stream(), itemName);
 	}
 	
-	public Optional<Container> getContainerByRoom(Room room) {
+	public Optional<Container> getContainerByRoom(Room room, String itemName) {
 		List<RoomItemBroker> itemBrokers = roomItemBrokerRepository.findByRoom(room);
-		return itemBrokers.stream()
-			.map(ItemBroker::getItem)
+		Stream<Item> stream = itemBrokers.stream().map(ItemBroker::getItem);
+		return ItemUtils.getItemByNameStream(stream, itemName)
 			.filter(item -> item instanceof Container)
 			.map(item -> (Container) item)
 			.findFirst();

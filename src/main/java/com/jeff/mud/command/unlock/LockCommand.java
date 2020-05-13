@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.jeff.mud.command.Command;
 import com.jeff.mud.command.CommandDataCarrier;
 import com.jeff.mud.command.constants.CommandConstants;
 import com.jeff.mud.domain.room.constants.Direction;
@@ -14,12 +15,16 @@ import com.jeff.mud.state.PlayerState;
 import com.jeff.mud.template.Template;
 
 @Component
-public class LockCommand extends LockUnLockCommand {
+public class LockCommand extends Command {
 	
-private final CustomMessagingTemplate customMessagingTemplate;
+	private final CustomMessagingTemplate customMessagingTemplate;
+	private final WayoutLockUnLockCommand wayoutLockUnLockCommand;
+	private final ContainerLockUnLockCommand containerLockUnLockCommand;
 	
-	public LockCommand(CustomMessagingTemplate customMessagingTemplate) {
+	public LockCommand(CustomMessagingTemplate customMessagingTemplate, WayoutLockUnLockCommand wayoutLockUnLockCommand, ContainerLockUnLockCommand containerLockUnLockCommand) {
 		this.customMessagingTemplate = customMessagingTemplate;
+		this.wayoutLockUnLockCommand = wayoutLockUnLockCommand;
+		this.containerLockUnLockCommand = containerLockUnLockCommand;
 	}
 
 	@Override
@@ -31,13 +36,22 @@ private final CustomMessagingTemplate customMessagingTemplate;
 	protected CommandConstants commandConstants() {
 		return CommandConstants.lock;
 	}
+	
+	@Override
+	protected void handle(CommandDataCarrier input) {
+		String target = input.getTarget();
+		if (Direction.contains(target)) {
+			wayoutLockUnLockCommand.handle(input, getLockUnlockTemplate());
+		} else {
+			containerLockUnLockCommand.handle(input, getLockUnlockTemplate());
+		}
+	}
 
 	@Override
 	protected void handleDenyState(CommandDataCarrier input) {
 		
 	}
 	
-	@Override
 	protected LockUnlockTemplate getLockUnlockTemplate() {
 		return new LockUnlockTemplate() {
 
@@ -47,19 +61,19 @@ private final CustomMessagingTemplate customMessagingTemplate;
 			}
 
 			@Override
-			public void matchedKey(CommandDataCarrier input, Door door, Direction direction) {
+			public void matchedKey(CommandDataCarrier input, Door door, String direction) {
 				door.lock();
 				customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("당신은 %s문을 잠궜습니다.", direction));
 				customMessagingTemplate.convertAndSendToRoomWithOutMe(input, Template.defaultMessage, String.format("%s이(가) %s문을 잠궜습니다.", input.getPlayer().getName(), direction));
 			}
 
 			@Override
-			public void notMatchedKey(CommandDataCarrier input, Direction direction) {
+			public void notMatchedKey(CommandDataCarrier input, String direction) {
 				customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("당신에게는 %s문에 맞는 열쇠가 없습니다.", direction));
 			}
 
 			@Override
-			public void notLockedOrUnlocked(CommandDataCarrier input, Direction direction) {
+			public void notLockedOrUnlocked(CommandDataCarrier input, String direction) {
 				customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("%s문은 이미 잠겨있습니다.", direction));
 			}
 
@@ -74,5 +88,4 @@ private final CustomMessagingTemplate customMessagingTemplate;
 			}
 		};
 	}
-
 }

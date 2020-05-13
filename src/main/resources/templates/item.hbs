@@ -1,14 +1,18 @@
 <div class="item">
 	<div class="name">{{name}}</div>
 	<div class="description">{{description}}</div>
-{{#if items}}
+{{#if isLocked}}
+	<p>{{name}}이(가) 잠겨있습니다.</p>
+{{else}}
+	{{#if items}}
 	<p>{{name}} 안에 아래의 물건들이 들어 있습니다.</p>
 	<ul class="items">
-	{{#each items}}
+		{{#each items}}
 		<li>{{name}}</li>
-	{{else}}
+		{{else}}
 		<li>없음</li>
-	{{/each}}
+		{{/each}}
 	</ul>
+	{{/if}}
 {{/if}}
 </div>

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.jeff.mud.command.see.model.Seeable;
+import com.jeff.mud.domain.item.domain.Container;
 import com.jeff.mud.domain.item.domain.Item;
 import com.jeff.mud.template.Template;
 
@@ -16,11 +17,15 @@ public class ItemDc implements Seeable {
 	private String name;
 	private String description;
 	private List<ItemDc> items;
+	private Boolean isLocked = false;
 	
 	public ItemDc(Item item) {
 		this.id = item.getId();
 		this.name = item.getName();
 		this.description = item.getDescription();
+		if (item instanceof Container) {
+			this.isLocked = ((Container) item).isLocked();
+		}
 	}
 	
 	public ItemDc(Item item, List<Item> items) {
