@@ -13,6 +13,7 @@ alter table player add constraint UK_PLAYER_NAME unique (name);
 alter table player add constraint FK_PLAYER_01 foreign key (account_id) references account(id);
 
 create table player_bag (id bigint not null auto_increment, player_id bigint not null, primary key (id));
+alter table player_bag add constraint UK_PLAYER_BAG_PLAYER_ID unique (player_id);
 alter table player_bag add constraint FK_PLAYER_BAG_01 foreign key (player_id) references player(id);
 
 create table room (id bigint not null auto_increment, description varchar(255) not null, summary varchar(255) not null, primary key (id));

@@ -16,6 +16,7 @@ public class CommandDataCarrier {
 	private String command;
 	private String adverb;
 	private String secondTarget;
+	private String words;
 	
 	public CommandDataCarrier(String username, Player player, String msg) {
 		this.username = username;
@@ -30,6 +31,7 @@ public class CommandDataCarrier {
 		this.command = words[length-1];
 		if (length > 1) {
 			this.target = words[0];
+			this.words = String.join(" ", Arrays.copyOfRange(words, 0, length-1));
 		}
 		if (length == 3) {
 			this.secondTarget = this.adverb = words[1];

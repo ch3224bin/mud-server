@@ -32,7 +32,7 @@ public class SeeFinder {
 	
 	public Seeable findTarget(CommandDataCarrier input) {
 		if (!input.hasTarget()) {
-			return roomService.getRoomDcWithItems(input.getPlayer().getRoom());
+			return roomService.getRoomDcWithItemsAndOnlinePlayers(input.getPlayer().getRoom(), input.getPlayer());
 		}
 		
 		for (Finder<Seeable> finder : finders) {

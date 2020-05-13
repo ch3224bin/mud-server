@@ -45,7 +45,7 @@ public class WhoCommand extends Command {
 
 	@Override
 	protected List<PlayerState> allowStates() {
-		return Arrays.asList(PlayerState.normal);
+		return Arrays.asList(PlayerState.normal, PlayerState.combat);
 	}
 
 	@Override

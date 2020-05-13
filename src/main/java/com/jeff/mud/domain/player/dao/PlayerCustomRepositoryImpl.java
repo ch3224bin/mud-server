@@ -1,11 +1,13 @@
 package com.jeff.mud.domain.player.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import com.jeff.mud.domain.player.domain.Player;
 import com.jeff.mud.domain.player.domain.QPlayer;
+import com.jeff.mud.domain.room.domain.Room;
 
 public class PlayerCustomRepositoryImpl extends QuerydslRepositorySupport implements PlayerCustomRepository {
 	public PlayerCustomRepositoryImpl() {
@@ -20,6 +22,16 @@ public class PlayerCustomRepositoryImpl extends QuerydslRepositorySupport implem
 				.where(player.account.username.eq(username))
 				.fetchOne();
 		return Optional.ofNullable(result);
+	}
+	
+	@Override
+	public List<Player> findByRoomNotExistsMe(Room room, Player me) {
+		final QPlayer player = QPlayer.player;
+		return from(player)
+			.join(player.room)
+			.where(player.room.eq(room)
+					.and(player.notIn(me)))
+			.fetch();
 	}
 	
 	

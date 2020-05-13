@@ -16,6 +16,7 @@ import com.jeff.mud.domain.room.domain.Wayout;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
 import com.jeff.mud.state.PlayerState;
 import com.jeff.mud.template.Template;
+import com.jeff.mud.template.TemplateDc;
 
 @Component
 public class MoveCommand extends Command {
@@ -45,8 +46,13 @@ public class MoveCommand extends Command {
 		if (wayout.isPresent() && wayout.get().isShow()) {
 			if (!wayout.get().getDoor().isLocked()) {
 				Room nextRoom = wayout.get().getNextRoom();
+				
+				TemplateDc td = TemplateDc.builder().player(input.getPlayer().getName()).direction(wayout.get().getDirection().toString()).build();
+				customMessagingTemplate.convertAndSendToRoomWithOutMe(input, Template.moveOutSendRoom, td);
+				
 				input.getPlayer().moveTo(nextRoom);
-				customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.room, roomService.getRoomDcWithItems(nextRoom));
+				customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.room, roomService.getRoomDcWithItemsAndOnlinePlayers(nextRoom, input.getPlayer()));
+				customMessagingTemplate.convertAndSendToRoomWithOutMe(input, Template.moveInSendRoom, td);
 			} else {
 				customMessagingTemplate.convertAndSendToYou(input.getUsername(),
 						Template.defaultMessage,

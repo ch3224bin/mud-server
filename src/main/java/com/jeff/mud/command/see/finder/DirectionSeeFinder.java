@@ -9,9 +9,9 @@ import com.jeff.mud.command.CommandDataCarrier;
 import com.jeff.mud.command.common.finder.Finder;
 import com.jeff.mud.command.see.model.SeeDenyObject;
 import com.jeff.mud.command.see.model.Seeable;
+import com.jeff.mud.domain.room.RoomService;
 import com.jeff.mud.domain.room.constants.Direction;
 import com.jeff.mud.domain.room.domain.Wayout;
-import com.jeff.mud.domain.room.dto.RoomDc;
 
 /**
  * 가고자 하는 방향 찾기
@@ -21,6 +21,13 @@ import com.jeff.mud.domain.room.dto.RoomDc;
 @Component
 @Order(1)
 public class DirectionSeeFinder implements Finder<Seeable> {
+	
+	private RoomService roomService;
+	
+	public DirectionSeeFinder(RoomService roomService) {
+		this.roomService = roomService;
+	}
+	
 	@Override
 	public Optional<Seeable> find(CommandDataCarrier input) {
 		String target = input.getTarget();
@@ -40,7 +47,7 @@ public class DirectionSeeFinder implements Finder<Seeable> {
 			return Optional.of(new SeeDenyObject(String.format("%s쪽의 문이 잠겨있어 볼 수 없습니다.", wayout.get().getDirection().toString())));
 		}
 		
-		return wayout.map(wo -> new RoomDc(wo.getNextRoom()));
+		return wayout.map(wo -> roomService.getRoomDcWithOnlinePlayers(wo.getNextRoom(), input.getPlayer()));
 		
 	}
 }

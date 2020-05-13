@@ -28,6 +28,10 @@ public class QPlayer extends EntityPathBase<Player> {
 
     public final StringPath name = createString("name");
 
+    public final QPlayerBag playerBag;
+
+    public final com.jeff.mud.domain.room.domain.QRoom room;
+
     public final EnumPath<com.jeff.mud.state.PlayerState> state = createEnum("state", com.jeff.mud.state.PlayerState.class);
 
     public QPlayer(String variable) {
@@ -49,6 +53,8 @@ public class QPlayer extends EntityPathBase<Player> {
     public QPlayer(Class<? extends Player> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.account = inits.isInitialized("account") ? new com.jeff.mud.global.account.domain.QAccount(forProperty("account")) : null;
+        this.playerBag = inits.isInitialized("playerBag") ? new QPlayerBag(forProperty("playerBag"), inits.get("playerBag")) : null;
+        this.room = inits.isInitialized("room") ? new com.jeff.mud.domain.room.domain.QRoom(forProperty("room")) : null;
     }
 
 }

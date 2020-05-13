@@ -11,6 +11,7 @@ import lombok.Getter;
 @Getter
 public enum CommandConstants {
 	who (new String[] {"누구"}),
+	say (new String[] {"말"}),
 	see (new String[] {"봐", "보다"}),
 	bag (new String[] {"소지품"}),
 	move (Direction.stringValues()),

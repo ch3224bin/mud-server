@@ -1,18 +1,20 @@
 insert into account (id, username, password) values
-(1, 'user', '{bcrypt}$2a$10$4xld0kieIepZeXPtfhe/dOxqAyKfl0SGGgQXbrwtXERdaRE5el6xu');
+(1, 'user', '{bcrypt}$2a$10$4xld0kieIepZeXPtfhe/dOxqAyKfl0SGGgQXbrwtXERdaRE5el6xu'),
+(2, 'user1', '{bcrypt}$2a$10$4xld0kieIepZeXPtfhe/dOxqAyKfl0SGGgQXbrwtXERdaRE5el6xu');
 
 insert into role (id, role) values
 (1, 'USER'),
 (2, 'ADMIN');
 
 insert into account_role (account_id, role_id) values
-(1, 1);
+(1, 1), (1, 2), (2, 1);
 
 insert into player (name, account_id, state) values
-('액션가면', 1, 'normal');
+('액션가면', 1, 'normal'),
+('test1234', 2, 'character_create1');
 
 insert into player_bag (id, player_id) values
-(1, 1);
+(1, 1), (2, 2);
 
 insert into room (id, summary, description) values
 (1, '테스트 중앙', '흰 빛으로 가득한 공간입니다.'),
@@ -22,7 +24,7 @@ insert into room (id, summary, description) values
 (5, '테스트 북쪽', '흰 빛으로 가득한 공간입니다.');
 
 insert into player_room (player_id, room_id) values
-(1, 1);
+(1, 1), (2, 1);
 
 insert into door (id, is_locked) values
 (1, 0), (2, 0), (3, 0), (4, 1), (5, 1);

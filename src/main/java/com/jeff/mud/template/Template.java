@@ -21,6 +21,10 @@ public enum Template implements Pathable {
 	getSendRoom ("command/get_send_room"),
 	putSendMe ("command/put_send_me"),
 	putSendRoom ("command/put_send_room"),
+	moveOutSendRoom ("command/move_out_send_room"),
+	moveInSendRoom ("command/move_in_send_room"),
+	saySendMe ("command/say_send_me"),
+	saySendRoom ("command/say_send_room"),
 	;
 	
 	private String path;

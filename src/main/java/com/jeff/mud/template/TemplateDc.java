@@ -12,4 +12,6 @@ public class TemplateDc {
 	private String container;
 	private String item;
 	private String adverb;
+	private String direction;
+	private String words;
 }
