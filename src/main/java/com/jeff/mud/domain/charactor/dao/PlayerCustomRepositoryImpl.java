@@ -34,5 +34,16 @@ public class PlayerCustomRepositoryImpl extends QuerydslRepositorySupport implem
 			.fetch();
 	}
 	
+	@Override
+	public List<Player> findByRoomAndOnlineAndNotExistsMe(Room room, Player me) {
+		final QPlayer player = QPlayer.player;
+		return from(player)
+				.join(player.room)
+				.where(player.room.eq(room)
+						.and(player.isOnline.eq(true))
+						.and(player.notIn(me)))
+				.fetch();
+	}
+	
 	
 }

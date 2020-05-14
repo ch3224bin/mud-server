@@ -9,10 +9,12 @@ import org.springframework.stereotype.Component;
 import com.jeff.mud.command.Command;
 import com.jeff.mud.command.CommandDataCarrier;
 import com.jeff.mud.command.constants.CommandConstants;
+import com.jeff.mud.domain.charactor.service.CharactorService;
 import com.jeff.mud.domain.room.RoomService;
 import com.jeff.mud.domain.room.constants.Direction;
 import com.jeff.mud.domain.room.domain.Room;
 import com.jeff.mud.domain.room.domain.Wayout;
+import com.jeff.mud.domain.room.dto.RoomDc;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
 import com.jeff.mud.state.CharactorState;
 import com.jeff.mud.template.Template;
@@ -23,10 +25,12 @@ public class MoveCommand extends Command {
 	
 	private final CustomMessagingTemplate customMessagingTemplate;
 	private final RoomService roomService;
+	private final CharactorService charactorService;
 	
-	public MoveCommand(CustomMessagingTemplate customMessagingTemplate, RoomService roomService) {
+	public MoveCommand(CustomMessagingTemplate customMessagingTemplate, RoomService roomService, CharactorService charactorService) {
 		this.customMessagingTemplate = customMessagingTemplate;
 		this.roomService = roomService;
+		this.charactorService = charactorService;
 	}
 
 	@Override
@@ -51,7 +55,8 @@ public class MoveCommand extends Command {
 				customMessagingTemplate.convertAndSendToRoomWithOutMe(input, Template.moveOutSendRoom, td);
 				
 				input.getPlayer().moveTo(nextRoom);
-				customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.room, roomService.getRoomDcWithItemsAndOnlinePlayers(nextRoom, input.getPlayer()));
+				RoomDc roomDc = roomService.getRoomDcWithItems(input.getPlayer().getRoom(), charactorService.getCharactorsInTheRoomWithOutMe(input));
+				customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.room, roomDc);
 				customMessagingTemplate.convertAndSendToRoomWithOutMe(input, Template.moveInSendRoom, td);
 			} else {
 				customMessagingTemplate.convertAndSendToYou(input.getUsername(),

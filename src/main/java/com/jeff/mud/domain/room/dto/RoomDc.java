@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.jeff.mud.command.see.model.Seeable;
-import com.jeff.mud.domain.charactor.domain.Player;
 import com.jeff.mud.domain.charactor.dto.CharactorDc;
 import com.jeff.mud.domain.item.domain.Item;
 import com.jeff.mud.domain.item.dto.ItemDc;
@@ -41,11 +40,9 @@ public class RoomDc implements Seeable {
 					.collect(Collectors.toList());
 	}
 	
-	public RoomDc(Room room, List<Item> items, List<Player> players) {
+	public RoomDc(Room room, List<Item> items, List<CharactorDc> charactors) {
 		this(room, items);
-		this.players = players.stream()
-			.map(CharactorDc::new)
-			.collect(Collectors.toList());
+		this.players = charactors;
 	}
 
 	private List<WayoutDc> getSortedWayouts(Room room) {

@@ -9,6 +9,7 @@ import com.jeff.mud.command.CommandDataCarrier;
 import com.jeff.mud.command.common.finder.Finder;
 import com.jeff.mud.command.see.model.NotFoundObject;
 import com.jeff.mud.command.see.model.Seeable;
+import com.jeff.mud.domain.charactor.service.CharactorService;
 import com.jeff.mud.domain.item.service.RoomItemBrokerService;
 import com.jeff.mud.domain.room.RoomService;
 
@@ -24,15 +25,19 @@ public class SeeFinder {
 	
 	private final List<Finder<Seeable>> finders;
 	private final RoomService roomService;
+	private final CharactorService charactorService;
 	
-	public SeeFinder(List<Finder<Seeable>> finders, RoomItemBrokerService roomItemBrokerService, RoomService roomService) {
+	public SeeFinder(List<Finder<Seeable>> finders, RoomItemBrokerService roomItemBrokerService, RoomService roomService, CharactorService charactorService) {
 		this.finders = finders;
 		this.roomService = roomService;
+		this.charactorService = charactorService;
 	}
 	
 	public Seeable findTarget(CommandDataCarrier input) {
 		if (!input.hasTarget()) {
-			return roomService.getRoomDcWithItemsAndOnlinePlayers(input.getPlayer().getRoom(), input.getPlayer());
+			return roomService.getRoomDcWithItems(
+					input.getPlayer().getRoom(),
+					charactorService.getCharactorsInTheRoomWithOutMe(input));
 		}
 		
 		for (Finder<Seeable> finder : finders) {

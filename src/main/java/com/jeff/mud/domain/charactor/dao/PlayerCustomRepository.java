@@ -9,4 +9,5 @@ import com.jeff.mud.domain.room.domain.Room;
 public interface PlayerCustomRepository {
 	Optional<Player> findByUsername(String username);
 	List<Player> findByRoomNotExistsMe(Room room, Player me);
+	List<Player> findByRoomAndOnlineAndNotExistsMe(Room room, Player me);
 }

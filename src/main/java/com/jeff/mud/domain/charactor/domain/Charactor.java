@@ -1,5 +1,7 @@
 package com.jeff.mud.domain.charactor.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -12,10 +14,13 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.jeff.mud.domain.room.domain.Room;
+import com.jeff.mud.domain.stat.domain.Stat;
 import com.jeff.mud.state.CharactorState;
 
 import lombok.AccessLevel;
@@ -48,6 +53,10 @@ public abstract class Charactor {
 	
 	@OneToOne(mappedBy = "charactor")
 	private CharactorBag charactorBag;
+	
+	@OneToMany(mappedBy = "charactor")
+	@OrderBy("id asc")
+	private List<Stat> stats;
 	
 	public void setName(String name) {
 		this.name = name;

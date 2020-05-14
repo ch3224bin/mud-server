@@ -17,6 +17,11 @@ alter table player add constraint FK_PLAYER_01 foreign key (account_id) referenc
 create table non_player (is_attackable boolean, id bigint not null, primary key (id));
 alter table non_player add constraint FK_NON_PLAYER_01 foreign key (id) references charactor(id);
 
+create table stat (id bigint not null auto_increment, type varchar(255) not null,
+	value integer not null, charactor_id bigint not null, primary key (id));
+alter table stat add constraint FK_STAT_01 foreign key (charactor_id) references charactor(id);
+
+
 create table charactor_bag (id bigint not null auto_increment, charactor_id bigint not null, primary key (id));
 alter table charactor_bag add constraint UK_CHARACTOR_BAG_CHARACTOR_ID unique (charactor_id);
 alter table charactor_bag add constraint FK_CHARACTOR_BAG_01 foreign key (charactor_id) references charactor(id);

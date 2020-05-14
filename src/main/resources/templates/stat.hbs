@@ -1,0 +1,15 @@
+<stat>
+	<div><span>이름 : </span>{{name}}</div>
+	<div>특성치</div>
+	<ul>
+	{{#each stats}}
+		<li><span>{{name}} : </span>{{value}}</li>
+	{{/each}}
+	</ul>
+	<div>특성굴림</div>
+	<ul>
+		<li><span>이해 : </span>{{idea}}</li>
+		<li><span>행운 : </span>{{luck}}</li>
+		<li><span>지식 : </span>{{know}}</li>
+	</ul>
+</stat>

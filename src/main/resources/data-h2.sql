@@ -11,14 +11,21 @@ insert into account_role (account_id, role_id) values
 
 insert into charactor (dtype, id, name, state) values
 ('player', 1, '액션가면', 'normal'),
-('player', 2, 'test1234', 'character_create1');
+('player', 2, 'test1234', 'character_create1'),
+('non_player', 3, '안내원', 'normal');
 
 insert into player (id, account_id) values
 (1, 1),
 (2, 2);
 
+insert into non_player (id, is_attackable, description) values
+(3, 0, '단정한 유니폼을 입고 있다.');
+
+insert into stat (charactor_id, type, value) values
+(1, 'STR', 15), (1, 'CON', 15), (1, 'SIZ', 15), (1, 'INT', 15), (1, 'POW', 15), (1, 'DEX', 15), (1, 'APP', 15), (1, 'EDU', 15);
+
 insert into charactor_bag (id, charactor_id) values
-(1, 1), (2, 2);
+(1, 1), (2, 2), (3, 3);
 
 insert into room (id, summary, description) values
 (1, '테스트 중앙', '흰 빛으로 가득한 공간입니다.'),
@@ -28,7 +35,7 @@ insert into room (id, summary, description) values
 (5, '테스트 북쪽', '흰 빛으로 가득한 공간입니다.');
 
 insert into charactor_room (charactor_id, room_id) values
-(1, 1), (2, 1);
+(1, 1), (2, 1), (3, 1);
 
 insert into door (id, is_locked) values
 (1, 0), (2, 0), (3, 0), (4, 1), (5, 1);

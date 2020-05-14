@@ -32,6 +32,8 @@ public class QPlayer extends EntityPathBase<Player> {
     //inherited
     public final NumberPath<Long> id;
 
+    public final BooleanPath isOnline = createBoolean("isOnline");
+
     //inherited
     public final StringPath name;
 

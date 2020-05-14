@@ -12,7 +12,7 @@ import com.jeff.mud.domain.item.dto.ItemDc;
 
 @Component
 @Order(3)
-public class ItemInThePlayerBagSeeFinder implements Finder<Seeable> {
+public class ItemInTheCharactorBagSeeFinder implements Finder<Seeable> {
 
 	@Override
 	public Optional<Seeable> find(CommandDataCarrier input) {

@@ -16,6 +16,9 @@ import lombok.NoArgsConstructor;
 @Getter
 public class NonPlayer extends Charactor {
 
-	@Column(name = "is_attackable")
+	@Column(name = "is_attackable", nullable = false, columnDefinition = "boolean default false")
 	private boolean isAttackable;
+	
+	@Column(name = "description")
+	private String description;
 }

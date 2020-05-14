@@ -7,10 +7,12 @@ import lombok.Getter;
 @Getter
 public enum Template implements Pathable {
 	who ("who"),
+	stat ("stat"),
 	welcome ("welcome"),
 	defaultMessage ("default_message"),
 	room ("room"),
 	item ("item"),
+	charactor ("charactor"),
 	playerBag ("player_bag"),
 	notFoundObject ("not_found_object"),
 	seeDenyObject ("see_deny_object"),
