@@ -35,8 +35,8 @@ public class SayCommand extends Command {
 	@Override
 	protected void handle(CommandDataCarrier input) {
 		TemplateDc td = TemplateDc.builder().player(input.getPlayer().getName()).words(input.getWords()).build();
-		customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.saySendMe, td);
-		customMessagingTemplate.convertAndSendToRoomWithOutMe(input, Template.saySendRoom, td);
+		customMessagingTemplate.sendToYou(input.getUsername(), Template.saySendMe, td);
+		customMessagingTemplate.sendToRoomWithOutMe(input, Template.saySendRoom, td);
 	}
 
 	@Override

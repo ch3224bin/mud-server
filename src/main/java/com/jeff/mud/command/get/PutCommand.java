@@ -44,33 +44,33 @@ public class PutCommand extends Command {
 	@Override
 	protected void handle(CommandDataCarrier input) {
 		if (!input.hasTarget()) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("어디에 넣을까요?"));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("어디에 넣을까요?"));
 			return;
 		}
 		
 		if (!input.hasSecondTarget()) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("무엇을 넣을까요?"));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("무엇을 넣을까요?"));
 			return;
 		}
 		
 		Item container = itemFinder.findTarget(input);
 		if (container == null) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("%s이(가) 없습니다.", input.getTarget()));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("%s이(가) 없습니다.", input.getTarget()));
 			return;
 		}
 		if (!(container instanceof Container)) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("%s에는 넣을 수 없습니다.", container.getName()));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("%s에는 넣을 수 없습니다.", container.getName()));
 			return;
 		}
 		
 		if (((Container) container).isLocked()) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("%s이(가) 잠겨있습니다.", container.getName()));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("%s이(가) 잠겨있습니다.", container.getName()));
 			return;
 		}
 		
 		Optional<Item> item = input.getPlayer().getCharactorBag().getItem(input.getSecondTarget());
 		if (item.isEmpty()) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("당신의 소지품에는 %s이(가) 없습니다.", input.getTarget()));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("당신의 소지품에는 %s이(가) 없습니다.", input.getTarget()));
 			return;
 		}
 		
@@ -78,8 +78,8 @@ public class PutCommand extends Command {
 		
 		TemplateDc templateDc = TemplateDc.builder().player(input.getPlayer().getName()).container(container.getName())
 				.item(item.get().getName()).build();
-		customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.putSendMe, templateDc);
-		customMessagingTemplate.convertAndSendToRoomWithOutMe(input, Template.putSendRoom, templateDc);
+		customMessagingTemplate.sendToYou(input.getUsername(), Template.putSendMe, templateDc);
+		customMessagingTemplate.sendToRoomWithOutMe(input, Template.putSendRoom, templateDc);
 	}
 
 	@Override

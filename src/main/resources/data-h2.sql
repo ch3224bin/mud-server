@@ -12,20 +12,28 @@ insert into account_role (account_id, role_id) values
 insert into charactor (dtype, id, name, state) values
 ('player', 1, '액션가면', 'normal'),
 ('player', 2, 'test1234', 'character_create1'),
-('non_player', 3, '안내원', 'normal');
+('non_player', 3, '안내원', 'normal'),
+('non_player', 4, '전자동 대련 기계', 'normal');
 
 insert into player (id, account_id) values
 (1, 1),
 (2, 2);
 
 insert into non_player (id, is_attackable, description) values
-(3, 0, '단정한 유니폼을 입고 있다.');
+(3, 0, '단정한 유니폼을 입고 있다.'),
+(4, 1, '가벼운 금속 파이프와 각종 모터로 만들어진 전투 훈련용 기계이다.');
 
 insert into stat (charactor_id, type, value) values
-(1, 'STR', 15), (1, 'CON', 15), (1, 'SIZ', 15), (1, 'INT', 15), (1, 'POW', 15), (1, 'DEX', 15), (1, 'APP', 15), (1, 'EDU', 15);
+(1, 'STR', 15), (1, 'CON', 15), (1, 'SIZ', 15), (1, 'INT', 15), (1, 'POW', 15), (1, 'DEX', 15), (1, 'APP', 15), (1, 'EDU', 15),
+(2, 'STR', 15), (2, 'CON', 15), (2, 'SIZ', 15), (2, 'INT', 15), (2, 'POW', 15), (2, 'DEX', 15), (2, 'APP', 15), (2, 'EDU', 15),
+(3, 'STR', 15), (3, 'CON', 15), (3, 'SIZ', 15), (3, 'INT', 15), (3, 'POW', 15), (3, 'DEX', 15), (3, 'APP', 15), (3, 'EDU', 15),
+(3, 'STR', 10), (3, 'CON', 15), (3, 'SIZ', 10), (3, 'INT', 0), (3, 'POW', 0), (3, 'DEX', 5), (3, 'APP', 5), (3, 'EDU', 1);
+
+insert into status (charactor_id, hp, mp) values
+(1, 15, 15), (2, 15, 15), (3, 15, 15), (4, 10, 0);
 
 insert into charactor_bag (id, charactor_id) values
-(1, 1), (2, 2), (3, 3);
+(1, 1), (2, 2), (3, 3), (4, 4);
 
 insert into room (id, summary, description) values
 (1, '테스트 중앙', '흰 빛으로 가득한 공간입니다.'),
@@ -35,7 +43,7 @@ insert into room (id, summary, description) values
 (5, '테스트 북쪽', '흰 빛으로 가득한 공간입니다.');
 
 insert into charactor_room (charactor_id, room_id) values
-(1, 1), (2, 1), (3, 1);
+(1, 1), (2, 1), (3, 1), (4, 1);
 
 insert into door (id, is_locked) values
 (1, 0), (2, 0), (3, 0), (4, 1), (5, 1);

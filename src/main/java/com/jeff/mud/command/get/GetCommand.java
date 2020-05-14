@@ -42,18 +42,18 @@ public class GetCommand extends Command {
 	@Override
 	protected void handle(CommandDataCarrier input) {
 		if (!input.hasTarget()) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("무엇을 가질까요?"));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("무엇을 가질까요?"));
 			return;
 		}
 		
 		Item item = itemFinder.findTarget(input);
 		if (item == null) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("%s이(가) 없습니다.", input.getTarget()));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("%s이(가) 없습니다.", input.getTarget()));
 			return;
 		}
 		
 		if (!item.isGetable()) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("%s은(는) 가질 수 없습니다.", item.getName()));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("%s은(는) 가질 수 없습니다.", item.getName()));
 			return;
 		}
 		
@@ -62,8 +62,8 @@ public class GetCommand extends Command {
 		
 		TemplateDc templateDc = TemplateDc.builder().player(input.getPlayer().getName())
 				.item(item.getName()).build();
-		customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.getSendMe, templateDc);
-		customMessagingTemplate.convertAndSendToRoomWithOutMe(input, Template.getSendRoom, templateDc);
+		customMessagingTemplate.sendToYou(input.getUsername(), Template.getSendMe, templateDc);
+		customMessagingTemplate.sendToRoomWithOutMe(input, Template.getSendRoom, templateDc);
 	}
 
 	@Override

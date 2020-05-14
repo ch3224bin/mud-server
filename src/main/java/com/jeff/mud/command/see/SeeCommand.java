@@ -32,7 +32,7 @@ public class SeeCommand extends Command {
 	@Override
 	protected void handle(CommandDataCarrier input) {
 		Seeable target = seeFinder.findTarget(input);
-		customMessagingTemplate.convertAndSendToYou(input.getUsername(), target.template(), target);
+		customMessagingTemplate.sendToYou(input.getUsername(), target.template(), target);
 	}
 
 	@Override

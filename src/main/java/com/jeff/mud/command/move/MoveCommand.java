@@ -52,21 +52,21 @@ public class MoveCommand extends Command {
 				Room nextRoom = wayout.get().getNextRoom();
 				
 				TemplateDc td = TemplateDc.builder().player(input.getPlayer().getName()).direction(wayout.get().getDirection().toString()).build();
-				customMessagingTemplate.convertAndSendToRoomWithOutMe(input, Template.moveOutSendRoom, td);
+				customMessagingTemplate.sendToRoomWithOutMe(input, Template.moveOutSendRoom, td);
 				
 				input.getPlayer().moveTo(nextRoom);
 				RoomDc roomDc = roomService.getRoomDcWithItems(input.getPlayer().getRoom(), charactorService.getCharactorsInTheRoomWithOutMe(input));
-				customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.room, roomDc);
-				customMessagingTemplate.convertAndSendToRoomWithOutMe(input, Template.moveInSendRoom, td);
+				customMessagingTemplate.sendToYou(input.getUsername(), Template.room, roomDc);
+				customMessagingTemplate.sendToRoomWithOutMe(input, Template.moveInSendRoom, td);
 			} else {
-				customMessagingTemplate.convertAndSendToYou(input.getUsername(),
+				customMessagingTemplate.sendToYou(input.getUsername(),
 						Template.defaultMessage,
 						String.format("%s 쪽으로 가는 문이 잠겨있습니다.", input.getCommand()));
 			}
 			return;
 		}
 		
-		customMessagingTemplate.convertAndSendToYou(input.getUsername(),
+		customMessagingTemplate.sendToYou(input.getUsername(),
 				Template.defaultMessage,
 				String.format("%s 쪽에는 길이 없습니다.", input.getCommand()));
 	}
@@ -74,7 +74,7 @@ public class MoveCommand extends Command {
 	@Override
 	protected void handleDenyState(CommandDataCarrier input) {
 		if (CharactorState.combat == input.getPlayer().getState()) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, "전투중에는 이동할 수 없습니다.");
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, "전투중에는 이동할 수 없습니다.");
 		}
 	}
 }

@@ -39,19 +39,19 @@ public class DropCommand extends Command {
 	@Override
 	protected void handle(CommandDataCarrier input) {
 		if (!input.hasTarget()) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("무엇을 버릴까요?"));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("무엇을 버릴까요?"));
 			return;
 		}
 		
 		Optional<Item> item = input.getPlayer().getCharactorBag().getItem(input.getTarget());
 		if (item.isEmpty()) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("당신의 소지품에는 %s이(가) 없습니다.", input.getTarget()));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("당신의 소지품에는 %s이(가) 없습니다.", input.getTarget()));
 			return;
 		}
 		
 		itemBrokerService.moveToRoom(item.get(), input.getPlayer());
-		customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("당신은 %s을(를) 버렸습니다.", item.get().getName()));
-		customMessagingTemplate.convertAndSendToRoomWithOutMe(input, Template.defaultMessage, String.format("%s이(가) %s을(를) 버렸습니다.", input.getPlayer().getName(), item.get().getName()));
+		customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("당신은 %s을(를) 버렸습니다.", item.get().getName()));
+		customMessagingTemplate.sendToRoomWithOutMe(input, Template.defaultMessage, String.format("%s이(가) %s을(를) 버렸습니다.", input.getPlayer().getName(), item.get().getName()));
 	}
 
 	@Override

@@ -39,6 +39,6 @@ public class Stat {
 	private int value = 0;
 	
 	public String name() {
-		return this.type.toString();
+		return this.type.getName();
 	}
 }

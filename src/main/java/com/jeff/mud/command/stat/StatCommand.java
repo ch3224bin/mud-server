@@ -34,7 +34,7 @@ public class StatCommand extends Command {
 
 	@Override
 	protected void handle(CommandDataCarrier input) {
-		customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.stat, new StatTemplateDc(input.getPlayer()));
+		customMessagingTemplate.sendToYou(input.getUsername(), Template.stat, new StatTemplateDc(input.getPlayer()));
 	}
 
 	@Override

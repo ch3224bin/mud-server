@@ -11,16 +11,18 @@ create table charactor (dtype varchar(31) not null, id bigint not null auto_incr
 	name varchar(255) not null, state varchar(255) not null, primary key (id));
 alter table charactor add constraint UK_CHARACTOR_NAME unique (name);
 
-create table player (id bigint not null auto_increment, account_id bigint, primary key (id));
+create table player (id bigint not null auto_increment, account_id bigint, is_online boolean default false not null, primary key (id));
 alter table player add constraint FK_PLAYER_01 foreign key (account_id) references account(id);
 
-create table non_player (is_attackable boolean, id bigint not null, primary key (id));
+create table non_player (is_attackable boolean, id bigint not null, description varchar(1000), primary key (id));
 alter table non_player add constraint FK_NON_PLAYER_01 foreign key (id) references charactor(id);
 
 create table stat (id bigint not null auto_increment, type varchar(255) not null,
 	value integer not null, charactor_id bigint not null, primary key (id));
 alter table stat add constraint FK_STAT_01 foreign key (charactor_id) references charactor(id);
 
+create table status (id bigint not null auto_increment, hp integer, mp integer, charactor_id bigint not null, primary key (id));
+alter table status add constraint FK_STATUS_01 foreign key (charactor_id) references charactor(id);
 
 create table charactor_bag (id bigint not null auto_increment, charactor_id bigint not null, primary key (id));
 alter table charactor_bag add constraint UK_CHARACTOR_BAG_CHARACTOR_ID unique (charactor_id);

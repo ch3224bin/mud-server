@@ -50,34 +50,34 @@ public class TakeOutCommand extends Command {
 	@Override
 	protected void handle(CommandDataCarrier input) {
 		if (!input.hasTarget()) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("어디에서 꺼낼까요?"));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("어디에서 꺼낼까요?"));
 			return;
 		}
 		
 		if (!input.hasSecondTarget()) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("무엇을 꺼낼까요?"));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("무엇을 꺼낼까요?"));
 			return;
 		}
 		
 		Container container = containerFinder.findTarget(input);
 		if (container == null) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("%s이(가) 없습니다.", input.getTarget()));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("%s이(가) 없습니다.", input.getTarget()));
 			return;
 		}
 		
 		if (container.isLocked()) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("%s이(가) 잠겨있습니다.", container.getName()));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("%s이(가) 잠겨있습니다.", container.getName()));
 			return;
 		}
 		
 		Optional<Item> item = containerItemBrokerService.getItemByContainer(container, input.getSecondTarget());
 		if (item.isEmpty()) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("%s이(가) 없습니다.", input.getTarget()));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("%s이(가) 없습니다.", input.getTarget()));
 			return;
 		}
 		
 		if (!item.get().isGetable()) {
-			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("%s은(는) 가질 수 없습니다.", item.get().getName()));
+			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("%s은(는) 가질 수 없습니다.", item.get().getName()));
 			return;
 		}
 		
@@ -86,8 +86,8 @@ public class TakeOutCommand extends Command {
 		
 		TemplateDc templateDc = TemplateDc.builder().player(input.getPlayer().getName()).container(container.getName())
 				.item(item.get().getName()).build();
-		customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.takeOutSendMe, templateDc);
-		customMessagingTemplate.convertAndSendToRoomWithOutMe(input, Template.takeOutSendRoom, templateDc);
+		customMessagingTemplate.sendToYou(input.getUsername(), Template.takeOutSendMe, templateDc);
+		customMessagingTemplate.sendToRoomWithOutMe(input, Template.takeOutSendRoom, templateDc);
 	}
 
 	@Override

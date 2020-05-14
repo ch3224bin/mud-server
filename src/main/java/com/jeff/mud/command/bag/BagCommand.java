@@ -35,7 +35,7 @@ public class BagCommand extends Command {
 	@Override
 	protected void handle(CommandDataCarrier input) {
 		CharactorBagDc charactorBag = new CharactorBagDc(input.getPlayer().getCharactorBag());
-		customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.playerBag, charactorBag);
+		customMessagingTemplate.sendToYou(input.getUsername(), Template.playerBag, charactorBag);
 	}
 
 	@Override

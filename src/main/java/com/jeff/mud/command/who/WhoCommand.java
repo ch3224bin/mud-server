@@ -40,7 +40,7 @@ public class WhoCommand extends Command {
 
 	@Override
 	protected void handle(CommandDataCarrier input) {
-		customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.who, new WhoDc(currentUserManager.getCurrentPlayers()));
+		customMessagingTemplate.sendToYou(input.getUsername(), Template.who, new WhoDc(currentUserManager.getCurrentPlayers()));
 	}
 
 	@Override

@@ -1,6 +1,8 @@
 package com.jeff.mud.domain.charactor.domain;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -18,8 +20,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.jeff.mud.domain.room.domain.Room;
+import com.jeff.mud.domain.stat.constants.StatConstatns;
 import com.jeff.mud.domain.stat.domain.Stat;
 import com.jeff.mud.state.CharactorState;
 
@@ -34,6 +38,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public abstract class Charactor {
+    
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -58,6 +63,12 @@ public abstract class Charactor {
 	@OrderBy("id asc")
 	private List<Stat> stats;
 	
+	@Transient
+	private Map<StatConstatns, Stat> statMap;
+	
+	@OneToOne(mappedBy = "charactor")
+	private Status status;
+	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -68,5 +79,15 @@ public abstract class Charactor {
 
 	public void moveTo(Room nextRoom) {
 		this.room = nextRoom;
+	}
+	
+	public Stat getStat(StatConstatns statConstatns) {
+		if (statMap == null) {
+			statMap = new HashMap<>();
+			for (Stat stat : stats) {
+				statMap.put(stat.getType(), stat);
+			}
+		}
+		return statMap.get(statConstatns);
 	}
 }

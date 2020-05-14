@@ -17,6 +17,7 @@ import com.jeff.mud.domain.charactor.domain.Player;
 @Component
 public class CustomMessagingTemplate {
 	private static final String USER_DESTINATION = "/history";
+	private static final String STATUS_DESTINATION = "/history/status";
 	private static final String TEMPLATES_PATH = "/templates/";
 	
 	private final Handlebars handlebars = new Handlebars();
@@ -29,7 +30,7 @@ public class CustomMessagingTemplate {
 		this.playerRepository = playerRepository;
 	}
 	
-	public void convertAndSendToYou(String username, Pathable pathable, Object payload) {
+	public void sendToYou(String username, Pathable pathable, Object payload) {
 		String message = getCompileString(pathable, payload);
 		simpMessagingTemplate.convertAndSendToUser(username, USER_DESTINATION, message);
 	}
@@ -50,10 +51,15 @@ public class CustomMessagingTemplate {
 		}
 	}
 
-	public void convertAndSendToRoomWithOutMe(CommandDataCarrier input, Pathable pathable, Object payload) {
+	public void sendToRoomWithOutMe(CommandDataCarrier input, Pathable pathable, Object payload) {
 		List<Player> another = playerRepository.findByRoomNotExistsMe(input.getPlayer().getRoom(), input.getPlayer());
 		for (Player p : another) {
-			convertAndSendToYou(p.getAccount().getUsername(), pathable, payload);
+			sendToYou(p.getAccount().getUsername(), pathable, payload);
 		}
+	}
+	
+	public void sendStatusToYou(String username, Pathable pathable, Object payload) {
+		String message = getCompileString(pathable, payload);
+		simpMessagingTemplate.convertAndSendToUser(username, STATUS_DESTINATION, message);
 	}
 }

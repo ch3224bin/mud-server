@@ -93,7 +93,7 @@ public class FirstStepStateHandler implements StateHandler {
 		if (nextstep != null) {
 			player.setFlashState(nextstep.toString());
 		}
-		customMessagingTemplate.convertAndSendToYou(username, Template.defaultMessage, message);
+		customMessagingTemplate.sendToYou(username, Template.defaultMessage, message);
 	}
 
 	@Override

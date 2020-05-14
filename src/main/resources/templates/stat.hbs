@@ -1,15 +1,17 @@
 <stat>
-	<div><span>이름 : </span>{{name}}</div>
+	<div><span class="header">이름 : </span>{{name}}</div>
+	<div><span class="header">HP : </span>{{hp}}/{{maxHp}}<span class="header">MP : </span>{{mp}}/{{maxMp}}</div>
 	<div>특성치</div>
 	<ul>
 	{{#each stats}}
-		<li><span>{{name}} : </span>{{value}}</li>
+		<li><span class="header">{{name}} : </span>{{value}}</li>
 	{{/each}}
 	</ul>
 	<div>특성굴림</div>
 	<ul>
-		<li><span>이해 : </span>{{idea}}</li>
-		<li><span>행운 : </span>{{luck}}</li>
-		<li><span>지식 : </span>{{know}}</li>
+		<li><span class="header">이해 : </span>{{idea}}</li>
+		<li><span class="header">행운 : </span>{{luck}}</li>
+		<li><span class="header">지식 : </span>{{know}}</li>
+		<li><span class="header">피해가산점 : </span>{{dammegeBonus}}</li>
 	</ul>
 </stat>

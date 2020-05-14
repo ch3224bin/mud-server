@@ -57,29 +57,29 @@ public class LockCommand extends Command {
 
 			@Override
 			public void notContainsDirection(CommandDataCarrier input) {
-				customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("%s은(는) 잠글 수 없습니다.", input.getTarget()));
+				customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("%s은(는) 잠글 수 없습니다.", input.getTarget()));
 			}
 
 			@Override
 			public void matchedKey(CommandDataCarrier input, Door door, String direction) {
 				door.lock();
-				customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("당신은 %s문을 잠궜습니다.", direction));
-				customMessagingTemplate.convertAndSendToRoomWithOutMe(input, Template.defaultMessage, String.format("%s이(가) %s문을 잠궜습니다.", input.getPlayer().getName(), direction));
+				customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("당신은 %s문을 잠궜습니다.", direction));
+				customMessagingTemplate.sendToRoomWithOutMe(input, Template.defaultMessage, String.format("%s이(가) %s문을 잠궜습니다.", input.getPlayer().getName(), direction));
 			}
 
 			@Override
 			public void notMatchedKey(CommandDataCarrier input, String direction) {
-				customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("당신에게는 %s문에 맞는 열쇠가 없습니다.", direction));
+				customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("당신에게는 %s문에 맞는 열쇠가 없습니다.", direction));
 			}
 
 			@Override
 			public void notLockedOrUnlocked(CommandDataCarrier input, String direction) {
-				customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("%s문은 이미 잠겨있습니다.", direction));
+				customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("%s문은 이미 잠겨있습니다.", direction));
 			}
 
 			@Override
 			public void notExitsWayout(CommandDataCarrier input) {
-				customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("%s은(는) 잠글 수 없습니다.", input.getTarget()));
+				customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, String.format("%s은(는) 잠글 수 없습니다.", input.getTarget()));
 			}
 
 			@Override

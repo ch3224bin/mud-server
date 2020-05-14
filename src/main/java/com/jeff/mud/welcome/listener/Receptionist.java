@@ -45,13 +45,16 @@ public class Receptionist {
 		String destination = accessor.getDestination();
 		if ("/user/history".equals(destination)) {
 			// 1. 웰컴 메세지
-			customMessagingTemplate.convertAndSendToYou(accessor.getUser().getName(), Template.welcome, null);
+			customMessagingTemplate.sendToYou(accessor.getUser().getName(), Template.welcome, null);
 			// 2. 공지사항등
 			
 			// 3. 첫번째로 할 행동을 취한다.
 			Player player = playerRepository.findByUsername(accessor.getUser().getName()).get();
 			
 			stateStarter.start(accessor.getUser().getName(), player);
+		}
+		if ("/user/history/status".equals(destination)) {
+			customMessagingTemplate.sendStatusToYou(accessor.getUser().getName(), Template.defaultMessage, "15 / 15");
 		}
 	}
 }
