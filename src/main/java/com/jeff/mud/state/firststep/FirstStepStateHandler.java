@@ -6,10 +6,10 @@ import com.google.common.base.Strings;
 import com.jeff.mud.command.Command;
 import com.jeff.mud.command.CommandDataCarrier;
 import com.jeff.mud.command.who.listener.CurrentUserManager;
-import com.jeff.mud.domain.player.dao.PlayerRepository;
-import com.jeff.mud.domain.player.dto.PlayerDc;
+import com.jeff.mud.domain.charactor.dao.PlayerRepository;
+import com.jeff.mud.domain.charactor.dto.CharactorDc;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
-import com.jeff.mud.state.PlayerState;
+import com.jeff.mud.state.CharactorState;
 import com.jeff.mud.state.StateHandler;
 import com.jeff.mud.state.StateStarter;
 import com.jeff.mud.template.Template;
@@ -35,7 +35,7 @@ public class FirstStepStateHandler implements StateHandler {
 
 	@Override
 	public boolean handle(Command command, CommandDataCarrier dc) {
-		PlayerDc player = currentUserManager.getPlayer(dc.getUsername()); // FlashState를 이용하기 위함
+		CharactorDc player = currentUserManager.getPlayer(dc.getUsername()); // FlashState를 이용하기 위함
 		FirstStep currstep = getFlashState(player);
 		String message = "";
 		FirstStep nextstep = null;
@@ -62,7 +62,7 @@ public class FirstStepStateHandler implements StateHandler {
 				if ("예".equals(dc.getMsg())) {
 					nextstep = FirstStep.cc3;
 					dc.getPlayer().setName(player.getTemp1());
-					dc.getPlayer().changeState(PlayerState.normal);
+					dc.getPlayer().changeState(CharactorState.normal);
 					message = String.format("%s님 환영합니다.", player.getTemp1());
 					stateStarter.start(dc.getUsername(), dc.getPlayer());
 				} else if ("아니오".equals(dc.getMsg())) {
@@ -80,7 +80,7 @@ public class FirstStepStateHandler implements StateHandler {
 		return true;
 	}
 
-	private FirstStep getFlashState(PlayerDc player) {
+	private FirstStep getFlashState(CharactorDc player) {
 		String flashState = Strings.nullToEmpty(player.getFlashState());
 		if (FirstStep.contains(flashState)) {
 			return FirstStep.valueOf(flashState);
@@ -88,7 +88,7 @@ public class FirstStepStateHandler implements StateHandler {
 		return FirstStep.cc0;
 	}
 
-	private void setFlashStateAndSendMessage(String username, PlayerDc player, String message,
+	private void setFlashStateAndSendMessage(String username, CharactorDc player, String message,
 			FirstStep nextstep) {
 		if (nextstep != null) {
 			player.setFlashState(nextstep.toString());
@@ -97,8 +97,8 @@ public class FirstStepStateHandler implements StateHandler {
 	}
 
 	@Override
-	public PlayerState state() {
-		return PlayerState.character_create1;
+	public CharactorState state() {
+		return CharactorState.character_create1;
 	}
 
 }

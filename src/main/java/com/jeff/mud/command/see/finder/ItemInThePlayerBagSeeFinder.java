@@ -16,7 +16,7 @@ public class ItemInThePlayerBagSeeFinder implements Finder<Seeable> {
 
 	@Override
 	public Optional<Seeable> find(CommandDataCarrier input) {
-		return input.getPlayer().getPlayerBag().getItem(input.getTarget()).map(ItemDc::new);
+		return input.getPlayer().getCharactorBag().getItem(input.getTarget()).map(ItemDc::new);
 	}
 
 }

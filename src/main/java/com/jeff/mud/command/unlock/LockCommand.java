@@ -11,7 +11,7 @@ import com.jeff.mud.command.constants.CommandConstants;
 import com.jeff.mud.domain.room.constants.Direction;
 import com.jeff.mud.domain.room.domain.Door;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
-import com.jeff.mud.state.PlayerState;
+import com.jeff.mud.state.CharactorState;
 import com.jeff.mud.template.Template;
 
 @Component
@@ -28,8 +28,8 @@ public class LockCommand extends Command {
 	}
 
 	@Override
-	protected List<PlayerState> allowStates() {
-		return Arrays.asList(PlayerState.normal);
+	protected List<CharactorState> allowStates() {
+		return Arrays.asList(CharactorState.normal);
 	}
 
 	@Override

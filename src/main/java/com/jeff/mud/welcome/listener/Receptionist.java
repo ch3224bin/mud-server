@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
-import com.jeff.mud.domain.player.dao.PlayerRepository;
-import com.jeff.mud.domain.player.domain.Player;
+import com.jeff.mud.domain.charactor.dao.PlayerRepository;
+import com.jeff.mud.domain.charactor.domain.Player;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
 import com.jeff.mud.state.StateStarter;
 import com.jeff.mud.template.Template;

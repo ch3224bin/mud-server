@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.jeff.mud.command.CommandDataCarrier;
-import com.jeff.mud.domain.player.dao.PlayerRepository;
-import com.jeff.mud.domain.player.domain.Player;
+import com.jeff.mud.domain.charactor.dao.PlayerRepository;
+import com.jeff.mud.domain.charactor.domain.Player;
 
 @Component
 public class CustomMessagingTemplate {

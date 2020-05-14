@@ -15,7 +15,7 @@ public class PlayerStateHandler {
 		this.commandManager = commandManager;
 	}
 	
-	public boolean handle(PlayerState state, Command command, CommandDataCarrier dc) {
+	public boolean handle(CharactorState state, Command command, CommandDataCarrier dc) {
 		StateHandler stateHandler = StateHandlerManager.getStateHandler(state);
 		if (stateHandler != null) {
 			return stateHandler.handle(command, dc);
@@ -24,7 +24,7 @@ public class PlayerStateHandler {
 		return command.execute(dc);
 	}
 	
-	public boolean handle(PlayerState state, CommandConstants commandConstants, CommandDataCarrier dc) {
+	public boolean handle(CharactorState state, CommandConstants commandConstants, CommandDataCarrier dc) {
 		return handle(state, commandManager.getCommand(commandConstants), dc);
 	}
 }

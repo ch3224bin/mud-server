@@ -6,8 +6,8 @@ import java.util.Collection;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jeff.mud.domain.player.dao.PlayerRepository;
-import com.jeff.mud.domain.player.domain.Player;
+import com.jeff.mud.domain.charactor.dao.PlayerRepository;
+import com.jeff.mud.domain.charactor.domain.Player;
 import com.jeff.mud.state.PlayerStateHandler;
 
 /**

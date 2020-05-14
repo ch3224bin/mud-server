@@ -11,7 +11,7 @@ import com.jeff.mud.command.constants.CommandConstants;
 import com.jeff.mud.command.see.finder.SeeFinder;
 import com.jeff.mud.command.see.model.Seeable;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
-import com.jeff.mud.state.PlayerState;
+import com.jeff.mud.state.CharactorState;
 
 @Component
 public class SeeCommand extends Command {
@@ -36,8 +36,8 @@ public class SeeCommand extends Command {
 	}
 
 	@Override
-	protected List<PlayerState> allowStates() {
-		return Arrays.asList(PlayerState.normal, PlayerState.combat);
+	protected List<CharactorState> allowStates() {
+		return Arrays.asList(CharactorState.normal, CharactorState.combat);
 	}
 
 	@Override

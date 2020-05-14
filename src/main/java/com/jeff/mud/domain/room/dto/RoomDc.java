@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.jeff.mud.command.see.model.Seeable;
+import com.jeff.mud.domain.charactor.domain.Player;
+import com.jeff.mud.domain.charactor.dto.CharactorDc;
 import com.jeff.mud.domain.item.domain.Item;
 import com.jeff.mud.domain.item.dto.ItemDc;
-import com.jeff.mud.domain.player.domain.Player;
-import com.jeff.mud.domain.player.dto.PlayerDc;
 import com.jeff.mud.domain.room.domain.Room;
 import com.jeff.mud.template.Template;
 
@@ -24,7 +24,7 @@ public class RoomDc implements Seeable {
 	private List<WayoutDc> wayouts;
 	private String exitString;
 	private List<ItemDc> items;
-	private List<PlayerDc> players;
+	private List<CharactorDc> players;
 	
 	public RoomDc(Room room) {
 		this.id = room.getId();
@@ -44,7 +44,7 @@ public class RoomDc implements Seeable {
 	public RoomDc(Room room, List<Item> items, List<Player> players) {
 		this(room, items);
 		this.players = players.stream()
-			.map(PlayerDc::new)
+			.map(CharactorDc::new)
 			.collect(Collectors.toList());
 	}
 

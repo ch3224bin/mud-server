@@ -9,7 +9,7 @@ public interface LockUnLockCommand {
 	default void lockOrUnlock(CommandDataCarrier input, LockUnlockTemplate lockUnlockTemplate, Door door, String name) {
 		if (lockUnlockTemplate.checkLockOrUnlock(door)) {
 			// 소지품에서 열쇠 찾기
-			if (input.getPlayer().getPlayerBag().hasKey(door)) {
+			if (input.getPlayer().getCharactorBag().hasKey(door)) {
 				lockUnlockTemplate.matchedKey(input, door, name);
 			} else {
 				lockUnlockTemplate.notMatchedKey(input, name);

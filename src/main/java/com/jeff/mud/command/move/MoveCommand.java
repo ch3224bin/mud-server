@@ -14,7 +14,7 @@ import com.jeff.mud.domain.room.constants.Direction;
 import com.jeff.mud.domain.room.domain.Room;
 import com.jeff.mud.domain.room.domain.Wayout;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
-import com.jeff.mud.state.PlayerState;
+import com.jeff.mud.state.CharactorState;
 import com.jeff.mud.template.Template;
 import com.jeff.mud.template.TemplateDc;
 
@@ -30,8 +30,8 @@ public class MoveCommand extends Command {
 	}
 
 	@Override
-	protected List<PlayerState> allowStates() {
-		return Arrays.asList(PlayerState.normal);
+	protected List<CharactorState> allowStates() {
+		return Arrays.asList(CharactorState.normal);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class MoveCommand extends Command {
 
 	@Override
 	protected void handleDenyState(CommandDataCarrier input) {
-		if (PlayerState.combat == input.getPlayer().getState()) {
+		if (CharactorState.combat == input.getPlayer().getState()) {
 			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, "전투중에는 이동할 수 없습니다.");
 		}
 	}

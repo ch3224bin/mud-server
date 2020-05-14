@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class StateHandlerManager {
 	
-	private final static Map<PlayerState, StateHandler> stateMap = new HashMap<>();
+	private final static Map<CharactorState, StateHandler> stateMap = new HashMap<>();
 	
 	
 	public StateHandlerManager(List<StateHandler> stateHandlers) {
@@ -18,7 +18,7 @@ public class StateHandlerManager {
 		}
 	}
 
-	public static StateHandler getStateHandler(PlayerState state) {
+	public static StateHandler getStateHandler(CharactorState state) {
 		return stateMap.get(state);
 	}
 	

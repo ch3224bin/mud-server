@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 import com.jeff.mud.command.Command;
 import com.jeff.mud.command.CommandDataCarrier;
 import com.jeff.mud.command.constants.CommandConstants;
-import com.jeff.mud.state.PlayerState;
+import com.jeff.mud.state.CharactorState;
 
 @Component
 public class NoopCommand extends Command {
 
 	@Override
-	protected List<PlayerState> allowStates() {
+	protected List<CharactorState> allowStates() {
 		return Collections.emptyList();
 	}
 

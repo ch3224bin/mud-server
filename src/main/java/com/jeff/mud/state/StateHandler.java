@@ -5,5 +5,5 @@ import com.jeff.mud.command.CommandDataCarrier;
 
 public interface StateHandler {
 	boolean handle(Command command, CommandDataCarrier dc);
-	PlayerState state();
+	CharactorState state();
 }

@@ -3,7 +3,7 @@ package com.jeff.mud.command;
 import java.util.List;
 
 import com.jeff.mud.command.constants.CommandConstants;
-import com.jeff.mud.state.PlayerState;
+import com.jeff.mud.state.CharactorState;
 
 /**
  * 명령어 처리 인터페이스
@@ -31,7 +31,7 @@ public abstract class Command {
 		handle(input);
 		return true;
 	}
-	protected abstract List<PlayerState> allowStates();
+	protected abstract List<CharactorState> allowStates();
 	protected abstract CommandConstants commandConstants();
 	protected abstract void handle(CommandDataCarrier input);
 	protected abstract void handleDenyState(CommandDataCarrier input);

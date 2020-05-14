@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import com.jeff.mud.command.who.listener.CurrentUserManager;
+import com.jeff.mud.domain.charactor.dao.PlayerRepository;
+import com.jeff.mud.domain.charactor.domain.Player;
+import com.jeff.mud.domain.charactor.dto.CharactorDc;
 import com.jeff.mud.domain.item.service.RoomItemBrokerService;
-import com.jeff.mud.domain.player.dao.PlayerRepository;
-import com.jeff.mud.domain.player.domain.Player;
-import com.jeff.mud.domain.player.dto.PlayerDc;
 import com.jeff.mud.domain.room.domain.Room;
 import com.jeff.mud.domain.room.dto.RoomDc;
 
@@ -44,7 +44,7 @@ public class RoomService {
 	
 	private List<Player> getOnlinePlayers(Room room, Player me) {
 		Set<Long> currentPlayerIds = currentUserManager.getCurrentPlayers().stream()
-				.map(PlayerDc::getId)
+				.map(CharactorDc::getId)
 				.collect(Collectors.toSet());
 		
 		return playerRepository.findByRoomNotExistsMe(room, me).stream()

@@ -12,7 +12,7 @@ import com.jeff.mud.command.get.finder.ItemFinder;
 import com.jeff.mud.domain.item.domain.Item;
 import com.jeff.mud.domain.item.service.ItemBrokerService;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
-import com.jeff.mud.state.PlayerState;
+import com.jeff.mud.state.CharactorState;
 import com.jeff.mud.template.Template;
 import com.jeff.mud.template.TemplateDc;
 
@@ -30,8 +30,8 @@ public class GetCommand extends Command {
 	}
 
 	@Override
-	protected List<PlayerState> allowStates() {
-		return Arrays.asList(PlayerState.normal, PlayerState.combat);
+	protected List<CharactorState> allowStates() {
+		return Arrays.asList(CharactorState.normal, CharactorState.combat);
 	}
 
 	@Override

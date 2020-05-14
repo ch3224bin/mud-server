@@ -6,24 +6,24 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.jeff.mud.domain.player.domain.PlayerBag;
+import com.jeff.mud.domain.charactor.domain.CharactorBag;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "item_broker_player_bag")
-@DiscriminatorValue("player_bag")
+@Table(name = "item_broker_charactor_bag")
+@DiscriminatorValue("charactor_bag")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class PlayerBagItemBroker extends ItemBroker {
+public class CharactorBagItemBroker extends ItemBroker {
 	@ManyToOne
-	@JoinColumn(name = "player_bag_id", nullable = false)
-	private PlayerBag playerBag;
+	@JoinColumn(name = "charactor_bag_id", nullable = false)
+	private CharactorBag charactorBag;
 	
-	public PlayerBagItemBroker(Item item, PlayerBag playerBag) {
+	public CharactorBagItemBroker(Item item, CharactorBag charactorBag) {
 		super(item);
-		this.playerBag = playerBag;
+		this.charactorBag = charactorBag;
 	}
 }

@@ -9,11 +9,15 @@ insert into role (id, role) values
 insert into account_role (account_id, role_id) values
 (1, 1), (1, 2), (2, 1);
 
-insert into player (name, account_id, state) values
-('액션가면', 1, 'normal'),
-('test1234', 2, 'character_create1');
+insert into charactor (dtype, id, name, state) values
+('player', 1, '액션가면', 'normal'),
+('player', 2, 'test1234', 'character_create1');
 
-insert into player_bag (id, player_id) values
+insert into player (id, account_id) values
+(1, 1),
+(2, 2);
+
+insert into charactor_bag (id, charactor_id) values
 (1, 1), (2, 2);
 
 insert into room (id, summary, description) values
@@ -23,7 +27,7 @@ insert into room (id, summary, description) values
 (4, '테스트 남쪽', '흰 빛으로 가득한 공간입니다.'),
 (5, '테스트 북쪽', '흰 빛으로 가득한 공간입니다.');
 
-insert into player_room (player_id, room_id) values
+insert into charactor_room (charactor_id, room_id) values
 (1, 1), (2, 1);
 
 insert into door (id, is_locked) values

@@ -12,7 +12,7 @@ import com.jeff.mud.command.constants.CommandConstants;
 import com.jeff.mud.domain.item.domain.Item;
 import com.jeff.mud.domain.item.service.ItemBrokerService;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
-import com.jeff.mud.state.PlayerState;
+import com.jeff.mud.state.CharactorState;
 import com.jeff.mud.template.Template;
 
 @Component
@@ -27,8 +27,8 @@ public class DropCommand extends Command {
 	}
 
 	@Override
-	protected List<PlayerState> allowStates() {
-		return Arrays.asList(PlayerState.normal, PlayerState.combat);
+	protected List<CharactorState> allowStates() {
+		return Arrays.asList(CharactorState.normal, CharactorState.combat);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class DropCommand extends Command {
 			return;
 		}
 		
-		Optional<Item> item = input.getPlayer().getPlayerBag().getItem(input.getTarget());
+		Optional<Item> item = input.getPlayer().getCharactorBag().getItem(input.getTarget());
 		if (item.isEmpty()) {
 			customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.defaultMessage, String.format("당신의 소지품에는 %s이(가) 없습니다.", input.getTarget()));
 			return;

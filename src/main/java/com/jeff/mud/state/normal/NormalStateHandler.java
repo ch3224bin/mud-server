@@ -2,7 +2,7 @@ package com.jeff.mud.state.normal;
 
 import com.jeff.mud.command.Command;
 import com.jeff.mud.command.CommandDataCarrier;
-import com.jeff.mud.state.PlayerState;
+import com.jeff.mud.state.CharactorState;
 import com.jeff.mud.state.StateHandler;
 
 public class NormalStateHandler implements StateHandler {
@@ -13,8 +13,8 @@ public class NormalStateHandler implements StateHandler {
 	}
 
 	@Override
-	public PlayerState state() {
-		return PlayerState.normal;
+	public CharactorState state() {
+		return CharactorState.normal;
 	}
 
 }

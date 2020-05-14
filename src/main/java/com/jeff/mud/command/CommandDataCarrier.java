@@ -3,7 +3,7 @@ package com.jeff.mud.command;
 import java.util.Arrays;
 
 import com.google.common.base.Strings;
-import com.jeff.mud.domain.player.domain.Player;
+import com.jeff.mud.domain.charactor.domain.Player;
 
 import lombok.Getter;
 

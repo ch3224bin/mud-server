@@ -4,15 +4,15 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import com.jeff.mud.domain.charactor.domain.CharactorBag;
+import com.jeff.mud.domain.charactor.domain.Player;
 import com.jeff.mud.domain.item.dao.ItemBrokerRepository;
+import com.jeff.mud.domain.item.domain.CharactorBagItemBroker;
 import com.jeff.mud.domain.item.domain.Container;
 import com.jeff.mud.domain.item.domain.ContainerItemBroker;
 import com.jeff.mud.domain.item.domain.Item;
 import com.jeff.mud.domain.item.domain.ItemBroker;
-import com.jeff.mud.domain.item.domain.PlayerBagItemBroker;
 import com.jeff.mud.domain.item.domain.RoomItemBroker;
-import com.jeff.mud.domain.player.domain.Player;
-import com.jeff.mud.domain.player.domain.PlayerBag;
 
 @Component
 public class ItemBrokerService {
@@ -35,8 +35,8 @@ public class ItemBrokerService {
 		itemBrokerRepository.delete(itemBroker.get());
 		itemBrokerRepository.flush();
 		
-		PlayerBag playerBag = player.getPlayerBag();
-		PlayerBagItemBroker playerBagIteBroker = new PlayerBagItemBroker(item, playerBag);
+		CharactorBag playerBag = player.getCharactorBag();
+		CharactorBagItemBroker playerBagIteBroker = new CharactorBagItemBroker(item, playerBag);
 		itemBrokerRepository.save(playerBagIteBroker);
 		playerBag.addItemBroker(playerBagIteBroker);
 	}
@@ -56,8 +56,8 @@ public class ItemBrokerService {
 	}
 
 	private void removeItemFromPlayerBag(Player player, Item item) {
-		Optional<PlayerBagItemBroker> itemBroker = player.getPlayerBag().getItemBroker(item);
-		player.getPlayerBag().removeItemBroker(itemBroker.get());
+		Optional<CharactorBagItemBroker> itemBroker = player.getCharactorBag().getItemBroker(item);
+		player.getCharactorBag().removeItemBroker(itemBroker.get());
 		itemBrokerRepository.delete(itemBroker.get());
 		itemBrokerRepository.flush();
 	}

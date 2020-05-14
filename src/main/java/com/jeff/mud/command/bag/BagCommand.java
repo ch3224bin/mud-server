@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import com.jeff.mud.command.Command;
 import com.jeff.mud.command.CommandDataCarrier;
 import com.jeff.mud.command.constants.CommandConstants;
-import com.jeff.mud.domain.player.dto.PlayerBagDc;
+import com.jeff.mud.domain.charactor.dto.CharactorBagDc;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
-import com.jeff.mud.state.PlayerState;
+import com.jeff.mud.state.CharactorState;
 import com.jeff.mud.template.Template;
 
 @Component
@@ -23,8 +23,8 @@ public class BagCommand extends Command {
 	}
 
 	@Override
-	protected List<PlayerState> allowStates() {
-		return Arrays.asList(PlayerState.normal, PlayerState.combat);
+	protected List<CharactorState> allowStates() {
+		return Arrays.asList(CharactorState.normal, CharactorState.combat);
 	}
 
 	@Override
@@ -34,8 +34,8 @@ public class BagCommand extends Command {
 
 	@Override
 	protected void handle(CommandDataCarrier input) {
-		PlayerBagDc playerBag = new PlayerBagDc(input.getPlayer().getPlayerBag());
-		customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.playerBag, playerBag);
+		CharactorBagDc charactorBag = new CharactorBagDc(input.getPlayer().getCharactorBag());
+		customMessagingTemplate.convertAndSendToYou(input.getUsername(), Template.playerBag, charactorBag);
 	}
 
 	@Override

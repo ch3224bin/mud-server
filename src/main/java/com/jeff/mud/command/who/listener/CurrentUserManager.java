@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import com.jeff.mud.domain.player.dao.PlayerRepository;
-import com.jeff.mud.domain.player.dto.PlayerDc;
+import com.jeff.mud.domain.charactor.dao.PlayerRepository;
+import com.jeff.mud.domain.charactor.dto.CharactorDc;
 import com.jeff.mud.global.account.dao.AccountRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class CurrentUserManager {
 	
-	private final Map<String, PlayerDc> currentUserStore = new ConcurrentHashMap<>();
+	private final Map<String, CharactorDc> currentUserStore = new ConcurrentHashMap<>();
 	
 	private final AccountRepository accountRepository;
 	private final PlayerRepository playerRepository;
@@ -43,9 +43,9 @@ public class CurrentUserManager {
 	@EventListener
 	public void handleWebSocketConnectListener(SessionConnectedEvent event) {
 		String username = event.getUser().getName();
-		PlayerDc player = accountRepository.findByUsername(username)
+		CharactorDc player = accountRepository.findByUsername(username)
 				.map(account -> playerRepository.findByAccount(account).get())
-				.map(PlayerDc::new)
+				.map(CharactorDc::new)
 				.get();
 			
 		currentUserStore.put(username, player);
@@ -59,11 +59,11 @@ public class CurrentUserManager {
 		log.info("Disconnected : " + username);
 	}
 	
-	public Collection<PlayerDc> getCurrentPlayers() {
+	public Collection<CharactorDc> getCurrentPlayers() {
 		return currentUserStore.values();
 	}
 	
-	public PlayerDc getPlayer(String username) {
+	public CharactorDc getPlayer(String username) {
 		return currentUserStore.get(username);
 	}
 
