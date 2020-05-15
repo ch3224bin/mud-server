@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.jeff.mud.domain.charactor.dao.PlayerRepository;
 import com.jeff.mud.domain.charactor.domain.Player;
 import com.jeff.mud.global.account.dao.AccountRepository;
 import com.jeff.mud.global.account.domain.Account;

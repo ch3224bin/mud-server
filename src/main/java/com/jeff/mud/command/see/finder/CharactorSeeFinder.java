@@ -27,7 +27,15 @@ public class CharactorSeeFinder implements Finder<Seeable> {
 		List<CharactorDc> charactors = charactorService.getCharactorsInTheRoomWithOutMe(input);
 		
 		return charactors.stream()
-			.filter(charactor -> charactor.getName().startsWith(input.getTarget()))
+			.filter(charactor -> {
+				String[] names = charactor.getName().split(" ");
+				for (String name : names) {
+					if (name.startsWith(input.getTarget())) {
+						return true;
+					}
+				}
+				return false;
+			})
 			.findFirst()
 			.map(dc -> (Seeable) dc);
 	}

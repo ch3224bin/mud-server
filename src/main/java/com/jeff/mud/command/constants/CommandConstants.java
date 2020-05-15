@@ -16,12 +16,13 @@ public enum CommandConstants {
 	see (new String[] {"봐", "보다"}),
 	bag (new String[] {"소지품"}),
 	move (Direction.stringValues()),
-	get (new String[] {"주워", "줍", "가져"}),
+	get (new String[] {"주워", "줍", "가져", "집어"}),
 	drop (new String[] {"버려"}),
 	takeout (new String[] {"꺼내", "빼"}),
 	put (new String[] {"넣어"}),
 	unlock (new String[] {"열어"}),
 	lock (new String[] {"잠궈"}),
+	attack (new String[] {"때려", "쳐"}),
 	noop (new String[] {}) // 아무것도 하지 않는다.
 	;
 	

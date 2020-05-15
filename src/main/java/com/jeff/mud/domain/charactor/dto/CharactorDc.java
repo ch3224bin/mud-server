@@ -20,6 +20,7 @@ public class CharactorDc implements Seeable {
 	private String temp1;
 	private boolean isNpc;
 	private String description;
+	private boolean isAttackable;
 	
 	public CharactorDc(Charactor charactor) {
 		this.id = charactor.getId();
@@ -27,6 +28,7 @@ public class CharactorDc implements Seeable {
 		this.isNpc = (charactor instanceof NonPlayer);
 		if (this.isNpc) {
 			this.description = ((NonPlayer) charactor).getDescription();
+			this.isAttackable = ((NonPlayer) charactor).isAttackable();
 		} else {
 			this.username = ((Player) charactor).getAccount().getUsername();
 		}
