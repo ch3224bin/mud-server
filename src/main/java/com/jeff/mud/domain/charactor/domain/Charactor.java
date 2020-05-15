@@ -9,6 +9,7 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -59,7 +60,7 @@ public abstract class Charactor {
 	@OneToOne(mappedBy = "charactor")
 	private CharactorBag charactorBag;
 	
-	@OneToMany(mappedBy = "charactor")
+	@OneToMany(mappedBy = "charactor", fetch = FetchType.EAGER)
 	@OrderBy("id asc")
 	private List<Stat> stats;
 	
@@ -68,6 +69,14 @@ public abstract class Charactor {
 	
 	@OneToOne(mappedBy = "charactor")
 	private Status status;
+	
+	public Charactor(String name, CharactorState state, Room room, CharactorBag charactorBag, List<Stat> stats) {
+		this.name = name;
+		this.state = state;
+		this.room = room;
+		this.charactorBag = charactorBag;
+		this.stats = stats;
+	}
 	
 	public void setName(String name) {
 		this.name = name;

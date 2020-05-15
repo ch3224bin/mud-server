@@ -3,6 +3,7 @@ package com.jeff.mud.domain.charactor.dto;
 import com.jeff.mud.command.see.model.Seeable;
 import com.jeff.mud.domain.charactor.domain.Charactor;
 import com.jeff.mud.domain.charactor.domain.NonPlayer;
+import com.jeff.mud.domain.charactor.domain.Player;
 import com.jeff.mud.template.Template;
 
 import lombok.AccessLevel;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CharactorDc implements Seeable {
 	private long id;
+	private String username;
 	private String name;
 	private String flashState;
 	private String temp1;
@@ -24,7 +26,9 @@ public class CharactorDc implements Seeable {
 		this.name = charactor.getName();
 		this.isNpc = (charactor instanceof NonPlayer);
 		if (this.isNpc) {
-			description = ((NonPlayer) charactor).getDescription();
+			this.description = ((NonPlayer) charactor).getDescription();
+		} else {
+			this.username = ((Player) charactor).getAccount().getUsername();
 		}
 	}
 	

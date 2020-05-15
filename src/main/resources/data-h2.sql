@@ -27,7 +27,7 @@ insert into stat (charactor_id, type, value) values
 (1, 'STR', 15), (1, 'CON', 15), (1, 'SIZ', 15), (1, 'INT', 15), (1, 'POW', 15), (1, 'DEX', 15), (1, 'APP', 15), (1, 'EDU', 15),
 (2, 'STR', 15), (2, 'CON', 15), (2, 'SIZ', 15), (2, 'INT', 15), (2, 'POW', 15), (2, 'DEX', 15), (2, 'APP', 15), (2, 'EDU', 15),
 (3, 'STR', 15), (3, 'CON', 15), (3, 'SIZ', 15), (3, 'INT', 15), (3, 'POW', 15), (3, 'DEX', 15), (3, 'APP', 15), (3, 'EDU', 15),
-(3, 'STR', 10), (3, 'CON', 15), (3, 'SIZ', 10), (3, 'INT', 0), (3, 'POW', 0), (3, 'DEX', 5), (3, 'APP', 5), (3, 'EDU', 1);
+(4, 'STR', 10), (4, 'CON', 15), (4, 'SIZ', 10), (4, 'INT', 0), (4, 'POW', 0), (4, 'DEX', 5), (4, 'APP', 5), (4, 'EDU', 1);
 
 insert into status (charactor_id, hp, mp) values
 (1, 15, 15), (2, 15, 15), (3, 15, 15), (4, 10, 0);

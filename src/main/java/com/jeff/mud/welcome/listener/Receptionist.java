@@ -8,6 +8,8 @@ import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
 import com.jeff.mud.domain.charactor.dao.PlayerRepository;
 import com.jeff.mud.domain.charactor.domain.Player;
+import com.jeff.mud.domain.charactor.event.StatusChangeEvent;
+import com.jeff.mud.global.event.Events;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
 import com.jeff.mud.state.StateStarter;
 import com.jeff.mud.template.Template;
@@ -22,7 +24,6 @@ import com.jeff.mud.template.Template;
  * @author ChangHo Vin
  *
  */
-@Transactional
 @Component
 public class Receptionist {
 	
@@ -39,22 +40,22 @@ public class Receptionist {
 		this.stateStarter = stateStarter;
 	}
 	
+	@Transactional
 	@EventListener
 	public void handleWebSocketConnectListener(SessionSubscribeEvent event) {
 		StompHeaderAccessor accessor = StompHeaderAccessor.wrap(event.getMessage());
 		String destination = accessor.getDestination();
+		Player player = playerRepository.findByUsername(accessor.getUser().getName()).get();
 		if ("/user/history".equals(destination)) {
 			// 1. 웰컴 메세지
 			customMessagingTemplate.sendToYou(accessor.getUser().getName(), Template.welcome, null);
 			// 2. 공지사항등
 			
 			// 3. 첫번째로 할 행동을 취한다.
-			Player player = playerRepository.findByUsername(accessor.getUser().getName()).get();
-			
 			stateStarter.start(accessor.getUser().getName(), player);
 		}
 		if ("/user/history/status".equals(destination)) {
-			customMessagingTemplate.sendStatusToYou(accessor.getUser().getName(), Template.defaultMessage, "15 / 15");
+			Events.raise(new StatusChangeEvent(player.getStatus())); // 간략한 상태정보를 출력하기 위해 event trigger
 		}
 	}
 }

@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum Template implements Pathable {
 	who ("who"),
 	stat ("stat"),
+	shortStatus ("short_status"),
 	welcome ("welcome"),
 	defaultMessage ("default_message"),
 	room ("room"),
