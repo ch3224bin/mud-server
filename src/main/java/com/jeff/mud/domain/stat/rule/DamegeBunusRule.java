@@ -1,13 +1,19 @@
 package com.jeff.mud.domain.stat.rule;
 
 import com.jeff.mud.domain.charactor.domain.Charactor;
-import com.jeff.mud.domain.stat.constants.StatConstatns;
+import com.jeff.mud.domain.stat.constants.Stats;
 import com.jeff.mud.domain.stat.domain.Stat;
 
 public class DamegeBunusRule {
 
 	public static String getDbString(Charactor charactor) {
-		return getDamegeBonusDice(charactor.getStat(StatConstatns.STR), charactor.getStat(StatConstatns.SIZ)).toString();
+		return getDamegeBonusDice(charactor.getStat(Stats.STR), charactor.getStat(Stats.SIZ)).toString();
+	}
+	
+	public static Dice getDamegeBonusDice(Charactor player) {
+		Stat str = player.getStat(Stats.STR);
+		Stat siz = player.getStat(Stats.SIZ);
+		return getDamegeBonusDice(str, siz);
 	}
 	
 	public static Dice getDamegeBonusDice(Stat str, Stat siz) {

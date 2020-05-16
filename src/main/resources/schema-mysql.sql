@@ -24,6 +24,9 @@ alter table stat add constraint FK_STAT_01 foreign key (charactor_id) references
 create table status (id bigint not null auto_increment, hp integer, mp integer, charactor_id bigint not null, primary key (id));
 alter table status add constraint FK_STATUS_01 foreign key (charactor_id) references charactor(id);
 
+create table skill (id bigint not null auto_increment, point integer not null, type varchar(255) not null, charactor_id bigint not null, primary key (id));
+alter table skill add constraint FK_SKILL_01 foreign key (charactor_id) references charactor(id);
+
 create table charactor_bag (id bigint not null auto_increment, charactor_id bigint not null, primary key (id));
 alter table charactor_bag add constraint UK_CHARACTOR_BAG_CHARACTOR_ID unique (charactor_id);
 alter table charactor_bag add constraint FK_CHARACTOR_BAG_01 foreign key (charactor_id) references charactor(id);
@@ -56,10 +59,16 @@ create table container (id bigint not null, door_id bigint, primary key (id));
 alter table container add constraint FK_CONTAINER_01 foreign key (id) references item(id);
 alter table container add constraint FK_CONTAINER_02 foreign key (door_id) references door(id);
 
+create table weapon (count integer not null, sided integer not null, weapon_type varchar(255) not null, id bigint not null, primary key (id));
+alter table weapon add constraint FK_WEAPON_01 foreign key (id) references item(id);
+
+create table equipment (id bigint not null auto_increment, charactor_id bigint not null, weapon_id bigint, primary key (id));
+alter table equipment add constraint FK_EQUIPMENT_01 foreign key (charactor_id) references charactor(id);
+alter table equipment add constraint FK_EQUIPMENT_02 foreign key (weapon_id) references weapon(id);
+
 create table key_door (door_id bigint not null, key_id bigint not null);
 alter table key_door add constraint FK_KEY_DOOR_01 foreign key (key_id) references keey(id);
 alter table key_door add constraint FK_KEY_DOOR_02 foreign key (door_id) references door(id);
-
 
 create table item_broker (dtype varchar(31) not null,
 	id bigint not null auto_increment,

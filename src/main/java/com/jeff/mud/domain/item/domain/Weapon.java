@@ -1,0 +1,40 @@
+package com.jeff.mud.domain.item.domain;
+
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
+
+import com.jeff.mud.domain.item.constants.Weapons;
+import com.jeff.mud.domain.stat.rule.DiceRule;
+import com.jeff.mud.global.domain.model.Typeable;
+
+import lombok.Getter;
+
+@Entity
+@Table(name = "weapon")
+@DiscriminatorValue("weapon")
+@Getter
+public class Weapon extends Item implements Typeable<Weapons> {
+	@Enumerated(EnumType.STRING)
+	@Column(name = "weapon_type", nullable = false, updatable = false)
+	private Weapons type;
+	
+	@Column(name = "count", nullable = false)
+	private int count;
+	
+	@Column(name = "sided", nullable = false)
+	private int sided;
+	
+	public Weapon(Weapons type, int count, int sided) {
+		this.type = type;
+		this.count = count;
+		this.sided = sided;
+	}
+	
+	public DiceRule getDiceRule() {
+		return new DiceRule(count, sided);
+	}
+}

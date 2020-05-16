@@ -1,6 +1,6 @@
 package com.jeff.mud.domain.stat.constants;
 
-public enum StatConstatns implements Statable {
+public enum Stats implements Statable {
 	STR {
 		@Override
 		public String getName() {

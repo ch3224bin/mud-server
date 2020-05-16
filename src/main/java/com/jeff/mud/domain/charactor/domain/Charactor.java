@@ -24,7 +24,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.jeff.mud.domain.room.domain.Room;
-import com.jeff.mud.domain.stat.constants.StatConstatns;
+import com.jeff.mud.domain.skill.constants.Skills;
+import com.jeff.mud.domain.skill.domain.Skill;
+import com.jeff.mud.domain.stat.constants.Stats;
 import com.jeff.mud.domain.stat.domain.Stat;
 import com.jeff.mud.state.CharactorState;
 
@@ -60,15 +62,25 @@ public abstract class Charactor {
 	@OneToOne(mappedBy = "charactor")
 	private CharactorBag charactorBag;
 	
+	@OneToOne(mappedBy = "charactor")
+	private Equipment equipment;
+	
 	@OneToMany(mappedBy = "charactor", fetch = FetchType.EAGER)
 	@OrderBy("id asc")
 	private List<Stat> stats;
 	
-	@Transient
-	private Map<StatConstatns, Stat> statMap;
+	@OneToMany(mappedBy = "charactor")
+	@OrderBy("id asc")
+	public List<Skill> skills;
 	
 	@OneToOne(mappedBy = "charactor")
 	private Status status;
+	
+	@Transient
+	private Map<Stats, Stat> statMap;
+	
+	@Transient
+	private Map<Skills, Skill> skillMap;
 	
 	public Charactor(String name, CharactorState state, Room room, CharactorBag charactorBag, List<Stat> stats) {
 		this.name = name;
@@ -90,7 +102,7 @@ public abstract class Charactor {
 		this.room = nextRoom;
 	}
 	
-	public Stat getStat(StatConstatns statConstatns) {
+	public Stat getStat(Stats statConstatns) {
 		if (statMap == null) {
 			statMap = new HashMap<>();
 			for (Stat stat : stats) {
@@ -98,5 +110,15 @@ public abstract class Charactor {
 			}
 		}
 		return statMap.get(statConstatns);
+	}
+	
+	public Skill getSkill(Skills skillConstants) {
+		if (skillMap == null) {
+			skillMap = new HashMap<>();
+			for (Skill skill : skills) {
+				skillMap.put(skill.getType(), skill);
+			}
+		}
+		return skillMap.get(skillConstants);
 	}
 }

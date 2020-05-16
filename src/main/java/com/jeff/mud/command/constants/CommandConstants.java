@@ -22,7 +22,7 @@ public enum CommandConstants {
 	put (new String[] {"넣어"}),
 	unlock (new String[] {"열어"}),
 	lock (new String[] {"잠궈"}),
-	attack (new String[] {"때려", "쳐"}),
+	attack (new String[] {"공격"}),
 	noop (new String[] {}) // 아무것도 하지 않는다.
 	;
 	

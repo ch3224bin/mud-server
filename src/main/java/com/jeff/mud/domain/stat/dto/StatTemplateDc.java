@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.jeff.mud.domain.charactor.domain.Charactor;
 import com.jeff.mud.domain.charactor.domain.Status;
+import com.jeff.mud.domain.skill.domain.Skill;
+import com.jeff.mud.domain.skill.dto.SkillDc;
 import com.jeff.mud.domain.stat.domain.Stat;
 import com.jeff.mud.domain.stat.rule.DamegeBunusRule;
 import com.jeff.mud.domain.stat.rule.StatRuleBook;
@@ -18,6 +20,7 @@ import lombok.NoArgsConstructor;
 public class StatTemplateDc {
 	private String name;
 	private List<StatDc> stats = new ArrayList<>();
+	private List<SkillDc> skills = new ArrayList<>();
 	private int idea;
 	private int luck;
 	private int know;
@@ -35,11 +38,15 @@ public class StatTemplateDc {
 		this.know = StatRuleBook.getKnow(charactor);
 		for (Stat stat : charactor.getStats()) {
 			this.stats.add(new StatDc(stat));
-			Status status = charactor.getStatus();
-			this.hp = status.getHp();
-			this.maxHp = status.getMaxHp();
-			this.mp = status.getMp();
-			this.maxMp = status.getMaxMp();
+			
 		}
+		for (Skill skill : charactor.getSkills()) {
+			this.skills.add(new SkillDc(skill));
+		}
+		Status status = charactor.getStatus();
+		this.hp = status.getHp();
+		this.maxHp = status.getMaxHp();
+		this.mp = status.getMp();
+		this.maxMp = status.getMaxMp();
 	}
 }

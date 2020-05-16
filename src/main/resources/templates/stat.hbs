@@ -14,4 +14,8 @@
 		<li><span class="header">지식 : </span>{{know}}</li>
 		<li><span class="header">피해가산점 : </span>{{dammegeBonus}}</li>
 	</ul>
+	<div>기술 목록</div>
+	{{#each skills}}
+		<li><span class="header">{{name}} : </span>{{point}}</li>
+	{{/each}}
 </stat>

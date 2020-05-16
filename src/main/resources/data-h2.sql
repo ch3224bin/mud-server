@@ -32,6 +32,10 @@ insert into stat (charactor_id, type, value) values
 insert into status (charactor_id, hp, mp) values
 (1, 15, 15), (2, 15, 15), (3, 15, 15), (4, 10, 0);
 
+insert into skill (charactor_id, type, point) values
+(1, 'fist', 50),
+(4, 'fist', 50);
+
 insert into charactor_bag (id, charactor_id) values
 (1, 1), (2, 2), (3, 3), (4, 4);
 
@@ -70,6 +74,10 @@ insert into keey (id) values
 
 insert into container (id, door_id) values
 (2, null), (4, 5);
+
+insert into equipment (charactor_id, weapon_id) values
+(1, null),
+(4, null);
 
 insert into key_door (key_id, door_id) values
 (1, 4),

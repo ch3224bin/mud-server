@@ -1,4 +1,4 @@
-package com.jeff.mud.domain.stat.domain;
+package com.jeff.mud.domain.skill.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.jeff.mud.domain.charactor.domain.Charactor;
-import com.jeff.mud.domain.stat.constants.Stats;
+import com.jeff.mud.domain.skill.constants.Skills;
+import com.jeff.mud.domain.stat.rule.Dice;
 import com.jeff.mud.global.domain.model.Typeable;
 
 import lombok.AccessLevel;
@@ -20,10 +21,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "stat")
+@Table(name = "skill")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Stat implements Typeable<Stats> {
+public class Skill implements Typeable<Skills> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -34,12 +35,34 @@ public class Stat implements Typeable<Stats> {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "type", nullable = false, updatable = false)
-	private Stats type;
+	private Skills type;
 	
-	@Column(name = "value", nullable = false)
-	private int value = 0;
+	@Column(name = "point", nullable = false)
+	private int point;
 	
-	public String name() {
-		return this.type.getName();
+	public void increasePoint(int point) {
+		this.point += point;
+		this.point = Math.min(this.point, 99);
 	}
+
+	public Result judgment(Dice dice) {
+		return new Result(dice.getValue() <= this.point, type);
+	}
+	
+	@Getter
+	public static class Result {
+		private boolean isSuccess;
+		private String message;
+		
+		Result (boolean isSuccess, Skills skill) {
+			this.isSuccess = isSuccess;
+			if (this.isSuccess) {
+				this.message = skill.getSuccess();
+			} else {
+				this.message = skill.getFail();
+			}
+		}
+		
+	}
+	
 }

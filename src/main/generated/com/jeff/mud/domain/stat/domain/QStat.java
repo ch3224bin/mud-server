@@ -26,7 +26,7 @@ public class QStat extends EntityPathBase<Stat> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final EnumPath<com.jeff.mud.domain.stat.constants.StatConstatns> type = createEnum("type", com.jeff.mud.domain.stat.constants.StatConstatns.class);
+    public final EnumPath<com.jeff.mud.domain.stat.constants.Stats> type = createEnum("type", com.jeff.mud.domain.stat.constants.Stats.class);
 
     public final NumberPath<Integer> value = createNumber("value", Integer.class);
 

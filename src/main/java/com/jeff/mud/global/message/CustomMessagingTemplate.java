@@ -52,8 +52,19 @@ public class CustomMessagingTemplate {
 	}
 
 	public void sendToRoomWithOutMe(CommandDataCarrier input, Pathable pathable, Object payload) {
-		List<Player> another = playerRepository.findByRoomNotExistsMe(input.getPlayer().getRoom(), input.getPlayer());
+		sendToRoomWithOutMe(input.getPlayer(), pathable, payload);
+	}
+	
+	public void sendToRoomWithOutMe(Player player, Pathable pathable, Object payload) {
+		List<Player> another = playerRepository.findByRoomNotExistsMe(player.getRoom(), player);
 		for (Player p : another) {
+			sendToYou(p.getAccount().getUsername(), pathable, payload);
+		}
+	}
+	
+	public void sendToRoom(Player player, Pathable pathable, Object payload) {
+		List<Player> everyone = playerRepository.findByRoom(player.getRoom());
+		for (Player p : everyone) {
 			sendToYou(p.getAccount().getUsername(), pathable, payload);
 		}
 	}
