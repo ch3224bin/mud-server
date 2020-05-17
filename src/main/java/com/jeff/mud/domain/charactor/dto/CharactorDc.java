@@ -1,5 +1,6 @@
 package com.jeff.mud.domain.charactor.dto;
 
+import com.jeff.mud.combat.CombatManager.CombatZone;
 import com.jeff.mud.command.see.model.Seeable;
 import com.jeff.mud.domain.charactor.domain.Charactor;
 import com.jeff.mud.domain.charactor.domain.NonPlayer;
@@ -18,6 +19,7 @@ public class CharactorDc implements Seeable {
 	private String name;
 	private String flashState;
 	private String temp1;
+	private CombatZone combatZone;
 	private boolean isNpc;
 	private String description;
 	private boolean isAttackable;
@@ -40,6 +42,10 @@ public class CharactorDc implements Seeable {
 
 	public void setTemp1(String temp1) {
 		this.temp1 = temp1;
+	}
+	
+	public void setCombatZone(CombatZone combatZone) {
+		this.combatZone = combatZone;
 	}
 
 	@Override

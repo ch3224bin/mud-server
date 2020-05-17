@@ -1,5 +1,6 @@
 package com.jeff.mud.welcome.listener;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
@@ -9,7 +10,6 @@ import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 import com.jeff.mud.domain.charactor.dao.PlayerRepository;
 import com.jeff.mud.domain.charactor.domain.Player;
 import com.jeff.mud.domain.charactor.event.StatusChangeEvent;
-import com.jeff.mud.global.event.Events;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
 import com.jeff.mud.state.StateStarter;
 import com.jeff.mud.template.Template;
@@ -30,14 +30,17 @@ public class Receptionist {
 	private final CustomMessagingTemplate customMessagingTemplate;
 	private final PlayerRepository playerRepository;
 	private final StateStarter stateStarter;
+	private final ApplicationEventPublisher applicationEventPublisher;
 	
 	public Receptionist(
 			CustomMessagingTemplate customMessagingTemplate,
 			PlayerRepository playerRepository,
-			StateStarter stateStarter) {
+			StateStarter stateStarter,
+			ApplicationEventPublisher applicationEventPublisher) {
 		this.customMessagingTemplate = customMessagingTemplate;
 		this.playerRepository = playerRepository;
 		this.stateStarter = stateStarter;
+		this.applicationEventPublisher = applicationEventPublisher;
 	}
 	
 	@Transactional
@@ -55,7 +58,7 @@ public class Receptionist {
 			stateStarter.start(accessor.getUser().getName(), player);
 		}
 		if ("/user/history/status".equals(destination)) {
-			Events.raise(new StatusChangeEvent(player.getStatus())); // 간략한 상태정보를 출력하기 위해 event trigger
+			applicationEventPublisher.publishEvent(new StatusChangeEvent(player.getStatus())); // 간략한 상태정보를 출력하기 위해 event trigger
 		}
 	}
 }

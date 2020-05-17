@@ -23,7 +23,12 @@ public enum CommandConstants {
 	unlock (new String[] {"열어"}),
 	lock (new String[] {"잠궈"}),
 	attack (new String[] {"공격"}),
-	noop (new String[] {}) // 아무것도 하지 않는다.
+	noop (new String[] {}), // 아무것도 하지 않는다.
+	// 전투 관련
+	// 근접전
+	fist (new String[] {"주먹"}),
+	headbutt (new String[] {"박치기"}),
+	kick (new String[] {"발차기"}),
 	;
 	
 	private Set<String> commands;

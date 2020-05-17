@@ -9,7 +9,7 @@ function connect() {
         });
     	
     	client.subscribe('/user/history/status', function (response) {
-            setStatus(response.body); // JSON.parse(response.body).content
+            setStatus(JSON.parse(response.body).content);
         });
     });
 }
@@ -24,8 +24,8 @@ function showGreeting(message) {
     $('#greetings').scrollTop($('#greetings')[0].scrollHeight);
 }
 
-function setStatus(message) {
-	$('#status').html(message);
+function setStatus(status) {
+	$('#status').text(`HP : ${status.hp}/ ${status.maxHp}`);
 }
 
 $(function () {

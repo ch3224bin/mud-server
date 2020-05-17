@@ -2,6 +2,7 @@ package com.jeff.mud.domain.charactor.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -9,9 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.jeff.mud.domain.charactor.event.StatusChangeEvent;
 import com.jeff.mud.domain.stat.rule.StatRuleBook;
-import com.jeff.mud.global.event.Events;
+import com.jeff.mud.listener.status.AuditingStatusListener;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "status")
+@EntityListeners(AuditingStatusListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Status {
@@ -46,7 +47,6 @@ public class Status {
 	
 	public void increaseHp(int val) {
 		this.hp += val; // TODO RULE에서 처리
-		Events.raise(new StatusChangeEvent(this));
 	}
 	
 	public void decreaseHp(int val) {

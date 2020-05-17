@@ -7,7 +7,6 @@ import org.springframework.transaction.event.TransactionalEventListener;
 import com.jeff.mud.domain.charactor.dto.StatusDc;
 import com.jeff.mud.domain.charactor.event.StatusChangeEvent;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
-import com.jeff.mud.template.Template;
 
 @Component
 public class StatusChangeEventListener {
@@ -23,7 +22,7 @@ public class StatusChangeEventListener {
 	public void statusChanged(StatusChangeEvent event) {
 		StatusDc status = event.getSource();
 		if (!status.getCharactor().isNpc()) {
-			customMessagingTemplate.sendShortStatusToYou(status.getCharactor().getUsername(), Template.shortStatus, status);
+			customMessagingTemplate.sendShortStatusToYou(status.getCharactor().getUsername(), status);
 		}
 	}
 }

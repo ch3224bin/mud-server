@@ -73,4 +73,8 @@ public class CustomMessagingTemplate {
 		String message = getCompileString(pathable, payload);
 		simpMessagingTemplate.convertAndSendToUser(username, STATUS_DESTINATION, message);
 	}
+	
+	public void sendShortStatusToYou(String username, Object payload) {
+		simpMessagingTemplate.convertAndSendToUser(username, STATUS_DESTINATION, payload);
+	}
 }
