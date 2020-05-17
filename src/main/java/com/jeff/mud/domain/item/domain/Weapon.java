@@ -22,16 +22,28 @@ public class Weapon extends Item implements Typeable<Weapons> {
 	@Column(name = "weapon_type", nullable = false, updatable = false)
 	private Weapons type;
 	
+	@Column(name = "name", nullable = false)
+	private String name;
+	
 	@Column(name = "count", nullable = false)
 	private int count;
 	
 	@Column(name = "sided", nullable = false)
 	private int sided;
 	
-	public Weapon(Weapons type, int count, int sided) {
+	@Column(name = "bonus", nullable = false)
+	private int bonus; // 주사위 굴림 외에 + 수치
+	
+	@Column(name = "accuracy", nullable = false)
+	private int accuracy; // 기본 명중률
+	
+	public Weapon(Weapons type, String name, int count, int sided, int bonus, int accuracy) {
 		this.type = type;
+		this.name = name;
 		this.count = count;
 		this.sided = sided;
+		this.bonus = bonus;
+		this.accuracy = accuracy;
 	}
 	
 	public DiceRule getDiceRule() {

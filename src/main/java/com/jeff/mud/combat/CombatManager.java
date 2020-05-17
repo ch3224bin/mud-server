@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.base.Strings;
+import com.jeff.mud.combat.constants.Judgments;
 import com.jeff.mud.command.who.listener.CurrentUserManager;
 import com.jeff.mud.domain.charactor.dao.NonPlayerRepository;
 import com.jeff.mud.domain.charactor.dao.PlayerRepository;
@@ -22,11 +23,11 @@ import com.jeff.mud.domain.charactor.domain.NonPlayer;
 import com.jeff.mud.domain.charactor.domain.Player;
 import com.jeff.mud.domain.charactor.dto.CharactorDc;
 import com.jeff.mud.domain.charactor.service.CharactorService;
-import com.jeff.mud.domain.item.constants.Weapons;
 import com.jeff.mud.domain.item.domain.Weapon;
 import com.jeff.mud.domain.item.service.StatusService;
+import com.jeff.mud.domain.skill.constants.SkillType;
 import com.jeff.mud.domain.skill.constants.Skills;
-import com.jeff.mud.domain.skill.domain.Skill.Result;
+import com.jeff.mud.domain.skill.domain.Skill;
 import com.jeff.mud.domain.stat.constants.Stats;
 import com.jeff.mud.domain.stat.rule.DamegeBunusRule;
 import com.jeff.mud.domain.stat.rule.Dice;
@@ -47,7 +48,6 @@ public class CombatManager {
 	private final PlayerRepository playerRepository;
 	private final NonPlayerRepository nonPlayerRepository;
 	private final CurrentUserManager currentUserManager;
-//	private static final Map<String, CombatZone> combatZones = new ConcurrentHashMap<>();
 	
 	public CombatManager(CustomMessagingTemplate customMessagingTemplate, StatusService statusService,
 			CharactorService charactorService,
@@ -61,23 +61,17 @@ public class CombatManager {
 		this.currentUserManager = currentUserManager;
 	}
 	
-//	public static CombatZone getCombatZone(String uid) {
-//		return combatZones.get(uid);
-//	}
-
 	@Async
 	@Transactional
 	public void startCombat(CharactorDc attacker, CharactorDc defender) {
 		log.info("start combat");
 		
 		// TODO 공격자 수비자 그룹 나누기
-		// TODO DEX 순으로 턴이 돈다.
 		// TODO 공격자는 공격 기술 입력
 		// TODO 추가적인 기술 성공하면 기술 더 입력
-		// TODO 추가 명령어가 이 쓰레드에 투입되어야 한다.
+		// TODO 기술을 사용하면 일정확률로 기술 상승
 		
 		CombatZone combatZone = new CombatZone(attacker, defender);
-//		combatZones.put(combatZone.getUid(), combatZone);
 		CharactorDc sessionPlayer = currentUserManager.getPlayer(combatZone.getFirstman().getAccount().getUsername());
 		sessionPlayer.setCombatZone(combatZone);
 		
@@ -97,37 +91,30 @@ public class CombatManager {
 			
 			for (Charactor c : orderedFighters) {
 				// is My turn?
+				Weapon weapon = c.getEquipment().getWeapon();
 				if (c instanceof Player) {
 					boolean receivedCommand = false;
 
 					Player player = (Player) c;
-					customMessagingTemplate.sendToYou(player.getAccount().getUsername(), Template.defaultMessage, "당신의 공격차례 입니다. 무엇을 할까요?");
+					String username = player.getAccount().getUsername();
+					combatZone.setCurrentTurnPlayer(username);
+					customMessagingTemplate.sendToYou(username, Template.defaultMessage, "당신의 공격차례 입니다. 무엇을 할까요?");
 					customMessagingTemplate.sendToRoomWithOutMe(player, Template.defaultMessage, String.format("%s의 공격차례 입니다.", player.getName()));
 			        
 		        	for (int i = 0; i < 50 && !receivedCommand; i++) {
-		        		//customMessagingTemplate.sendToYou(player.getAccount().getUsername(), Template.defaultMessage, String.format("남은 시간 : %d", (5 - i)));
 		        		receivedCommand = combatZone.hasInputSkill();
 		        		if (!receivedCommand) {
 		        			sleep(50);
 		        		}
 		        	}
 			        
-		        	Weapon weapon = Weapons.fist.createWeapon();
-			        if (!receivedCommand) {
-			        	// 일반 공격
-			        	// 무기에 따라 공격 방법 정해야함.
-			        	// 때리는 상대 고르기
-			        	if (c.getEquipment().getWeapon() != null) {
-			        		
-			        	} else {
-			        		weapon = Weapons.fist.createWeapon();
-			        	}
-			        } else {
+			        if (receivedCommand) {
 			        	InputSkill inputSkill = combatZone.getInputSkill();
 			        	Skills skills = inputSkill.getSkills();
-			        	// TODO 스킬과 웨폰을 믹스 해야함
+			        	if (skills.getType() == SkillType.notWeapon) {
+			        		weapon = skills.defaultWeapon();
+			        	}
 			        	combatZone.clearInputSkill();
-			        	weapon = Weapons.fist.createWeapon();
 			        }
 			        
 		        	NonPlayer npc = npcs.iterator().next();
@@ -145,8 +132,9 @@ public class CombatManager {
 		        	sleep(1000);
 				} else {
 					// NPC 공격
+					combatZone.setCurrentTurnPlayer(c.getName());
 					Player player = players.values().iterator().next();
-					attack(firstman, c, player, Weapons.fist.createWeapon());
+					attack(firstman, c, player, weapon);
 					
 					if (player.getStatus().getHp() < 1) {
 						// 전투종료
@@ -170,45 +158,46 @@ public class CombatManager {
 			}
 		}
 		
-//		combatZones.remove(combatZone.getUid());
 		sessionPlayer.setCombatZone(null);
 		log.info("finish combat");
 	}
 	
 	private void attack(Player player, Charactor attacker, Charactor defender, Weapon weapon) {
-    	Result judgment = attacker.getSkill(Skills.fist).judgment(new Dice(1, 100));
+    	Skill playerSkill = attacker.getSkill(weapon.getType().weaponSkill());
+    	Judgment judgment = new Judgment(playerSkill, weapon);
+    	String message = weapon.getType().getMessage(judgment.judgments);
     	
     	int demage = 0;
-    	if (judgment.isSuccess()) {
+    	if (judgment.judgments == Judgments.success || judgment.judgments == Judgments.critical) {
     		Dice attackRoll = new Dice(weapon.getDiceRule());
         	Dice dbRoll = DamegeBunusRule.getDamegeBonusDice(attacker);
         	
-        	demage = attackRoll.getValue() + dbRoll.getValue();
+        	demage = attackRoll.getValue() + weapon.getBonus() + dbRoll.getValue();
         	
         	if (attacker instanceof Player) {
         		customMessagingTemplate.sendToYou(((Player)attacker).getAccount().getUsername(),
         				Template.defaultMessage,
-        				String.format("당신은 %s%s %d의 피해", defender.getName(), judgment.getMessage(), demage));
+        				String.format("당신은 %s%s %d의 피해", defender.getName(), message, demage));
         		customMessagingTemplate.sendToRoomWithOutMe(player,
         				Template.defaultMessage,
-        				String.format("%s은(는) %s%s %d의 피해", attacker.getName(), defender.getName(), judgment.getMessage(), demage));
+        				String.format("%s은(는) %s%s %d의 피해", attacker.getName(), defender.getName(), message, demage));
         	} else {
         		customMessagingTemplate.sendToRoom(player,
         				Template.defaultMessage,
-        				String.format("%s은(는) %s%s %d의 피해", attacker.getName(), defender.getName(), judgment.getMessage(), demage));
+        				String.format("%s은(는) %s%s %d의 피해", attacker.getName(), defender.getName(), message, demage));
         	}
     	} else {
     		if (attacker instanceof Player) {
 	    		customMessagingTemplate.sendToYou(((Player)attacker).getAccount().getUsername(),
 	        			Template.defaultMessage,
-	        			String.format("당신의 %s", judgment.getMessage()));
+	        			String.format("당신의 %s", message));
 	    		customMessagingTemplate.sendToRoomWithOutMe(player,
 	    				Template.defaultMessage,
-	    				String.format("%s의 %s", attacker.getName(), judgment.getMessage()));
+	    				String.format("%s의 %s", attacker.getName(), message));
     		} else {
     			customMessagingTemplate.sendToRoom(player,
         				Template.defaultMessage,
-        				String.format("%s의 %s", attacker.getName(), judgment.getMessage()));
+        				String.format("%s의 %s", attacker.getName(), message));
     		}
     	}
     	
@@ -233,7 +222,7 @@ public class CombatManager {
 		final Set<NonPlayer> npcs = new HashSet<>();
 		Player firstman;
 		List<Charactor> orderedFighters;
-		
+		String currentTurnPlayer;
 		InputSkill inputSkill;
 		
 		CombatZone(CharactorDc attacker, CharactorDc defender) {
@@ -292,6 +281,14 @@ public class CombatManager {
 		public boolean hasInputSkill() {
 			return this.inputSkill != null;
 		}
+		
+		public boolean isMyTurn(String username) {
+			return username.equals(currentTurnPlayer);
+		}
+		
+		public void setCurrentTurnPlayer(String currentTurnPlayer) {
+			this.currentTurnPlayer = currentTurnPlayer;
+		}
 	}
 	
 	@Getter
@@ -308,6 +305,32 @@ public class CombatManager {
 			return Strings.isNullOrEmpty(target);
 		}
 		
+	}
+	
+	class Judgment {
+		int point;
+		Dice dice;
+		Judgments judgments;
+		
+		Judgment (Skill playerSkill, Weapon weapon) {
+			point = weapon.getAccuracy();
+			dice = new Dice(1, weapon.getAccuracy());
+	    	if (playerSkill != null) {
+	    		point = playerSkill.getPoint();
+	    		dice = new Dice(1, playerSkill.getPoint());
+	    	}
+	    	int value = dice.getValue();
+			if (value == 1) {
+	    		judgments = Judgments.critical;
+	    	} else if (value <= point) {
+	    		judgments = Judgments.success;
+	    	} else if ((point < 50 && value >= 96 && value <= 100) ||
+	    			value == 100) {
+	    		judgments = Judgments.fumble;
+	    	} else {
+	    		judgments = Judgments.fail;
+	    	}
+		}
 	}
 
 }

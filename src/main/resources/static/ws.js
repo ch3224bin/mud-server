@@ -9,7 +9,7 @@ function connect() {
         });
     	
     	client.subscribe('/user/history/status', function (response) {
-            setStatus(JSON.parse(response.body).content);
+            setStatus(JSON.parse(response.body));
         });
     });
 }

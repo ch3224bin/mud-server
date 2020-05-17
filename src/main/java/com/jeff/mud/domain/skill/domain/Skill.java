@@ -13,7 +13,6 @@ import javax.persistence.Table;
 
 import com.jeff.mud.domain.charactor.domain.Charactor;
 import com.jeff.mud.domain.skill.constants.Skills;
-import com.jeff.mud.domain.stat.rule.Dice;
 import com.jeff.mud.global.domain.model.Typeable;
 
 import lombok.AccessLevel;
@@ -44,25 +43,4 @@ public class Skill implements Typeable<Skills> {
 		this.point += point;
 		this.point = Math.min(this.point, 99);
 	}
-
-	public Result judgment(Dice dice) {
-		return new Result(dice.getValue() <= this.point, type);
-	}
-	
-	@Getter
-	public static class Result {
-		private boolean isSuccess;
-		private String message;
-		
-		Result (boolean isSuccess, Skills skill) {
-			this.isSuccess = isSuccess;
-			if (this.isSuccess) {
-				this.message = skill.getSuccess();
-			} else {
-				this.message = skill.getFail();
-			}
-		}
-		
-	}
-	
 }

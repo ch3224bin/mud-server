@@ -24,7 +24,7 @@ alter table stat add constraint FK_STAT_01 foreign key (charactor_id) references
 create table status (id bigint not null auto_increment, hp integer, mp integer, charactor_id bigint not null, primary key (id));
 alter table status add constraint FK_STATUS_01 foreign key (charactor_id) references charactor(id);
 
-create table skill (id bigint not null auto_increment, point integer not null, type varchar(255) not null, charactor_id bigint not null, primary key (id));
+create table skill (id bigint not null auto_increment, point int(3) not null, type varchar(255) not null, charactor_id bigint not null, primary key (id));
 alter table skill add constraint FK_SKILL_01 foreign key (charactor_id) references charactor(id);
 
 create table charactor_bag (id bigint not null auto_increment, charactor_id bigint not null, primary key (id));
@@ -59,7 +59,7 @@ create table container (id bigint not null, door_id bigint, primary key (id));
 alter table container add constraint FK_CONTAINER_01 foreign key (id) references item(id);
 alter table container add constraint FK_CONTAINER_02 foreign key (door_id) references door(id);
 
-create table weapon (count integer not null, sided integer not null, weapon_type varchar(255) not null, id bigint not null, primary key (id));
+create table weapon (count int(3) not null, name varchar(255) not null, sided int(3) not null, bonus int(2) not null, accuracy int(3) not null, weapon_type varchar(255) not null, id bigint not null, primary key (id));
 alter table weapon add constraint FK_WEAPON_01 foreign key (id) references item(id);
 
 create table equipment (id bigint not null auto_increment, charactor_id bigint not null, weapon_id bigint, primary key (id));

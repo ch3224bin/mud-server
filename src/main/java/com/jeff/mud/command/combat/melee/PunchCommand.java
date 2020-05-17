@@ -9,15 +9,18 @@ import com.jeff.mud.command.CommandDataCarrier;
 import com.jeff.mud.command.constants.CommandConstants;
 import com.jeff.mud.command.who.listener.CurrentUserManager;
 import com.jeff.mud.domain.skill.constants.Skills;
+import com.jeff.mud.global.message.CustomMessagingTemplate;
 import com.jeff.mud.state.CharactorState;
 
 @Component
-public class FistCommand extends CombatCommand {
+public class PunchCommand extends WeaponCombatCommand {
 	
 	private final CurrentUserManager currentUserManager;
+	private final CustomMessagingTemplate customMessagingTemplate;
 	
-	public FistCommand(CurrentUserManager currentUserManager) {
+	public PunchCommand(CurrentUserManager currentUserManager, CustomMessagingTemplate customMessagingTemplate) {
 		this.currentUserManager = currentUserManager;
+		this.customMessagingTemplate = customMessagingTemplate;
 	}
 
 	@Override
@@ -27,11 +30,11 @@ public class FistCommand extends CombatCommand {
 
 	@Override
 	protected CommandConstants commandConstants() {
-		return CommandConstants.fist;
+		return CommandConstants.punch;
 	}
 	
 	protected Skills getSkills() {
-		return Skills.fist;
+		return Skills.punch;
 	}
 
 	@Override
@@ -42,6 +45,11 @@ public class FistCommand extends CombatCommand {
 	@Override
 	protected CurrentUserManager getCurrentUserManager() {
 		return currentUserManager;
+	}
+
+	@Override
+	protected CustomMessagingTemplate getMessagingTemplate() {
+		return customMessagingTemplate;
 	}
 
 }
