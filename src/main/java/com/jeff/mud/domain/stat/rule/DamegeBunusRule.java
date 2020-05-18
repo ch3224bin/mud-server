@@ -18,18 +18,19 @@ public class DamegeBunusRule {
 	
 	public static Dice getDamegeBonusDice(Stat str, Stat siz) {
 		int sum = str.getValue() + siz.getValue();
-		if (sum <= 12) {
-			return new Dice(1, 6, true);
-		} else if (sum <= 16) {
-			return new Dice(1, 4, true);
-		} else if (sum <= 24) {
-			return new Dice(0, 0);
-		} else if (sum <= 32) {
+		if (sum <= 64) {
+			return new Dice(-2);
+		} else if (sum <= 84) {
+			return new Dice(-1);
+		} else if (sum <= 124) {
+			return new Dice(0);
+		} else if (sum <= 164) {
 			return new Dice(1, 4);
+		} else if (sum <= 204) {
+			return new Dice(1, 6);
 		} else {
-			int m = (int) Math.ceil((sum - 16) / 16);
+			int m = (int) Math.ceil((sum - 204) / 80);
 			return  new Dice(m, 6);
-			
 		}
 	}
 }

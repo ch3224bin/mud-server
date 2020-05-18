@@ -16,7 +16,7 @@ public enum Weapons implements WeaponDefinition {
 
 		@Override
 		public Skills weaponSkill() {
-			return Skills.punch;
+			return Skills.fight_brawl;
 		}
 
 		@Override

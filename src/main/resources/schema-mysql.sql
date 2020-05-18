@@ -21,7 +21,8 @@ create table stat (id bigint not null auto_increment, type varchar(255) not null
 	value integer not null, charactor_id bigint not null, primary key (id));
 alter table stat add constraint FK_STAT_01 foreign key (charactor_id) references charactor(id);
 
-create table status (id bigint not null auto_increment, hp integer, mp integer, charactor_id bigint not null, primary key (id));
+create table status (id bigint not null auto_increment, hp integer, mp integer, charactor_id bigint not null,
+	move_rate int(3), luck int(3) default 15, primary key (id));
 alter table status add constraint FK_STATUS_01 foreign key (charactor_id) references charactor(id);
 
 create table skill (id bigint not null auto_increment, point int(3) not null, type varchar(255) not null, charactor_id bigint not null, primary key (id));

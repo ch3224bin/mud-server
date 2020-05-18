@@ -21,9 +21,11 @@ public class StatTemplateDc {
 	private String name;
 	private List<StatDc> stats = new ArrayList<>();
 	private List<SkillDc> skills = new ArrayList<>();
-	private int idea;
+	private int build;
+	private int dodge;
 	private int luck;
-	private int know;
+	private int moveRate;
+	private int maxMoveRate;
 	private int hp;
 	private int maxHp;
 	private int mp;
@@ -33,9 +35,8 @@ public class StatTemplateDc {
 	public StatTemplateDc(Charactor charactor) {
 		this.name = charactor.getName();
 		this.dammegeBonus = DamegeBunusRule.getDbString(charactor);
-		this.idea = StatRuleBook.getIdea(charactor);
-		this.luck = StatRuleBook.getLuck(charactor);
-		this.know = StatRuleBook.getKnow(charactor);
+		this.build = StatRuleBook.getBuild(charactor);
+		this.dodge = StatRuleBook.getDodge(charactor);
 		for (Stat stat : charactor.getStats()) {
 			this.stats.add(new StatDc(stat));
 			
@@ -48,5 +49,8 @@ public class StatTemplateDc {
 		this.maxHp = status.getMaxHp();
 		this.mp = status.getMp();
 		this.maxMp = status.getMaxMp();
+		this.moveRate = status.getMoveRate();
+		this.maxMoveRate = status.getMaxMoveRate();
+		this.luck = charactor.getStatus().getLuck();
 	}
 }

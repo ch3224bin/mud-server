@@ -37,12 +37,22 @@ public class Status {
 	@Column(name = "mp")
 	private int mp;
 	
+	@Column(name = "moveRate")
+	private int moveRate;
+	
+	@Column(name = "luck", columnDefinition = "int(3) default 15")
+	private int luck;
+	
 	public int getMaxHp() {
 		return StatRuleBook.getMaxHp(charactor);
 	}
 	
 	public int getMaxMp() {
 		return StatRuleBook.getMaxMp(charactor);
+	}
+	
+	public int getMaxMoveRate() {
+		return StatRuleBook.getMaxMoveRate(charactor);
 	}
 	
 	public void increaseHp(int val) {

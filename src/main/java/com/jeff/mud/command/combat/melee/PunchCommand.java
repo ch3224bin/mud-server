@@ -34,7 +34,7 @@ public class PunchCommand extends WeaponCombatCommand {
 	}
 	
 	protected Skills getSkills() {
-		return Skills.punch;
+		return Skills.fight_brawl;
 	}
 
 	@Override

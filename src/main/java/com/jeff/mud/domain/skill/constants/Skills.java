@@ -4,10 +4,12 @@ import com.jeff.mud.domain.item.constants.Weapons;
 import com.jeff.mud.domain.item.domain.Weapon;
 
 public enum Skills implements Skillable {
-	punch {
+	// TODO 파생 기술이 있어야한다..
+	// 근접전(격투)에는 주먹, 발차기, 밀치기, 붙잡기 등..
+	fight_brawl {
 		@Override
 		public String getName() {
-			return "주먹";
+			return "근접전(격투)";
 		}
 
 		@Override

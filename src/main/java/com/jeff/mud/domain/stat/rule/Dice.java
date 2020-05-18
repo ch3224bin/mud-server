@@ -28,6 +28,10 @@ public class Dice {
 		this(diceRule.getCount(), diceRule.getSided());
 	}
 	
+	public Dice(int value) {
+		this.value = value;
+	}
+	
 	public Dice(int count, int sided, boolean isMinus) {
 		this(count, sided);
 		this.isMinus = isMinus;
@@ -35,7 +39,7 @@ public class Dice {
 	
 	public String toString() {
 		if (count == 0 || sided == 0) {
-			return "";
+			return String.valueOf(value);
 		}
 		return String.format("%s%dd%d", isMinus ? "-" : "", count, sided);
 	}
