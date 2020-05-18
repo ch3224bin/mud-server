@@ -1,0 +1,82 @@
+.scrollBox {
+	height: 600px;
+	overflow: auto;
+	background-color: black;
+	color: silver;
+	padding: 10px;
+}
+
+.scrollBox room .summary {
+	color: lightsteelblue;
+	font-weight: bold;
+}
+
+.scrollBox room .exit {
+	color: teal;
+	font-weight: bold;
+}
+
+.scrollBox room .exit span.locked {
+	color: olivedrab;
+}
+
+.scrollBox room ul.players {
+	list-style: none;
+}
+
+.scrollBox room ul.players span.player {
+	color: aqua;
+}
+
+.scrollBox room ul.items {
+	list-style: none;
+}
+
+.scrollBox room ul.items li:before {
+	content: "*";
+	display: inline-block;
+	width: 1em;
+	color: goldenrod;
+}
+
+.scrollBox room ul.items span.locked {
+	color: olivedrab;
+}
+
+.scrollBox p.combat span.friendly {
+	color: aqua;
+}
+
+.scrollBox p.combat span.enemy {
+	color: darkkhaki;
+}
+
+.scrollBox p.combat span.damege {
+	color: lightgreen;
+}
+
+.scrollBox p.combat span.criticalDamege {
+	color: fuchsia;
+}
+
+.scrollBox span.item.common {
+	color: white;
+}
+
+.scrollBox span.item.uncommon {
+	color: green;
+}
+
+.scrollBox span.item.rare {
+	color: yellow;
+}
+
+.scrollBox span.item.epic {
+	color: darkorchid;
+	font-weight: bold;
+}
+
+.scrollBox span.item.legendary {
+	color: darkorange;
+	font-weight: bold;
+}

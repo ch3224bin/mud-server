@@ -1,5 +1,6 @@
 package com.jeff.mud.combat;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -33,6 +34,7 @@ import com.jeff.mud.domain.stat.rule.DamegeBunusRule;
 import com.jeff.mud.domain.stat.rule.Dice;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
 import com.jeff.mud.state.CharactorState;
+import com.jeff.mud.template.CombatTempleteDc;
 import com.jeff.mud.template.Template;
 
 import lombok.Getter;
@@ -43,6 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CombatManager {
 	
 	private final CustomMessagingTemplate customMessagingTemplate;
+	private final CombatMessageHandler combatMessageHandler;
 	private final StatusService statusService;
 	private final CharactorService charactorService;
 	private final PlayerRepository playerRepository;
@@ -50,10 +53,11 @@ public class CombatManager {
 	private final CurrentUserManager currentUserManager;
 	
 	public CombatManager(CustomMessagingTemplate customMessagingTemplate, StatusService statusService,
-			CharactorService charactorService,
+			CombatMessageHandler combatMessageHandler, CharactorService charactorService,
 			PlayerRepository playerRepository, NonPlayerRepository nonPlayerRepository,
 			CurrentUserManager currentUserManager) {
 		this.customMessagingTemplate = customMessagingTemplate;
+		this.combatMessageHandler = combatMessageHandler;
 		this.statusService = statusService;
 		this.charactorService = charactorService;
 		this.playerRepository = playerRepository;
@@ -76,11 +80,12 @@ public class CombatManager {
 		sessionPlayer.setCombatZone(combatZone);
 		
 		Player firstman = combatZone.getFirstman();
-		Map<String, Player> players = combatZone.getPlayers();
-		Set<NonPlayer> npcs = combatZone.getNpcs();
 		List<Charactor> orderedFighters = combatZone.getOrderedFighters();
 		
-		customMessagingTemplate.sendToYou(attacker.getUsername(), Template.defaultMessage, String.format("당신은 %s을(를) 공격했습니다. 전투가 시작됩니다.", defender.getName()));
+		CombatTempleteDc combatStartTempleteDc = new CombatTempleteDc(attacker.getName(), defender.getName());
+		customMessagingTemplate.sendToYou(attacker.getUsername(), Template.combatStartSendMe, combatStartTempleteDc);
+		customMessagingTemplate.sendToRoomWithOutMe(firstman, Template.combatStartSendRoom, combatStartTempleteDc);
+		
 		for (Charactor c : orderedFighters) {
 			c.changeState(CharactorState.combat);
 			charactorService.save(c); // db에 flush 하기 위해
@@ -91,57 +96,23 @@ public class CombatManager {
 			
 			for (Charactor c : orderedFighters) {
 				// is My turn?
-				Weapon weapon = c.getEquipment().getWeapon();
 				if (c instanceof Player) {
-					boolean receivedCommand = false;
-
-					Player player = (Player) c;
-					String username = player.getAccount().getUsername();
-					combatZone.setCurrentTurnPlayer(username);
-					customMessagingTemplate.sendToYou(username, Template.defaultMessage, "당신의 공격차례 입니다. 무엇을 할까요?");
-					customMessagingTemplate.sendToRoomWithOutMe(player, Template.defaultMessage, String.format("%s의 공격차례 입니다.", player.getName()));
-			        
-		        	for (int i = 0; i < 50 && !receivedCommand; i++) {
-		        		receivedCommand = combatZone.hasInputSkill();
-		        		if (!receivedCommand) {
-		        			sleep(50);
-		        		}
-		        	}
-			        
-			        if (receivedCommand) {
-			        	InputSkill inputSkill = combatZone.getInputSkill();
-			        	Skills skills = inputSkill.getSkills();
-			        	if (skills.getType() == SkillType.notWeapon) {
-			        		weapon = skills.defaultWeapon();
-			        	}
-			        	combatZone.clearInputSkill();
-			        }
-			        
-		        	NonPlayer npc = npcs.iterator().next();
-		        	attack(firstman, player, npc, weapon);
+					turnPlayer(combatZone, c);
 		        	
-		        	if (npc.getStatus().getHp() < 1) {
-		        		// 전투종료
-		        		customMessagingTemplate.sendToRoom(firstman,
-								Template.defaultMessage, String.format("%s가 쓰러졌습니다.", npc.getName()));
-		        		customMessagingTemplate.sendToRoom(firstman,
-			        			Template.defaultMessage, "전투가 끝났습니다.");
+		        	// 전투종료
+		        	if (combatZone.isNpcsAllDown()) {
+		        		customMessagingTemplate.sendToRoom(firstman, Template.defaultMessage, "전투가 끝났습니다.");
 		        		isFinish = true;
 		        		break;
 		        	}
 		        	sleep(1000);
 				} else {
 					// NPC 공격
-					combatZone.setCurrentTurnPlayer(c.getName());
-					Player player = players.values().iterator().next();
-					attack(firstman, c, player, weapon);
+					turnNonPlayer(combatZone, c);
 					
-					if (player.getStatus().getHp() < 1) {
-						// 전투종료
-						customMessagingTemplate.sendToRoom(firstman,
-								Template.defaultMessage, String.format("%s가 쓰러졌습니다.", player.getName()));
-		        		customMessagingTemplate.sendToRoom(firstman,
-			        			Template.defaultMessage, "전투가 끝났습니다.");
+					// 전투종료, 플레이어가 졌을때
+					if (combatZone.isPlayersAllDown()) {
+						customMessagingTemplate.sendToRoom(firstman, Template.defaultMessage, "전투가 끝났습니다.");
 		        		isFinish = true;
 		        		break;
 		        	}
@@ -161,6 +132,54 @@ public class CombatManager {
 		sessionPlayer.setCombatZone(null);
 		log.info("finish combat");
 	}
+
+	private void turnNonPlayer(CombatZone combatZone, Charactor charactor) {
+		combatZone.setCurrentTurnPlayer(charactor.getName());
+		Player player = combatZone.getPlayers().values().iterator().next();
+		Weapon weapon = charactor.getEquipment().getWeapon();
+		attack(combatZone.getFirstman(), charactor, player, weapon);
+		
+		if (player.getStatus().getHp() < 1) {
+			CombatTempleteDc combatTempleteDc = new CombatTempleteDc(charactor.getName(), player.getName());
+			customMessagingTemplate.sendToYou(player.getAccount().getUsername(), Template.defaultMessage, "당신은 쓰러졌습니다.");
+			customMessagingTemplate.sendToRoomWithOutMe(player, Template.combatEnemyDownSendAll, combatTempleteDc);
+		}
+	}
+
+	private void turnPlayer(CombatZone combatZone, Charactor charactor) {
+		boolean receivedCommand = false;
+
+		Player player = (Player) charactor;
+		NonPlayer npc = combatZone.getNpcs().iterator().next();
+		String username = player.getAccount().getUsername();
+		combatZone.setCurrentTurnPlayer(username);
+		CombatTempleteDc combatTempleteDc = new CombatTempleteDc(player.getName(), npc.getName());
+		customMessagingTemplate.sendToYou(username, Template.defaultMessage, "당신의 차례 입니다. 무엇을 할까요?");
+		customMessagingTemplate.sendToRoomWithOutMe(player, Template.combatTurnSendRoom, combatTempleteDc);
+		
+		for (int i = 0; i < 50 && !receivedCommand; i++) {
+			receivedCommand = combatZone.hasInputSkill();
+			if (!receivedCommand) {
+				sleep(50);
+			}
+		}
+		
+		Weapon weapon = charactor.getEquipment().getWeapon();
+		if (receivedCommand) {
+			InputSkill inputSkill = combatZone.getInputSkill();
+			Skills skills = inputSkill.getSkills();
+			if (skills.getType() == SkillType.notWeapon) {
+				weapon = skills.defaultWeapon();
+			}
+			combatZone.clearInputSkill();
+		}
+		
+		attack(combatZone.getFirstman(), player, npc, weapon);
+		
+		if (npc.getStatus().getHp() < 1) {
+			customMessagingTemplate.sendToRoom(combatZone.getFirstman(), Template.combatEnemyDownSendAll, combatTempleteDc);
+		}
+	}
 	
 	private void attack(Player player, Charactor attacker, Charactor defender, Weapon weapon) {
     	Skill playerSkill = attacker.getSkill(weapon.getType().weaponSkill());
@@ -173,33 +192,8 @@ public class CombatManager {
         	Dice dbRoll = DamegeBunusRule.getDamegeBonusDice(attacker);
         	
         	demage = attackRoll.getValue() + weapon.getBonus() + dbRoll.getValue();
-        	
-        	if (attacker instanceof Player) {
-        		customMessagingTemplate.sendToYou(((Player)attacker).getAccount().getUsername(),
-        				Template.defaultMessage,
-        				String.format("당신은 %s%s %d의 피해", defender.getName(), message, demage));
-        		customMessagingTemplate.sendToRoomWithOutMe(player,
-        				Template.defaultMessage,
-        				String.format("%s은(는) %s%s %d의 피해", attacker.getName(), defender.getName(), message, demage));
-        	} else {
-        		customMessagingTemplate.sendToRoom(player,
-        				Template.defaultMessage,
-        				String.format("%s은(는) %s%s %d의 피해", attacker.getName(), defender.getName(), message, demage));
-        	}
-    	} else {
-    		if (attacker instanceof Player) {
-	    		customMessagingTemplate.sendToYou(((Player)attacker).getAccount().getUsername(),
-	        			Template.defaultMessage,
-	        			String.format("당신의 %s", message));
-	    		customMessagingTemplate.sendToRoomWithOutMe(player,
-	    				Template.defaultMessage,
-	    				String.format("%s의 %s", attacker.getName(), message));
-    		} else {
-    			customMessagingTemplate.sendToRoom(player,
-        				Template.defaultMessage,
-        				String.format("%s의 %s", attacker.getName(), message));
-    		}
     	}
+    	combatMessageHandler.sendCombatMessage(judgment.judgments, attacker, defender, message, demage);
     	
     	defender.getStatus().decreaseHp(demage);
     	statusService.save(defender.getStatus());
@@ -236,6 +230,23 @@ public class CombatManager {
 				npcs.add(nonPlayerRepository.findByName(defender.getName()).get());
 			}
 			orderedFighters = getOrderedFigthers(players, npcs);
+		}
+		
+		boolean isPlayersAllDown() {
+			return isCharactorsAllDown(players.values());
+		}
+		
+		boolean isNpcsAllDown() {
+			return isCharactorsAllDown(npcs);
+		}
+		
+		private boolean isCharactorsAllDown(Collection<? extends Charactor> charactors) {
+			for (Charactor c : charactors) {
+				if (c.getStatus().getHp() > 0) {
+					return false;
+				}
+			}
+			return true;
 		}
 		
 		/**

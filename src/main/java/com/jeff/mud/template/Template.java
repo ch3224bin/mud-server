@@ -28,6 +28,19 @@ public enum Template implements Pathable {
 	moveInSendRoom ("command/move_in_send_room"),
 	saySendMe ("command/say_send_me"),
 	saySendRoom ("command/say_send_room"),
+	// 전투 관련
+	combatStartSendMe ("combat/combat_start_send_me"),
+	combatStartSendRoom ("combat/combat_start_send_room"),
+	combatTurnSendRoom ("combat/combat_turn_send_room"),
+	combatEnemyDownSendAll ("combat/combat_enemy_down_send_all"),
+	combatPlayerAttackSuccessSendMe ("combat/combat_player_attack_success_send_me"),
+	combatPlayerAttackFailSendMe ("combat/combat_player_attack_fail_send_me"),
+	combatNpcAttackSuccessSendMe ("combat/combat_npc_attack_success_send_me"),
+	combatNpcAttackFailSendMe ("combat/combat_npc_attack_fail_send_me"),
+	combatPlayerAttackSuccessSendRoom ("combat/combat_player_attack_success_send_room"),
+	combatPlayerAttackFailSendRoom ("combat/combat_player_attack_fail_send_room"),
+	combatNpcAttackSuccessSendRoom ("combat/combat_npc_attack_success_send_room"),
+	combatNpcAttackFailSendRoom ("combat/combat_npc_attack_fail_send_room"),
 	;
 	
 	private String path;

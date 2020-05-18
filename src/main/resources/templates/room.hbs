@@ -1,5 +1,5 @@
-<div class="room">
-	<div class="summary">{{summary}}</div>
+<room>
+	<div class="summary">-= {{summary}} =-</div>
 	<div class="description">{{{description}}}</div>
 	<div class="exit">출구 : [{{exitString}}]</div>
 	<ul class="players">
@@ -9,7 +9,7 @@
 	</ul>
 	<ul class="items">
 {{#each items}}
-	<li><span class="item">{{name}}</span>{{#if isLocked}}(잠김){{/if}}이(가) 놓여있습니다.</li>
+	<li><span class="item">{{name}}</span>{{#if isLocked}}<span class="locked">(잠김)</span>{{/if}}이(가) 놓여있습니다.</li>
 {{/each}}
 	</ul>
-</div>
+</room>

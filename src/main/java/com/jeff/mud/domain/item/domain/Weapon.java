@@ -7,10 +7,12 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
+import com.jeff.mud.domain.item.constants.ItemGrade;
 import com.jeff.mud.domain.item.constants.Weapons;
 import com.jeff.mud.domain.stat.rule.DiceRule;
 import com.jeff.mud.global.domain.model.Typeable;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
@@ -21,9 +23,6 @@ public class Weapon extends Item implements Typeable<Weapons> {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "weapon_type", nullable = false, updatable = false)
 	private Weapons type;
-	
-	@Column(name = "name", nullable = false)
-	private String name;
 	
 	@Column(name = "count", nullable = false)
 	private int count;
@@ -37,9 +36,10 @@ public class Weapon extends Item implements Typeable<Weapons> {
 	@Column(name = "accuracy", nullable = false)
 	private int accuracy; // 기본 명중률
 	
-	public Weapon(Weapons type, String name, int count, int sided, int bonus, int accuracy) {
+	@Builder
+	public Weapon(Weapons type, String name, int count, int sided, int bonus, int accuracy, ItemGrade grade, String description, boolean isGetable) {
+		super(name, description, isGetable, grade);
 		this.type = type;
-		this.name = name;
 		this.count = count;
 		this.sided = sided;
 		this.bonus = bonus;

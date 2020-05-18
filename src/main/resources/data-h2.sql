@@ -62,12 +62,12 @@ insert into wayout (room_id, door_id, direction, next_room_id) values
 (1, 4, '북', 5),
 (5, 4, '남', 1);
 
-insert into item (dtype, id, name, description, is_getable) values
-('key', 1, '북쪽 열쇠', '북쪽문을 열 수 있는 열쇠이다.', true),
-('container', 2, '서랍', '하얀 플라스틱으로 만들어진 1단 서랍이다.', false),
-('key', 3, '남쪽 열쇠', '남쪽문을 열 수 있는 열쇠이다.', true),
-('container', 4, '낡은 금고', '페인트가 벗겨지고 녹이슨 철제 금고이다.', false),
-('key', 5, '금고 열쇠', '낡은 금고 열쇠이다.', true);
+insert into item (dtype, id, name, description, is_getable, grade) values
+('key', 1, '북쪽 열쇠', '북쪽문을 열 수 있는 열쇠이다.', true, 'common'),
+('container', 2, '서랍', '하얀 플라스틱으로 만들어진 1단 서랍이다.', false, 'common'),
+('key', 3, '남쪽 열쇠', '남쪽문을 열 수 있는 열쇠이다.', true, 'common'),
+('container', 4, '낡은 금고', '페인트가 벗겨지고 녹이슨 철제 금고이다.', false, 'common'),
+('key', 5, '금고 열쇠', '낡은 금고 열쇠이다.', true, 'common');
 
 insert into keey (id) values
 (1), (3), (5);

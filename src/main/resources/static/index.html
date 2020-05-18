@@ -2,16 +2,13 @@
 <html>
 <head>
     <title>Mud</title>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/sockjs.min.js"></script>
-    <script src="/js/stomp.min.js"></script>
-    <script src="/ws.js"></script>
+    <link rel="stylesheet" type="text/css" href="/base.css">
 </head>
 <body>
 <div id="main-content" class="container">
     <div class="row">
         <div class="col-md-12">
-        	<div id="greetings" style="height: 600px; overflow: auto;"></div>
+        	<div id="greetings" class="scrollBox"></div>
         </div>
     </div>
     <div class="row">
@@ -27,4 +24,8 @@
     </div>
 </div>
 </body>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/sockjs.min.js"></script>
+<script src="/js/stomp.min.js"></script>
+<script src="/ws.js"></script>
 </html>
