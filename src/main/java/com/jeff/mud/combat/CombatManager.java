@@ -6,7 +6,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jeff.mud.combat.CombatZoneFactory.CombatZone;
+import com.jeff.mud.combat.model.CombatZone;
+import com.jeff.mud.combat.model.InputSkill;
+import com.jeff.mud.combat.model.Judgment;
 import com.jeff.mud.command.who.listener.CurrentUserManager;
 import com.jeff.mud.domain.charactor.domain.Charactor;
 import com.jeff.mud.domain.charactor.domain.NonPlayer;
@@ -30,7 +32,6 @@ public class CombatManager {
 	private final CombatMessageHandler combatMessageHandler;
 	private final StatusService statusService;
 	private final CharactorService charactorService;
-	private final CurrentUserManager currentUserManager;
 	private final CombatZoneFactory combatZoneFactory;
 	
 	public CombatManager(CustomMessagingTemplate customMessagingTemplate, StatusService statusService,
@@ -42,22 +43,19 @@ public class CombatManager {
 		this.statusService = statusService;
 		this.charactorService = charactorService;
 		this.combatZoneFactory = combatZoneFactory;
-		this.currentUserManager = currentUserManager;
 	}
 	
 	@Async
 	@Transactional
 	public void startCombat(CharactorDc attacker, CharactorDc defender) {
 		CombatZone combatZone = combatZoneFactory.createCombatZone(attacker, defender);
-		CharactorDc sessionPlayer = currentUserManager.getPlayer(combatZone.getFirstman().getAccount().getUsername());
-		sessionPlayer.setCombatZone(combatZone);
-		
 		Player firstman = combatZone.getFirstman();
 		List<Charactor> orderedFighters = combatZone.getOrderedFighters();
 		
 		CombatTempleteDc combatStartTempleteDc = new CombatTempleteDc(attacker.getName(), defender.getName());
 		customMessagingTemplate.sendToYou(attacker.getUsername(), Template.combatStartSendMe, combatStartTempleteDc);
 		customMessagingTemplate.sendToRoomWithOutMe(firstman, Template.combatStartSendRoom, combatStartTempleteDc);
+		customMessagingTemplate.sendToRoom(firstman, Template.defaultMessage, "전투가 시작됐습니다.");
 		
 		for (Charactor c : orderedFighters) {
 			c.changeState(CharactorState.COMBAT);
@@ -68,25 +66,18 @@ public class CombatManager {
 		while (!isFinish) {
 			for (Charactor c : orderedFighters) {
 				if (c instanceof Player) {
-					turnPlayer(combatZone, c);
-		        	
-		        	// 전투종료
-		        	if (isFinish = combatZone.isNpcsAllDown()) {
+		        	if (isFinish = doPlayerTurn(combatZone, c)) {
 		        		break;
 		        	}
 		        	sleep(1000);
 				} else {
-					// NPC 공격
-					turnNonPlayer(combatZone, c);
-					
-					// 전투종료, 플레이어가 졌을때
-					if (isFinish = combatZone.isPlayersAllDown()) {
+					if (isFinish = doNonPlayerTurn(combatZone, c)) {
 		        		break;
 		        	}
 					sleep(1000);
 				}
 				
-				// attack 메소드 안의 skill 입력되어있는지 체크하는 부분과 섞였다.
+				// TODO attack() 메소드 안의 skill 입력되어있는지 체크하는 부분과 섞였다.
 				combatZone.clearInputSkill();
 			}
 		}
@@ -100,10 +91,10 @@ public class CombatManager {
 			}
 		}
 		
-		sessionPlayer.setCombatZone(null);
+		combatZone.finish();
 	}
 
-	private void turnNonPlayer(CombatZone combatZone, Charactor charactor) {
+	private boolean doNonPlayerTurn(CombatZone combatZone, Charactor charactor) {
 		combatZone.setCurrentTurnPlayer(charactor.getName());
 		Player player = combatZone.getPlayers().values().iterator().next();
 		Weapon weapon = charactor.getEquipment().getWeapon();
@@ -114,9 +105,11 @@ public class CombatManager {
 			customMessagingTemplate.sendToYou(player.getAccount().getUsername(), Template.defaultMessage, "당신은 쓰러졌습니다.");
 			customMessagingTemplate.sendToRoomWithOutMe(player, Template.combatEnemyDownSendAll, combatTempleteDc);
 		}
+		
+		return combatZone.isPlayersAllDown();
 	}
 
-	private void turnPlayer(CombatZone combatZone, Charactor charactor) {
+	private boolean doPlayerTurn(CombatZone combatZone, Charactor charactor) {
 		boolean receivedCommand = false;
 
 		Player player = (Player) charactor;
@@ -127,7 +120,7 @@ public class CombatManager {
 		customMessagingTemplate.sendToYou(username, Template.defaultMessage, "당신의 차례 입니다. 무엇을 할까요?");
 		customMessagingTemplate.sendToRoomWithOutMe(player, Template.combatTurnSendRoom, combatTempleteDc);
 		
-		for (int i = 0; i < 50 && !receivedCommand; i++) {
+		for (int i = 0; i < 100 && !receivedCommand; i++) {
 			receivedCommand = combatZone.hasInputSkill();
 			if (!receivedCommand) {
 				sleep(50);
@@ -138,7 +131,7 @@ public class CombatManager {
 		if (receivedCommand) {
 			InputSkill inputSkill = combatZone.getInputSkill();
 			SkillAction action = inputSkill.getAction();
-			if (action.type() == SkillType.NOT_USE_PLAYER_WEAPON) {
+			if (action.type() == SkillType.DONT_USE_PLAYER_WEAPON) {
 				weapon = action.defaultWeapon();
 			}
 		}
@@ -148,6 +141,8 @@ public class CombatManager {
 		if (npc.getStatus().getHp() < 1) {
 			customMessagingTemplate.sendToRoom(combatZone.getFirstman(), Template.combatEnemyDownSendAll, combatTempleteDc);
 		}
+		
+		return combatZone.isNpcsAllDown();
 	}
 	
 	private void attack(Player player, Charactor attacker, Charactor defender, Weapon weapon) {
@@ -158,7 +153,8 @@ public class CombatManager {
     	int demage = judgment.getJudgments().getDamege(attacker, weapon);
     	combatMessageHandler.sendCombatMessage(judgment.getJudgments(), attacker, defender, message, demage);
     	
-    	// extreme시 스킬 향상 기회
+    	// TODO extreme시 스킬 향상 기회
+    	// TODO 사용 액션 횟수 카운팅. 액션 + 스킬 숙련도 체크하여 새로운 스킬 등장
     	
     	defender.getStatus().decreaseHp(demage);
     	statusService.save(defender.getStatus());

@@ -38,7 +38,7 @@ public enum SkillAction implements SkillActionable {
 
 		@Override
 		public SkillType type() {
-			return SkillType.NOT_USE_PLAYER_WEAPON;
+			return SkillType.DONT_USE_PLAYER_WEAPON;
 		}
 
 		@Override
@@ -59,7 +59,7 @@ public enum SkillAction implements SkillActionable {
 
 		@Override
 		public SkillType type() {
-			return SkillType.NOT_USE_PLAYER_WEAPON;
+			return SkillType.DONT_USE_PLAYER_WEAPON;
 		}
 
 		@Override

@@ -30,6 +30,9 @@ public class QContainer extends EntityPathBase<Container> {
     public final com.jeff.mud.domain.room.domain.QDoor door;
 
     //inherited
+    public final EnumPath<com.jeff.mud.domain.item.constants.ItemGrade> grade = _super.grade;
+
+    //inherited
     public final NumberPath<Long> id = _super.id;
 
     //inherited

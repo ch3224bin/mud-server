@@ -28,6 +28,9 @@ public class QKey extends EntityPathBase<Key> {
     public final ListPath<com.jeff.mud.domain.room.domain.Door, com.jeff.mud.domain.room.domain.QDoor> doors = this.<com.jeff.mud.domain.room.domain.Door, com.jeff.mud.domain.room.domain.QDoor>createList("doors", com.jeff.mud.domain.room.domain.Door.class, com.jeff.mud.domain.room.domain.QDoor.class, PathInits.DIRECT2);
 
     //inherited
+    public final EnumPath<com.jeff.mud.domain.item.constants.ItemGrade> grade = _super.grade;
+
+    //inherited
     public final NumberPath<Long> id = _super.id;
 
     //inherited

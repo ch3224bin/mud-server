@@ -1,6 +1,6 @@
 package com.jeff.mud.command.combat.fight;
 
-import com.jeff.mud.combat.CombatZoneFactory.CombatZone;
+import com.jeff.mud.combat.model.CombatZone;
 import com.jeff.mud.command.Command;
 import com.jeff.mud.command.CommandDataCarrier;
 import com.jeff.mud.command.who.listener.CurrentUserManager;

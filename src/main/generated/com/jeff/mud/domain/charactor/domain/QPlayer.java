@@ -29,6 +29,9 @@ public class QPlayer extends EntityPathBase<Player> {
     // inherited
     public final QCharactorBag charactorBag;
 
+    // inherited
+    public final QEquipment equipment;
+
     //inherited
     public final NumberPath<Long> id;
 
@@ -41,7 +44,16 @@ public class QPlayer extends EntityPathBase<Player> {
     public final com.jeff.mud.domain.room.domain.QRoom room;
 
     //inherited
+    public final ListPath<com.jeff.mud.domain.skill.domain.Skill, com.jeff.mud.domain.skill.domain.QSkill> skills;
+
+    //inherited
     public final EnumPath<com.jeff.mud.state.CharactorState> state;
+
+    //inherited
+    public final ListPath<com.jeff.mud.domain.stat.domain.Stat, com.jeff.mud.domain.stat.domain.QStat> stats;
+
+    // inherited
+    public final QStatus status;
 
     public QPlayer(String variable) {
         this(Player.class, forVariable(variable), INITS);
@@ -64,10 +76,14 @@ public class QPlayer extends EntityPathBase<Player> {
         this._super = new QCharactor(type, metadata, inits);
         this.account = inits.isInitialized("account") ? new com.jeff.mud.global.account.domain.QAccount(forProperty("account")) : null;
         this.charactorBag = _super.charactorBag;
+        this.equipment = _super.equipment;
         this.id = _super.id;
         this.name = _super.name;
         this.room = _super.room;
+        this.skills = _super.skills;
         this.state = _super.state;
+        this.stats = _super.stats;
+        this.status = _super.status;
     }
 
 }

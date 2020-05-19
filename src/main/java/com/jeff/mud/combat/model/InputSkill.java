@@ -1,4 +1,4 @@
-package com.jeff.mud.combat;
+package com.jeff.mud.combat.model;
 
 import com.google.common.base.Strings;
 import com.jeff.mud.domain.skill.constants.SkillAction;

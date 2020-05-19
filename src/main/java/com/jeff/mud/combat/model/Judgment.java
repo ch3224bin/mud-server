@@ -1,4 +1,4 @@
-package com.jeff.mud.combat;
+package com.jeff.mud.combat.model;
 
 import com.jeff.mud.combat.constants.Judgments;
 import com.jeff.mud.domain.item.domain.Weapon;

@@ -21,6 +21,8 @@ public class QItem extends EntityPathBase<Item> {
 
     public final StringPath description = createString("description");
 
+    public final EnumPath<com.jeff.mud.domain.item.constants.ItemGrade> grade = createEnum("grade", com.jeff.mud.domain.item.constants.ItemGrade.class);
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     public final BooleanPath isGetable = createBoolean("isGetable");
