@@ -28,8 +28,9 @@ public class Wayout implements Comparable<Wayout> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column(name = "room_id", nullable = false)
-	private long roomId;
+	@ManyToOne
+	@JoinColumn(name = "room_id", nullable = false)
+	private Room room;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "direction", nullable = false)
@@ -52,7 +53,7 @@ public class Wayout implements Comparable<Wayout> {
 	}
 	
 	public String toString() {
-		return direction.toString() + (this.getDoor().isLocked() ? "(잠김)" : "");
+		return direction.getName() + (this.getDoor().isLocked() ? "(잠김)" : "");
 	}
 	
 }

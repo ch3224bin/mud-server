@@ -5,18 +5,20 @@ import com.jeff.mud.domain.item.domain.Weapon;
 import com.jeff.mud.domain.skill.constants.Skills;
 
 public enum Weapons implements WeaponDefinition {
+	// TODO 이 많은 아이템을 어떻게 정리하나
+	// TODO 무기 - 무기 생성, 무기 - 메세지 두개라도 분리하자
 	FIST {
 		@Override
 		public Weapon createWeapon() {
 			return Weapon.builder()
-			.name("맨주먹").count(1).sided(3).bonus(0).accuracy(50)
+			.name("맨주먹").count(1).sided(3).bonus(0)
 			.type(this)
 			.build();
 		}
 
 		@Override
 		public Skills weaponSkill() {
-			return Skills.근접전_격투;
+			return Skills.격투;
 		}
 
 		@Override
@@ -40,14 +42,14 @@ public enum Weapons implements WeaponDefinition {
 		@Override
 		public Weapon createWeapon() {
 			return Weapon.builder()
-					.name("다리").count(1).sided(4).bonus(0).accuracy(30)
+					.name("다리").count(1).sided(4).bonus(0)
 					.type(this)
 					.build();
 		}
 
 		@Override
 		public Skills weaponSkill() {
-			return Skills.근접전_격투;
+			return Skills.격투;
 		}
 
 		@Override
@@ -70,14 +72,14 @@ public enum Weapons implements WeaponDefinition {
 		@Override
 		public Weapon createWeapon() {
 			return Weapon.builder()
-					.name("머리").count(1).sided(4).bonus(0).accuracy(30)
+					.name("머리").count(1).sided(4).bonus(0)
 					.type(this)
 					.build();
 		}
 		
 		@Override
 		public Skills weaponSkill() {
-			return Skills.근접전_격투;
+			return Skills.격투;
 		}
 		
 		@Override
@@ -100,7 +102,7 @@ public enum Weapons implements WeaponDefinition {
 		@Override
 		public Weapon createWeapon() {
 			return Weapon.builder()
-					.name("잭나이프").count(1).sided(4).bonus(0).accuracy(25)
+					.name("잭나이프").count(1).sided(4).bonus(0)
 					.type(this).isGetable(true).grade(ItemGrade.COMMON)
 					.description("짧지만 날카로운 접이식 칼이다.")
 					.build();
@@ -108,7 +110,7 @@ public enum Weapons implements WeaponDefinition {
 		
 		@Override
 		public Skills weaponSkill() {
-			return Skills.근접전_도검;
+			return Skills.격투;
 		}
 		
 		@Override
@@ -120,14 +122,14 @@ public enum Weapons implements WeaponDefinition {
 		@Override
 		public Weapon createWeapon() {
 			return Weapon.builder()
-					.name("군용 나이프").count(1).sided(4).bonus(2).accuracy(25)
+					.name("군용 나이프").count(1).sided(4).bonus(2)
 					.type(this).isGetable(true).grade(ItemGrade.UNCOMMON)
 					.build();
 		}
 		
 		@Override
 		public Skills weaponSkill() {
-			return Skills.근접전_도검;
+			return Skills.도검;
 		}
 		
 		@Override

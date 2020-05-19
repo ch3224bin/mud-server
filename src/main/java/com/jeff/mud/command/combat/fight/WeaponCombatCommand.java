@@ -31,7 +31,7 @@ public class WeaponCombatCommand extends CombatCommand {
 	protected boolean validate(CommandDataCarrier input) {
 		// 착용 무기에 해당하는 스킬만 가능 
 		Weapon weapon = input.getPlayer().getEquipment().getWeapon();
-		if (weapon.getType().weaponSkill() != getSkillAction().parentSkill()) {
+		if (!getSkillAction().parentSkills().contains(weapon.getType().weaponSkill() )) {
 			getMessagingTemplate().sendToYou(input.getUsername(), Template.defaultMessage, "착용한 무기로 " + getSkillAction().actionName() + "을(를) 할 수 없습니다.");
 			return false;
 		}

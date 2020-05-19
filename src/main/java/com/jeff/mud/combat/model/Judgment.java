@@ -16,10 +16,10 @@ public class Judgment {
 	public Judgment (Skill playerSkill, Weapon weapon) {
     	if (playerSkill != null) {
     		point = playerSkill.getPoint();
-    		dice = new Dice(1, playerSkill.getPoint());
+    		dice = new Dice(1, point);
     	} else {
-    		point = weapon.getAccuracy();
-    		dice = new Dice(1, weapon.getAccuracy());
+    		point = weapon.getType().weaponSkill().getDefaultPoint();
+    		dice = new Dice(1, point);
     	}
     	
     	int value = dice.getValue();

@@ -33,8 +33,8 @@ insert into status (charactor_id, hp, mp) values
 (1, 15, 15), (2, 15, 15), (3, 15, 15), (4, 10, 0);
 
 insert into skill (charactor_id, type, point) values
-(1, '근접전_격투', 50),
-(4, '근접전_격투', 50);
+(1, '격투', 50),
+(4, '격투', 50);
 
 insert into charactor_bag (id, charactor_id) values
 (1, 1), (2, 2), (3, 3), (4, 4);

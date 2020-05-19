@@ -10,7 +10,7 @@ public class SkillDc {
 	private int point;
 
 	public SkillDc(Skill skill) {
-		this.name = skill.getType().skillName();
+		this.name = skill.getType().getSkillName();
 		this.point = skill.getPoint();
 	}
 }

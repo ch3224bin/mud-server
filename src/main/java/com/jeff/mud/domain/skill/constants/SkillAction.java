@@ -1,5 +1,8 @@
 package com.jeff.mud.domain.skill.constants;
 
+import java.util.Set;
+
+import com.google.common.collect.Sets;
 import com.jeff.mud.domain.item.constants.Weapons;
 import com.jeff.mud.domain.item.domain.Weapon;
 
@@ -11,8 +14,8 @@ public enum SkillAction implements SkillActionable {
 		}
 		
 		@Override
-		public Skills parentSkill() {
-			return Skills.근접전_격투;
+		public Set<Skills> parentSkills() {
+			return Sets.newHashSet(Skills.격투);
 		}
 
 		@Override
@@ -32,8 +35,8 @@ public enum SkillAction implements SkillActionable {
 		}
 		
 		@Override
-		public Skills parentSkill() {
-			return Skills.근접전_격투;
+		public Set<Skills> parentSkills() {
+			return Sets.newHashSet(Skills.격투);
 		}
 
 		@Override
@@ -53,8 +56,8 @@ public enum SkillAction implements SkillActionable {
 		}
 		
 		@Override
-		public Skills parentSkill() {
-			return Skills.근접전_격투;
+		public Set<Skills> parentSkills() {
+			return Sets.newHashSet(Skills.격투);
 		}
 
 		@Override
@@ -74,8 +77,29 @@ public enum SkillAction implements SkillActionable {
 		}
 		
 		@Override
-		public Skills parentSkill() {
-			return Skills.근접전_도검;
+		public Set<Skills> parentSkills() {
+			return Sets.newHashSet(Skills.격투, Skills.도검);
+		}
+		
+		@Override
+		public SkillType type() {
+			return SkillType.USE_PLAYER_WEAPON;
+		}
+		
+		@Override
+		public Weapon defaultWeapon() {
+			return Weapons.JACK_KNIFE.createWeapon();
+		}
+	},
+	SHOOT {
+		@Override
+		public String actionName() {
+			return "쏴";
+		}
+		
+		@Override
+		public Set<Skills> parentSkills() {
+			return Sets.newHashSet(Skills.격투, Skills.도검);
 		}
 		
 		@Override

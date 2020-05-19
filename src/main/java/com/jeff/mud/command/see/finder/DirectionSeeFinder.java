@@ -38,7 +38,7 @@ public class DirectionSeeFinder implements Finder<Seeable> {
 			return Optional.empty();
 		}
 		
-		Direction direction = Direction.valueOf(target);
+		Direction direction = Direction.valueOfString(target);
 		Optional<Wayout> wayout = input.getPlayer().getRoom().getWayoutByDirection(direction);
 		
 		if (wayout.isEmpty() || !wayout.get().isShow()) {
@@ -47,10 +47,10 @@ public class DirectionSeeFinder implements Finder<Seeable> {
 		
 		if (wayout.get().getDoor().isLocked()) {
 			// TODO 문을 보여줄지..
-			return Optional.of(new SeeDenyObject(String.format("%s쪽의 문이 잠겨있어 볼 수 없습니다.", wayout.get().getDirection().toString())));
+			return Optional.of(new SeeDenyObject(String.format("%s쪽의 문이 잠겨있어 볼 수 없습니다.", wayout.get().getDirection().getName())));
 		}
 		
-		return wayout.map(wo -> roomService.getRoomDc(input.getPlayer().getRoom(), charactorService.getCharactorsInTheRoomWithOutMe(input)));
-		
+		return Optional.of(roomService.getRoomDc(wayout.get().getNextRoom(),
+				charactorService.getCharactorsInTheRoomWithOutMe(input.getPlayer(), wayout.get().getNextRoom())));
 	}
 }

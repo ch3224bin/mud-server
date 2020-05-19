@@ -9,7 +9,7 @@
 	</ul>
 	<ul class="items">
 {{#each items}}
-	<li><span class="item">{{name}}</span>{{#if isLocked}}<span class="locked">(잠김)</span>{{/if}}이(가) 놓여있습니다.</li>
+	<li><span class="item {{grade}}">{{name}}</span>{{#if isLocked}}<span class="locked">(잠김)</span>{{/if}}이(가) 놓여있습니다.</li>
 {{/each}}
 	</ul>
 </room>

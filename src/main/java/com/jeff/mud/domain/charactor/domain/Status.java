@@ -37,7 +37,7 @@ public class Status {
 	@Column(name = "mp")
 	private int mp;
 	
-	@Column(name = "moveRate")
+	@Column(name = "move_rate")
 	private int moveRate;
 	
 	@Column(name = "luck", columnDefinition = "int(3) default 15")

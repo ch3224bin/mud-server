@@ -33,21 +33,17 @@ public class Weapon extends Item implements Typeable<Weapons> {
 	@Column(name = "bonus", nullable = false)
 	private int bonus; // 주사위 굴림 외에 + 수치
 	
-	@Column(name = "accuracy", nullable = false)
-	private int accuracy; // 기본 명중률
-	
 	@Column(name = "critical", nullable = false, columnDefinition = "boolean default false")
 	private boolean critical;
 	
 	@Builder
-	public Weapon(Weapons type, String name, int count, int sided, int bonus, int accuracy, ItemGrade grade,
+	public Weapon(Weapons type, String name, int count, int sided, int bonus, ItemGrade grade,
 			String description, boolean isGetable, boolean critical) {
 		super(name, description, isGetable, grade);
 		this.type = type;
 		this.count = count;
 		this.sided = sided;
 		this.bonus = bonus;
-		this.accuracy = accuracy;
 		this.critical = critical;
 	}
 	

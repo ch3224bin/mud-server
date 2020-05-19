@@ -16,6 +16,7 @@ import com.jeff.mud.domain.charactor.domain.Charactor;
 import com.jeff.mud.domain.charactor.domain.NonPlayer;
 import com.jeff.mud.domain.charactor.domain.Player;
 import com.jeff.mud.domain.charactor.dto.CharactorDc;
+import com.jeff.mud.domain.room.domain.Room;
 
 @Component
 public class CharactorService {
@@ -36,11 +37,15 @@ public class CharactorService {
 	}
 	
 	public List<CharactorDc> getCharactorsInTheRoomWithOutMe(CommandDataCarrier input) {
-		List<Player> players = playerRepository.findByRoomAndOnlineAndNotExistsMe(input.getPlayer().getRoom(), input.getPlayer());
-		List<NonPlayer> nonPlayers = nonPlayerRepository.findByRoom(input.getPlayer().getRoom());
+		return getCharactorsInTheRoomWithOutMe(input.getPlayer(), input.getPlayer().getRoom());
+	}
+	
+	public List<CharactorDc> getCharactorsInTheRoomWithOutMe(Player player, Room room) {
+		List<Player> players = playerRepository.findByRoomAndOnlineAndNotExistsMe(room, player);
+		List<NonPlayer> nonPlayers = nonPlayerRepository.findByRoom(room);
 		
 		return Stream.concat(players.stream(), nonPlayers.stream())
-			.map(CharactorDc::new)
-			.collect(Collectors.toList());
+				.map(CharactorDc::new)
+				.collect(Collectors.toList());
 	}
 }

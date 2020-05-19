@@ -62,7 +62,7 @@ alter table container add constraint FK_CONTAINER_01 foreign key (id) references
 alter table container add constraint FK_CONTAINER_02 foreign key (door_id) references door(id);
 
 create table weapon (count int(3) not null, sided int(3) not null,
-	bonus int(2) not null, accuracy int(3) not null,
+	bonus int(2) not null,
 	weapon_type varchar(255) not null, critical boolean default false not null,
 	id bigint not null, primary key (id));
 alter table weapon add constraint FK_WEAPON_01 foreign key (id) references item(id);

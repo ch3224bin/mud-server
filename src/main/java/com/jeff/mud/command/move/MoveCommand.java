@@ -45,13 +45,13 @@ public class MoveCommand extends Command {
 
 	@Override
 	protected void handle(CommandDataCarrier input) {
-		Direction direction = Direction.valueOf(input.getCommand());
+		Direction direction = Direction.valueOfString(input.getCommand());
 		Optional<Wayout> wayout = input.getPlayer().getRoom().getWayoutByDirection(direction);
 		if (wayout.isPresent() && wayout.get().isShow()) {
 			if (!wayout.get().getDoor().isLocked()) {
 				Room nextRoom = wayout.get().getNextRoom();
 				
-				TemplateDc td = TemplateDc.builder().player(input.getPlayer().getName()).direction(wayout.get().getDirection().toString()).build();
+				TemplateDc td = TemplateDc.builder().player(input.getPlayer().getName()).direction(wayout.get().getDirection().getName()).build();
 				customMessagingTemplate.sendToRoomWithOutMe(input, Template.moveOutSendRoom, td);
 				
 				input.getPlayer().moveTo(nextRoom);

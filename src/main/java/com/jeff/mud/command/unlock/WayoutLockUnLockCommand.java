@@ -19,11 +19,11 @@ public class WayoutLockUnLockCommand implements LockUnLockCommand {
 			return;
 		}
 		
-		Direction direction = Direction.valueOf(target);
+		Direction direction = Direction.valueOfString(target);
 		Optional<Wayout> wayout = input.getPlayer().getRoom().getWayoutByDirection(direction);
 		
 		if (wayout.isPresent() && wayout.get().isShow()) {
-			lockOrUnlock(input, lockUnlockTemplate, wayout.get().getDoor(), direction.toString());
+			lockOrUnlock(input, lockUnlockTemplate, wayout.get().getDoor(), direction.getName());
 		} else {
 			lockUnlockTemplate.notExitsWayout(input);
 		}

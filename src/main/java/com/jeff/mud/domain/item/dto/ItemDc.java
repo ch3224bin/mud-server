@@ -18,6 +18,7 @@ public class ItemDc implements Seeable {
 	private String description;
 	private List<ItemDc> items;
 	private Boolean isLocked = false;
+	private String grade;
 	
 	public ItemDc(Item item) {
 		this.id = item.getId();
@@ -26,6 +27,7 @@ public class ItemDc implements Seeable {
 		if (item instanceof Container) {
 			this.isLocked = ((Container) item).isLocked();
 		}
+		this.grade = item.getGrade().toString().toLowerCase();
 	}
 	
 	public ItemDc(Item item, List<Item> items) {
