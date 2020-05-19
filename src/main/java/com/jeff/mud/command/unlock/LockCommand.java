@@ -29,7 +29,7 @@ public class LockCommand extends Command {
 
 	@Override
 	protected List<CharactorState> allowStates() {
-		return Arrays.asList(CharactorState.normal);
+		return Arrays.asList(CharactorState.NORMAL);
 	}
 
 	@Override

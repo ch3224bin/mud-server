@@ -1,6 +1,6 @@
 package com.jeff.mud.domain.charactor.dto;
 
-import com.jeff.mud.combat.CombatManager.CombatZone;
+import com.jeff.mud.combat.CombatZoneFactory.CombatZone;
 import com.jeff.mud.command.see.model.Seeable;
 import com.jeff.mud.domain.charactor.domain.Charactor;
 import com.jeff.mud.domain.charactor.domain.NonPlayer;

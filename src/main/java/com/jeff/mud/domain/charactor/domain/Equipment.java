@@ -34,7 +34,7 @@ public class Equipment {
 	
 	public Weapon getWeapon() {
 		if (weapon == null) {
-			return Weapons.fist.createWeapon(); // 없으면 맨주먹
+			return Weapons.FIST.createWeapon(); // 없으면 맨주먹
 		}
 		return this.weapon;
 	}

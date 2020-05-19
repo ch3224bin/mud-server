@@ -1,6 +1,6 @@
 package com.jeff.mud.domain.skill.constants;
 
 public enum SkillType {
-	weapon,
-	notWeapon,
+	USE_PLAYER_WEAPON,
+	NOT_USE_PLAYER_WEAPON,
 }

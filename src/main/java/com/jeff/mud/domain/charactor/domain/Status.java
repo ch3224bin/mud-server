@@ -56,11 +56,13 @@ public class Status {
 	}
 	
 	public void increaseHp(int val) {
-		this.hp += val; // TODO RULE에서 처리
+		this.hp += val;
+		this.hp = Math.min(this.hp, this.getMaxHp());
 	}
 	
 	public void decreaseHp(int val) {
-		this.hp -= val; // TODO 상태 변화와 연결됨
+		this.hp -= val;
+		this.hp = Math.max(this.hp, 0);
 	}
 	
 	public Status(Charactor charactor) {

@@ -17,9 +17,6 @@ import com.jeff.mud.domain.charactor.domain.NonPlayer;
 import com.jeff.mud.domain.charactor.domain.Player;
 import com.jeff.mud.domain.charactor.dto.CharactorDc;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Component
 public class CharactorService {
 
@@ -35,7 +32,6 @@ public class CharactorService {
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void save(Charactor charactor) {
-		log.info("CharactorService save");
 		charactorRepository.save(charactor);
 	}
 	

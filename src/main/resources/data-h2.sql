@@ -10,10 +10,10 @@ insert into account_role (account_id, role_id) values
 (1, 1), (1, 2), (2, 1);
 
 insert into charactor (dtype, id, name, state) values
-('player', 1, '액션가면', 'normal'),
-('player', 2, 'test1234', 'character_create1'),
-('non_player', 3, '안내원', 'normal'),
-('non_player', 4, '전자동 대련 기계', 'normal');
+('player', 1, '액션가면', 'NORMAL'),
+('player', 2, 'test1234', 'CHARACTER_CREATE1'),
+('non_player', 3, '안내원', 'NORMAL'),
+('non_player', 4, '전자동 대련 기계', 'NORMAL');
 
 insert into player (id, account_id) values
 (1, 1),
@@ -24,17 +24,17 @@ insert into non_player (id, is_attackable, description) values
 (4, 1, '가벼운 금속 파이프와 각종 모터로 만들어진 전투 훈련용 기계이다.');
 
 insert into stat (charactor_id, type, value) values
-(1, 'STR', 15), (1, 'CON', 15), (1, 'SIZ', 15), (1, 'INT', 15), (1, 'POW', 15), (1, 'DEX', 15), (1, 'APP', 15), (1, 'EDU', 15),
-(2, 'STR', 15), (2, 'CON', 15), (2, 'SIZ', 15), (2, 'INT', 15), (2, 'POW', 15), (2, 'DEX', 15), (2, 'APP', 15), (2, 'EDU', 15),
-(3, 'STR', 15), (3, 'CON', 15), (3, 'SIZ', 15), (3, 'INT', 15), (3, 'POW', 15), (3, 'DEX', 15), (3, 'APP', 15), (3, 'EDU', 15),
-(4, 'STR', 10), (4, 'CON', 15), (4, 'SIZ', 10), (4, 'INT', 0), (4, 'POW', 0), (4, 'DEX', 5), (4, 'APP', 5), (4, 'EDU', 1);
+(1, 'STR',75), (1, 'CON', 75), (1, 'SIZ', 75), (1, 'INT', 75), (1, 'POW', 75), (1, 'DEX', 75), (1, 'APP', 75), (1, 'EDU', 75),
+(2, 'STR', 75), (2, 'CON', 75), (2, 'SIZ', 75), (2, 'INT', 75), (2, 'POW', 75), (2, 'DEX', 75), (2, 'APP', 75), (2, 'EDU', 75),
+(3, 'STR', 75), (3, 'CON', 75), (3, 'SIZ', 75), (3, 'INT', 75), (3, 'POW', 75), (3, 'DEX', 75), (3, 'APP', 75), (3, 'EDU', 75),
+(4, 'STR', 50), (4, 'CON', 75), (4, 'SIZ', 50), (4, 'INT', 0), (4, 'POW', 0), (4, 'DEX', 25), (4, 'APP', 10), (4, 'EDU', 5);
 
 insert into status (charactor_id, hp, mp) values
 (1, 15, 15), (2, 15, 15), (3, 15, 15), (4, 10, 0);
 
 insert into skill (charactor_id, type, point) values
-(1, 'punch', 50),
-(4, 'punch', 50);
+(1, '근접전_격투', 50),
+(4, '근접전_격투', 50);
 
 insert into charactor_bag (id, charactor_id) values
 (1, 1), (2, 2), (3, 3), (4, 4);
@@ -63,11 +63,11 @@ insert into wayout (room_id, door_id, direction, next_room_id) values
 (5, 4, '남', 1);
 
 insert into item (dtype, id, name, description, is_getable, grade) values
-('key', 1, '북쪽 열쇠', '북쪽문을 열 수 있는 열쇠이다.', true, 'common'),
-('container', 2, '서랍', '하얀 플라스틱으로 만들어진 1단 서랍이다.', false, 'common'),
-('key', 3, '남쪽 열쇠', '남쪽문을 열 수 있는 열쇠이다.', true, 'common'),
-('container', 4, '낡은 금고', '페인트가 벗겨지고 녹이슨 철제 금고이다.', false, 'common'),
-('key', 5, '금고 열쇠', '낡은 금고 열쇠이다.', true, 'common');
+('key', 1, '북쪽 열쇠', '북쪽문을 열 수 있는 열쇠이다.', true, 'COMMON'),
+('container', 2, '서랍', '하얀 플라스틱으로 만들어진 1단 서랍이다.', false, 'COMMON'),
+('key', 3, '남쪽 열쇠', '남쪽문을 열 수 있는 열쇠이다.', true, 'COMMON'),
+('container', 4, '낡은 금고', '페인트가 벗겨지고 녹이슨 철제 금고이다.', false, 'COMMON'),
+('key', 5, '금고 열쇠', '낡은 금고 열쇠이다.', true, 'COMMON');
 
 insert into keey (id) values
 (1), (3), (5);

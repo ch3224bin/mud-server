@@ -37,6 +37,10 @@ public class Dice {
 		this.isMinus = isMinus;
 	}
 	
+	public int getMaxValue() {
+		return count * sided;
+	}
+	
 	public String toString() {
 		if (count == 0 || sided == 0) {
 			return String.valueOf(value);

@@ -1,11 +1,11 @@
-package com.jeff.mud.command.combat.melee;
+package com.jeff.mud.command.combat.fight;
 
-import com.jeff.mud.combat.CombatManager.CombatZone;
+import com.jeff.mud.combat.CombatZoneFactory.CombatZone;
 import com.jeff.mud.command.Command;
 import com.jeff.mud.command.CommandDataCarrier;
 import com.jeff.mud.command.who.listener.CurrentUserManager;
 import com.jeff.mud.domain.charactor.dto.CharactorDc;
-import com.jeff.mud.domain.skill.constants.Skills;
+import com.jeff.mud.domain.skill.constants.SkillAction;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
 import com.jeff.mud.template.Template;
 
@@ -22,11 +22,11 @@ public abstract class CombatCommand extends Command {
 		if (!validate(input)) {
 			return;
 		}
-		combatZone.putCommand(input.getTarget(), getSkills());
+		combatZone.putCommand(input.getTarget(), getSkillAction());
 	}
 	
 	protected abstract CurrentUserManager getCurrentUserManager();
 	protected abstract CustomMessagingTemplate getMessagingTemplate();
-	protected abstract Skills getSkills();
+	protected abstract SkillAction getSkillAction();
 	protected abstract boolean validate(CommandDataCarrier input);
 }

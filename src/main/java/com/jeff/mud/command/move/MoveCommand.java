@@ -35,7 +35,7 @@ public class MoveCommand extends Command {
 
 	@Override
 	protected List<CharactorState> allowStates() {
-		return Arrays.asList(CharactorState.normal);
+		return Arrays.asList(CharactorState.NORMAL);
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class MoveCommand extends Command {
 
 	@Override
 	protected void handleDenyState(CommandDataCarrier input) {
-		if (CharactorState.combat == input.getPlayer().getState()) {
+		if (CharactorState.COMBAT == input.getPlayer().getState()) {
 			customMessagingTemplate.sendToYou(input.getUsername(), Template.defaultMessage, "전투중에는 이동할 수 없습니다.");
 		}
 	}

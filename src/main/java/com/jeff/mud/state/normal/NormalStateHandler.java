@@ -14,7 +14,7 @@ public class NormalStateHandler implements StateHandler {
 
 	@Override
 	public CharactorState state() {
-		return CharactorState.normal;
+		return CharactorState.NORMAL;
 	}
 
 }

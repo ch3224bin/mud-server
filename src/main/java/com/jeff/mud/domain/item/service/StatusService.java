@@ -1,7 +1,7 @@
 package com.jeff.mud.domain.item.service;
 
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jeff.mud.domain.charactor.domain.Status;
@@ -16,8 +16,7 @@ public class StatusService {
 		this.statusRepository = statusRepository;
 	}
 	
-	@Async
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void save(Status status) {
 		statusRepository.save(status);
 	}

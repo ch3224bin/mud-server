@@ -62,7 +62,7 @@ public class FirstStepStateHandler implements StateHandler {
 				if ("예".equals(dc.getMsg())) {
 					nextstep = FirstStep.cc3;
 					dc.getPlayer().setName(player.getTemp1());
-					dc.getPlayer().changeState(CharactorState.normal);
+					dc.getPlayer().changeState(CharactorState.NORMAL);
 					message = String.format("%s님 환영합니다.", player.getTemp1());
 					stateStarter.start(dc.getUsername(), dc.getPlayer());
 				} else if ("아니오".equals(dc.getMsg())) {
@@ -98,7 +98,7 @@ public class FirstStepStateHandler implements StateHandler {
 
 	@Override
 	public CharactorState state() {
-		return CharactorState.character_create1;
+		return CharactorState.CHARACTER_CREATE1;
 	}
 
 }

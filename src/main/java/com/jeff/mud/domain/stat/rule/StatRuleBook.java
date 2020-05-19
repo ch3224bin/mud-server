@@ -8,7 +8,7 @@ public class StatRuleBook {
 	public static int getMaxHp(Charactor charactor) {
 		int siz = charactor.getStat(Stats.SIZ).getValue();
 		int con = charactor.getStat(Stats.CON).getValue();
-		return (siz + con) / 10; 
+		return (siz + con) / 5; 
 	}
 	
 	public static int getMaxMp(Charactor charactor) {

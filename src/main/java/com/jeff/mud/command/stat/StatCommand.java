@@ -24,7 +24,7 @@ public class StatCommand extends Command {
 
 	@Override
 	protected List<CharactorState> allowStates() {
-		return Arrays.asList(CharactorState.normal, CharactorState.combat);
+		return Arrays.asList(CharactorState.NORMAL, CharactorState.COMBAT);
 	}
 
 	@Override

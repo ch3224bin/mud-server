@@ -6,13 +6,13 @@ import lombok.Getter;
 
 @Getter
 public enum CharactorState {
-	character_create1 (CommandConstants.noop),
-	normal (CommandConstants.see),
-	combat (CommandConstants.noop),
-	stun (CommandConstants.noop),
-	shock (CommandConstants.noop),
-	coma (CommandConstants.noop),
-	dead (CommandConstants.noop),
+	CHARACTER_CREATE1 (CommandConstants.noop),
+	NORMAL (CommandConstants.see),
+	COMBAT (CommandConstants.noop),
+	STUN (CommandConstants.noop),
+	SHOCK (CommandConstants.noop),
+	COMA (CommandConstants.noop),
+	DEAD (CommandConstants.noop),
 	;
 	
 	private CommandConstants commandConstants;

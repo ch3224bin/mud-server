@@ -22,10 +22,10 @@ public class CombatMessageHandler {
 	public CombatMessageHandler (CustomMessagingTemplate customMessagingTemplate) {
 		this.customMessagingTemplate = customMessagingTemplate;
 		
-		handlers.put(Judgments.success, new SuccessHandler());
-		handlers.put(Judgments.fail, new FailHandler());
-		handlers.put(Judgments.critical, new SuccessHandler());
-		handlers.put(Judgments.fumble, new FailHandler());
+		handlers.put(Judgments.SUCCESS, new SuccessHandler());
+		handlers.put(Judgments.FAIL, new FailHandler());
+		handlers.put(Judgments.EXTREME, new SuccessHandler());
+		handlers.put(Judgments.FUMBLE, new FailHandler());
 	}
 	
 	public void sendCombatMessage(Judgments judgments, Charactor attacker, Charactor defender, String message, int damege) {
@@ -42,63 +42,63 @@ public class CombatMessageHandler {
 		
 		void doPlayer(Charactor attacker, Charactor defender, String message, int damege) {
 			CombatTempleteDc combatTempleteDc = new CombatTempleteDc(attacker.getName(), defender.getName(), message, damege);
-			customMessagingTemplate.sendToYou(((Player)attacker).getAccount().getUsername(), playerAttacSuccessSendMe(), combatTempleteDc);
-			customMessagingTemplate.sendToRoomWithOutMe((Player)attacker, playerAttacSuccessSendRoom(), combatTempleteDc);
+			customMessagingTemplate.sendToYou(((Player)attacker).getAccount().getUsername(), playerSendMe(), combatTempleteDc);
+			customMessagingTemplate.sendToRoomWithOutMe((Player)attacker, playerSendRoom(), combatTempleteDc);
 		}
 		
 		void doNonPlayer(Charactor attacker, Charactor defender, String message, int damege) {
 			CombatTempleteDc combatTempleteDc = new CombatTempleteDc(attacker.getName(), defender.getName(), message, damege);
-			customMessagingTemplate.sendToRoom((Player) defender, npcAttacSuccessSendMe(), combatTempleteDc);
-			customMessagingTemplate.sendToRoom((Player) defender, npcAttacSuccessSendRoom(), combatTempleteDc);
+			customMessagingTemplate.sendToYou(((Player) defender).getAccount().getUsername(), npcSendMe(), combatTempleteDc);
+			customMessagingTemplate.sendToRoomWithOutMe((Player) defender, npcSendRoom(), combatTempleteDc);
 		}
 		
-		abstract Template playerAttacSuccessSendMe();
-		abstract Template playerAttacSuccessSendRoom();
-		abstract Template npcAttacSuccessSendMe();
-		abstract Template npcAttacSuccessSendRoom();
+		abstract Template playerSendMe();
+		abstract Template playerSendRoom();
+		abstract Template npcSendMe();
+		abstract Template npcSendRoom();
 	}
 	
 	class SuccessHandler extends Handler {
 		@Override
-		Template playerAttacSuccessSendMe() {
+		Template playerSendMe() {
 			return Template.combatPlayerAttackSuccessSendMe;
 		}
 
 		@Override
-		Template playerAttacSuccessSendRoom() {
+		Template playerSendRoom() {
 			return Template.combatPlayerAttackSuccessSendRoom;
 		}
 
 		@Override
-		Template npcAttacSuccessSendMe() {
+		Template npcSendMe() {
 			return Template.combatNpcAttackSuccessSendMe;
 		}
 
 		@Override
-		Template npcAttacSuccessSendRoom() {
-			return Template.combatPlayerAttackSuccessSendRoom;
+		Template npcSendRoom() {
+			return Template.combatNpcAttackSuccessSendRoom;
 		}
 	}
 	
 	class FailHandler extends Handler {
 		@Override
-		Template playerAttacSuccessSendMe() {
+		Template playerSendMe() {
 			return Template.combatPlayerAttackFailSendMe;
 		}
 
 		@Override
-		Template playerAttacSuccessSendRoom() {
+		Template playerSendRoom() {
 			return Template.combatPlayerAttackFailSendRoom;
 		}
 
 		@Override
-		Template npcAttacSuccessSendMe() {
+		Template npcSendMe() {
 			return Template.combatNpcAttackFailSendMe;
 		}
 
 		@Override
-		Template npcAttacSuccessSendRoom() {
-			return Template.combatPlayerAttackFailSendRoom;
+		Template npcSendRoom() {
+			return Template.combatNpcAttackFailSendRoom;
 		}
 	}
 }
