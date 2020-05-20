@@ -16,13 +16,16 @@ import com.google.common.base.Strings;
 import com.jeff.mud.domain.room.constants.Direction;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "room")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
+@Getter @AllArgsConstructor @Builder @EqualsAndHashCode(of = "id")
 public class Room {
 
 	@Id
@@ -56,5 +59,13 @@ public class Room {
 		return this.wayouts.stream()
 			.filter(wayout -> wayout.getDirection() == direction)
 			.findFirst();
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

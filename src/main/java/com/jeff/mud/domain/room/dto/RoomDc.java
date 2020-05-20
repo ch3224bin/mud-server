@@ -3,6 +3,8 @@ package com.jeff.mud.domain.room.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.hateoas.server.core.Relation;
+
 import com.jeff.mud.command.see.model.Seeable;
 import com.jeff.mud.domain.charactor.dto.CharactorDc;
 import com.jeff.mud.domain.item.domain.Item;
@@ -16,6 +18,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Relation(collectionRelation = "rooms", itemRelation = "room")
 public class RoomDc implements Seeable {
 	private long id;
 	private String summary;
@@ -49,6 +52,13 @@ public class RoomDc implements Seeable {
 		return room.getSortedWayouts().stream()
 			.map(WayoutDc::new)
 			.collect(Collectors.toList());
+	}
+	
+	public Room toEntity() {
+		return Room.builder()
+				.summary(summary)
+				.description(description)
+				.build();
 	}
 
 	@Override

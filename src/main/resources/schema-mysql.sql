@@ -34,6 +34,12 @@ alter table charactor_bag add constraint FK_CHARACTOR_BAG_01 foreign key (charac
 
 create table room (id bigint not null auto_increment, description varchar(255) not null, summary varchar(255) not null, primary key (id));
 
+create table area (id bigint not null auto_increment, name varchar(255) not null, type varchar(255) not null, primary key (id));
+create table area_room (area_id bigint not null, room_id bigint not null);
+alter table area_room add constraint UK_AREA_ROOM_ROOM_ID unique (room_id);
+alter table area_room add constraint FK_AREA_ROOM_01 foreign key (room_id) references room(id);
+alter table area_room add constraint FK_AREA_ROOM_02 foreign key (area_id) references area(id);
+
 create table charactor_room (room_id bigint, charactor_id bigint not null, primary key (charactor_id));
 alter table charactor_room add constraint FK_CHARACTOR_ROOM_01 foreign key (room_id) references room(id);
 alter table charactor_room add constraint FK_CHARACTOR_ROOM_02 foreign key (charactor_id) references charactor(id);
