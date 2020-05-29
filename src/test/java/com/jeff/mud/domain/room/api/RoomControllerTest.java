@@ -20,12 +20,11 @@ public class RoomControllerTest {
 	@Test
 	@WithMockUser(username = "user")
 	public void test_paging() throws Exception {
-		 mockMvc.perform(get("/rooms/")
-                 .param("page", "0")
-                 .param("size", "5")
-                 .param("sort", "id"))
-         .andDo(print())
-         .andExpect(status().isOk());
+		mockMvc.perform(get("/rooms/")
+				.param("page", "0")
+				.param("size", "5")
+				.param("sort", "id"))
+		.andDo(print())
+		.andExpect(status().isOk());
 	}
-
 }
