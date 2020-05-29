@@ -11,14 +11,13 @@ public class StateHandlerManager {
 	
 	private final static Map<CharactorState, StateHandler> stateMap = new HashMap<>();
 	
-	
 	public StateHandlerManager(List<StateHandler> stateHandlers) {
 		for (StateHandler handler : stateHandlers) {
 			stateMap.put(handler.state(), handler);
 		}
 	}
 
-	public static StateHandler getStateHandler(CharactorState state) {
+	public StateHandler getStateHandler(CharactorState state) {
 		return stateMap.get(state);
 	}
 	

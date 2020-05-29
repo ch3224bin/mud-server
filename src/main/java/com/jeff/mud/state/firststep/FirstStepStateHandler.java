@@ -1,5 +1,6 @@
 package com.jeff.mud.state.firststep;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Strings;
@@ -11,7 +12,7 @@ import com.jeff.mud.domain.charactor.dto.CharactorDc;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
 import com.jeff.mud.state.CharactorState;
 import com.jeff.mud.state.StateHandler;
-import com.jeff.mud.state.StateStarter;
+import com.jeff.mud.state.event.GameStartEvent;
 import com.jeff.mud.template.Template;
 
 @Component
@@ -20,17 +21,17 @@ public class FirstStepStateHandler implements StateHandler {
 	private final CustomMessagingTemplate customMessagingTemplate;
 	private final CurrentUserManager currentUserManager;
 	private final PlayerRepository playerRepository;
-	private final StateStarter stateStarter;
+	private final ApplicationEventPublisher applicationEventPublisher;
 	
 	public FirstStepStateHandler(
 			CustomMessagingTemplate customMessagingTemplate,
 			CurrentUserManager currentUserManager,
 			PlayerRepository playerRepository,
-			StateStarter stateStarter) {
+			ApplicationEventPublisher applicationEventPublisher) {
 		this.customMessagingTemplate = customMessagingTemplate;
 		this.currentUserManager = currentUserManager;
 		this.playerRepository = playerRepository;
-		this.stateStarter = stateStarter;
+		this.applicationEventPublisher = applicationEventPublisher;
 	}
 
 	@Override
@@ -64,7 +65,7 @@ public class FirstStepStateHandler implements StateHandler {
 					dc.getPlayer().setName(player.getTemp1());
 					dc.getPlayer().changeState(CharactorState.NORMAL);
 					message = String.format("%s님 환영합니다.", player.getTemp1());
-					stateStarter.start(dc.getUsername(), dc.getPlayer());
+					applicationEventPublisher.publishEvent(new GameStartEvent(player));
 				} else if ("아니오".equals(dc.getMsg())) {
 					nextstep = FirstStep.cc1;
 					message = "이름을 입력해주세요.";

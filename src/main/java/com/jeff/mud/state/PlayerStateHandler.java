@@ -10,13 +10,15 @@ import com.jeff.mud.command.constants.CommandConstants;
 @Component
 public class PlayerStateHandler {
 	private final CommandManager commandManager;
+	private final StateHandlerManager stateHandlerManager;
 	
-	public PlayerStateHandler(CommandManager commandManager) {
+	public PlayerStateHandler(CommandManager commandManager, StateHandlerManager stateHandlerManager) {
 		this.commandManager = commandManager;
+		this.stateHandlerManager = stateHandlerManager;
 	}
 	
 	public boolean handle(CharactorState state, Command command, CommandDataCarrier dc) {
-		StateHandler stateHandler = StateHandlerManager.getStateHandler(state);
+		StateHandler stateHandler = stateHandlerManager.getStateHandler(state);
 		if (stateHandler != null) {
 			return stateHandler.handle(command, dc);
 		}

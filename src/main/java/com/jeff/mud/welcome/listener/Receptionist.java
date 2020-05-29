@@ -12,6 +12,7 @@ import com.jeff.mud.domain.charactor.domain.Player;
 import com.jeff.mud.domain.charactor.event.StatusChangeEvent;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
 import com.jeff.mud.state.StateStarter;
+import com.jeff.mud.state.event.GameStartEvent;
 import com.jeff.mud.template.Template;
 
 /**
@@ -29,7 +30,6 @@ public class Receptionist {
 	
 	private final CustomMessagingTemplate customMessagingTemplate;
 	private final PlayerRepository playerRepository;
-	private final StateStarter stateStarter;
 	private final ApplicationEventPublisher applicationEventPublisher;
 	
 	public Receptionist(
@@ -39,7 +39,6 @@ public class Receptionist {
 			ApplicationEventPublisher applicationEventPublisher) {
 		this.customMessagingTemplate = customMessagingTemplate;
 		this.playerRepository = playerRepository;
-		this.stateStarter = stateStarter;
 		this.applicationEventPublisher = applicationEventPublisher;
 	}
 	
@@ -55,7 +54,7 @@ public class Receptionist {
 			// 2. 공지사항등
 			
 			// 3. 첫번째로 할 행동을 취한다.
-			stateStarter.start(accessor.getUser().getName(), player);
+			applicationEventPublisher.publishEvent(new GameStartEvent(player));
 		}
 		if ("/user/history/status".equals(destination)) {
 			applicationEventPublisher.publishEvent(new StatusChangeEvent(player.getStatus())); // 간략한 상태정보를 출력하기 위해 event trigger
