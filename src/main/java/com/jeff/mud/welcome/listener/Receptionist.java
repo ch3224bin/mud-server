@@ -4,7 +4,6 @@ import com.jeff.mud.domain.charactor.dao.PlayerRepository;
 import com.jeff.mud.domain.charactor.domain.Player;
 import com.jeff.mud.domain.charactor.event.StatusChangeEvent;
 import com.jeff.mud.global.message.CustomMessagingTemplate;
-import com.jeff.mud.state.StateStarter;
 import com.jeff.mud.state.event.GameStartEvent;
 import com.jeff.mud.template.Template;
 import org.springframework.context.ApplicationEventPublisher;

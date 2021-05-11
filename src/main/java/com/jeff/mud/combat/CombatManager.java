@@ -1,15 +1,8 @@
 package com.jeff.mud.combat;
 
-import java.util.List;
-
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.jeff.mud.combat.model.CombatZone;
 import com.jeff.mud.combat.model.InputSkill;
 import com.jeff.mud.combat.model.Judgment;
-import com.jeff.mud.command.who.listener.CurrentUserManager;
 import com.jeff.mud.domain.charactor.domain.Charactor;
 import com.jeff.mud.domain.charactor.domain.NonPlayer;
 import com.jeff.mud.domain.charactor.domain.Player;
@@ -24,6 +17,11 @@ import com.jeff.mud.global.message.CustomMessagingTemplate;
 import com.jeff.mud.state.CharactorState;
 import com.jeff.mud.template.CombatTempleteDc;
 import com.jeff.mud.template.Template;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Component
 public class CombatManager {
@@ -36,8 +34,7 @@ public class CombatManager {
 	
 	public CombatManager(CustomMessagingTemplate customMessagingTemplate, StatusService statusService,
 			CombatMessageHandler combatMessageHandler, CharactorService charactorService,
-			CombatZoneFactory combatZoneFactory,
-			CurrentUserManager currentUserManager) {
+			CombatZoneFactory combatZoneFactory) {
 		this.customMessagingTemplate = customMessagingTemplate;
 		this.combatMessageHandler = combatMessageHandler;
 		this.statusService = statusService;
