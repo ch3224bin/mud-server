@@ -1,12 +1,5 @@
 package com.jeff.mud.welcome.listener;
 
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.event.EventListener;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.socket.messaging.SessionSubscribeEvent;
-
 import com.jeff.mud.domain.charactor.dao.PlayerRepository;
 import com.jeff.mud.domain.charactor.domain.Player;
 import com.jeff.mud.domain.charactor.event.StatusChangeEvent;
@@ -14,6 +7,12 @@ import com.jeff.mud.global.message.CustomMessagingTemplate;
 import com.jeff.mud.state.StateStarter;
 import com.jeff.mud.state.event.GameStartEvent;
 import com.jeff.mud.template.Template;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
 /**
  * 사용자 들어왔을때, 떠났을때 처리.
@@ -35,7 +34,6 @@ public class Receptionist {
 	public Receptionist(
 			CustomMessagingTemplate customMessagingTemplate,
 			PlayerRepository playerRepository,
-			StateStarter stateStarter,
 			ApplicationEventPublisher applicationEventPublisher) {
 		this.customMessagingTemplate = customMessagingTemplate;
 		this.playerRepository = playerRepository;

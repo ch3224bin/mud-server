@@ -65,7 +65,7 @@ public class FirstStepStateHandler implements StateHandler {
 					dc.getPlayer().setName(player.getTemp1());
 					dc.getPlayer().changeState(CharactorState.NORMAL);
 					message = String.format("%s님 환영합니다.", player.getTemp1());
-					applicationEventPublisher.publishEvent(new GameStartEvent(player));
+					applicationEventPublisher.publishEvent(new GameStartEvent(dc.getPlayer()));
 				} else if ("아니오".equals(dc.getMsg())) {
 					nextstep = FirstStep.cc1;
 					message = "이름을 입력해주세요.";

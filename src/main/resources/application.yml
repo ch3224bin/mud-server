@@ -4,7 +4,9 @@ spring:
 
 ---
 spring:
-    profiles: test
+    config:
+        activate:
+            on-profile: test
     h2:
         console:
             enabled: true  # H2 웹 콘솔을 사용하겠다는 의미
@@ -15,12 +17,15 @@ spring:
         username: sa
         sql-script-encoding: UTF-8
         platform: h2
-    jpa:      show-sql: true
+    jpa:
+      show-sql: true
       generate-ddl: true
 
 ---
 spring:
-    profiles: local
+    config:
+        activate:
+            on-profile: local
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://localhost:3306/mud?serverTimezone=UTC&characterEncoding=UTF-8
