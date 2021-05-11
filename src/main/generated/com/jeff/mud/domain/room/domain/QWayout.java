@@ -32,7 +32,7 @@ public class QWayout extends EntityPathBase<Wayout> {
 
     public final QRoom nextRoom;
 
-    public final NumberPath<Long> roomId = createNumber("roomId", Long.class);
+    public final QRoom room;
 
     public QWayout(String variable) {
         this(Wayout.class, forVariable(variable), INITS);
@@ -54,6 +54,7 @@ public class QWayout extends EntityPathBase<Wayout> {
         super(type, metadata, inits);
         this.door = inits.isInitialized("door") ? new QDoor(forProperty("door")) : null;
         this.nextRoom = inits.isInitialized("nextRoom") ? new QRoom(forProperty("nextRoom")) : null;
+        this.room = inits.isInitialized("room") ? new QRoom(forProperty("room")) : null;
     }
 
 }

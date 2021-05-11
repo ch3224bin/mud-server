@@ -21,8 +21,6 @@ public class QWeapon extends EntityPathBase<Weapon> {
 
     public final QItem _super = new QItem(this);
 
-    public final NumberPath<Integer> accuracy = createNumber("accuracy", Integer.class);
-
     public final NumberPath<Integer> bonus = createNumber("bonus", Integer.class);
 
     public final NumberPath<Integer> count = createNumber("count", Integer.class);

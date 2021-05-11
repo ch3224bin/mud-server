@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JOIN</title>
+</head>
+<body>
+<p>ID : <input type="text" id="email" name="username"></p>
+<p>PASSWORD : <input type="password" id="password" name="password"></p>
+<button id="joinBtn" onclick="login()">Login</button>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script>
+    function login(){
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        let userInfo = {};
+
+        userInfo.username = email;
+        userInfo.password = password;
+
+        $.ajax({
+            type: "post",
+            url: "/login",
+            data: userInfo,
+            success: function(data) {
+                location.href = '/';
+            },
+            error: function(e){
+                alert('error!!');
+            }
+        });
+    }
+</script>
+</body>
+</html>

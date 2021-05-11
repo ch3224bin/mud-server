@@ -29,8 +29,8 @@ insert into stat (charactor_id, type, value) values
 (3, 'STR', 75), (3, 'CON', 75), (3, 'SIZ', 75), (3, 'INT', 75), (3, 'POW', 75), (3, 'DEX', 75), (3, 'APP', 75), (3, 'EDU', 75),
 (4, 'STR', 50), (4, 'CON', 75), (4, 'SIZ', 50), (4, 'INT', 0), (4, 'POW', 0), (4, 'DEX', 25), (4, 'APP', 10), (4, 'EDU', 5);
 
-insert into status (charactor_id, hp, mp) values
-(1, 15, 15), (2, 15, 15), (3, 15, 15), (4, 10, 0);
+insert into status (charactor_id, hp, mp, move_rate) values
+(1, 15, 15, 30), (2, 15, 15, 30), (3, 15, 15, 30), (4, 10, 0, 30);
 
 insert into skill (charactor_id, type, point) values
 (1, '격투', 50),
@@ -53,14 +53,14 @@ insert into door (id, is_locked) values
 (1, 0), (2, 0), (3, 0), (4, 1), (5, 1);
 
 insert into wayout (room_id, door_id, direction, next_room_id) values
-(1, 1, '동', 2),
-(2, 1, '서', 1),
-(1, 2, '서', 3),
-(3, 2, '동', 1),
-(1, 3, '남', 4),
-(4, 3, '북', 1),
-(1, 4, '북', 5),
-(5, 4, '남', 1);
+(1, 1, 'EAST', 2),
+(2, 1, 'WEST', 1),
+(1, 2, 'WEST', 3),
+(3, 2, 'EAST', 1),
+(1, 3, 'SOUTH', 4),
+(4, 3, 'NORTH', 1),
+(1, 4, 'NORTH', 5),
+(5, 4, 'SOUTH', 1);
 
 insert into item (dtype, id, name, description, is_getable, grade) values
 ('key', 1, '북쪽 열쇠', '북쪽문을 열 수 있는 열쇠이다.', true, 'COMMON'),
