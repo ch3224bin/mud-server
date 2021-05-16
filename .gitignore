@@ -3,9 +3,10 @@ HELP.md
 build/
 bin/
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**
-!**/src/test/**
+!**/src/main/**/build/
+!**/src/test/**/build/
 *.ucls
+src/main/generated
 
 ### STS ###
 .apt_generated
