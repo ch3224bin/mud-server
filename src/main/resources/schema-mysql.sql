@@ -1,5 +1,7 @@
-create table account (id bigint not null auto_increment, password varchar(255) not null, username varchar(255) not null, primary key (id));
+create table account (id bigint not null auto_increment, password varchar(255) not null, username varchar(255) not null,
+    email varchar(255) not null, provider varchar(255) not null, primary key (id));
 alter table account add constraint UK_ACCOUNT_USERNAME unique(username);
+alter table account add constraint UK_ACCOUNT_EMAIL unique(email);
 
 create table role (id bigint not null auto_increment, role varchar(255), primary key (id));
 

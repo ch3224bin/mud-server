@@ -8,4 +8,6 @@ import com.jeff.mud.global.account.domain.Account;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
 	Optional<Account> findByUsername(String username);
+
+  Optional<Account> findByEmail(String email);
 }

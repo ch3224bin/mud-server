@@ -7,6 +7,7 @@ bin/
 !**/src/test/**/build/
 *.ucls
 src/main/generated
+application-local.yml
 
 ### STS ###
 .apt_generated
