@@ -1,5 +1,8 @@
 package com.jeff.mud.global.security;
 
+import com.jeff.mud.global.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.jeff.mud.global.security.oauth2.OAuth2AuthenticationFailureHandler;
+import com.jeff.mud.global.security.oauth2.OAuth2AuthenticationSuccessHandler;
 import com.jeff.mud.global.security.user.service.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,11 +21,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final CustomOAuth2UserService customOAuth2UserService;
 	private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+	private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 
 	public WebSecurityConfig(CustomOAuth2UserService customOAuth2UserService,
-													 OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler) {
+													 OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler,
+													 OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler) {
 		this.customOAuth2UserService = customOAuth2UserService;
 		this.oAuth2AuthenticationSuccessHandler = oAuth2AuthenticationSuccessHandler;
+		this.oAuth2AuthenticationFailureHandler = oAuth2AuthenticationFailureHandler;
 	}
 
 	@Override
@@ -42,11 +48,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.oauth2Login()
 				.authorizationEndpoint()
 					.baseUri("/oauth2/authorize")
+					.authorizationRequestRepository(new HttpCookieOAuth2AuthorizationRequestRepository())
 					.and()
 				.userInfoEndpoint()
 					.userService(customOAuth2UserService)
 					.and()
-				.successHandler(oAuth2AuthenticationSuccessHandler);
+				.successHandler(oAuth2AuthenticationSuccessHandler)
+				.failureHandler(oAuth2AuthenticationFailureHandler);
 
 		http
 			.csrf().disable();

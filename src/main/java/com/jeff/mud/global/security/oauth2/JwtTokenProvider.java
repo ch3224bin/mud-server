@@ -1,4 +1,4 @@
-package com.jeff.mud.global.security;
+package com.jeff.mud.global.security.oauth2;
 
 import com.jeff.mud.global.config.AppProperties;
 import com.jeff.mud.global.security.user.model.UserPrincipal;

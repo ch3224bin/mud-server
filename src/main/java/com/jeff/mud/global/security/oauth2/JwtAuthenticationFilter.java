@@ -1,4 +1,4 @@
-package com.jeff.mud.global.security;
+package com.jeff.mud.global.security.oauth2;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
