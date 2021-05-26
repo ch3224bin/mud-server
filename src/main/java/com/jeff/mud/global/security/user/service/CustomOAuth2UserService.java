@@ -43,7 +43,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
       .provider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
       .username(oAuth2UserInfo.getEmail())
       .email(oAuth2UserInfo.getEmail())
-      .password("1234")
       .build();
     return accountRepository.save(account);
   }

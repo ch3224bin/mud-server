@@ -1,6 +1,6 @@
-insert into account (id, username, password) values
-(1, 'user', '{bcrypt}$2a$10$4xld0kieIepZeXPtfhe/dOxqAyKfl0SGGgQXbrwtXERdaRE5el6xu'),
-(2, 'user1', '{bcrypt}$2a$10$4xld0kieIepZeXPtfhe/dOxqAyKfl0SGGgQXbrwtXERdaRE5el6xu');
+insert into account (id, username, email) values
+(1, 'user', 'user@jeff-life.com'),
+(2, 'user1', 'user1@jeff-life.com');
 
 insert into role (id, role) values
 (1, 'USER'),

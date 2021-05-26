@@ -17,12 +17,12 @@ import com.jeff.mud.template.Template;
 
 @Component
 public class FirstStepStateHandler implements StateHandler {
-	
+
 	private final CustomMessagingTemplate customMessagingTemplate;
 	private final CurrentUserManager currentUserManager;
 	private final PlayerRepository playerRepository;
 	private final ApplicationEventPublisher applicationEventPublisher;
-	
+
 	public FirstStepStateHandler(
 			CustomMessagingTemplate customMessagingTemplate,
 			CurrentUserManager currentUserManager,
@@ -40,7 +40,7 @@ public class FirstStepStateHandler implements StateHandler {
 		FirstStep currstep = getFlashState(player);
 		String message = "";
 		FirstStep nextstep = null;
-		
+
 		switch (currstep) {
 			case cc0 :
 				nextstep = FirstStep.cc1;
@@ -64,6 +64,7 @@ public class FirstStepStateHandler implements StateHandler {
 					nextstep = FirstStep.cc3;
 					dc.getPlayer().setName(player.getTemp1());
 					dc.getPlayer().changeState(CharactorState.NORMAL);
+					// TODO 기타 설정 추가
 					message = String.format("%s님 환영합니다.", player.getTemp1());
 					applicationEventPublisher.publishEvent(new GameStartEvent(dc.getPlayer()));
 				} else if ("아니오".equals(dc.getMsg())) {
@@ -76,7 +77,7 @@ public class FirstStepStateHandler implements StateHandler {
 			default :
 				break;
 		}
-		
+
 		setFlashStateAndSendMessage(dc.getUsername(), player, message, nextstep);
 		return true;
 	}

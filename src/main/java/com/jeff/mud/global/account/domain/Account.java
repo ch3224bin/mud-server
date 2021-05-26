@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public class Account {
 	@Column(name = "username", unique = true, nullable = false)
 	private String username;
 
-	@Column(name = "password", nullable = false)
+	@JsonIgnore @Transient
 	private String password;
 
 	@Column(name = "email", unique = true, nullable = false)
@@ -38,10 +39,9 @@ public class Account {
 	private List<Role> roles;
 
 	@Builder
-	public Account(long id, String username, String password, String email, AuthProvider provider) {
+	public Account(long id, String username, String email, AuthProvider provider) {
 		this.id = id;
 		this.username = username;
-		this.password = password;
 		this.email = email;
 		this.provider = provider;
 	}
