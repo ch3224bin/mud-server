@@ -9,15 +9,15 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @Configuration
 @EnableWebSocketMessageBroker
 public class SocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
-	
-	@Override
+
+    @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/history");
         config.setApplicationDestinationPrefixes("/app");
     }
- 
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/mud-server").withSockJS();
+        registry.addEndpoint("/mud-server").setAllowedOrigins("http://localhost:3000").withSockJS();
     }
 }
