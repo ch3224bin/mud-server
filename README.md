@@ -11,8 +11,12 @@
 gradlew clean bootRun -Pprofile=test
 ```
 
-1. http://localhost:8080 접속
-2. user : user, password : 1234
+~~1. http://localhost:8080 접속~~
+~~2. user : user, password : 1234~~
+
+현재 mud-client 생성하여 구글 oauth 붙임.
+
+관련 화면은 작성중
 
 profile local로 실행시 mysql 설치 필요.
 
@@ -23,6 +27,38 @@ port : 3306
 user : user1
 password : 1234
 database : mud
+```
+
+### application-local.yml
+
+```yaml
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: XXXXXX
+            client-secret: XXXXXX
+            scope:
+              - email
+              - profile
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mud?serverTimezone=UTC&characterEncoding=UTF-8
+    username: user
+    password: 1234
+    initialization-mode: never
+app:
+  auth:
+    tokenSecret: tokenSecret
+    tokenExpirationMsec: 864000000
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000
 ```
 
 ## 게임 도움말

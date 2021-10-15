@@ -59,14 +59,7 @@ public class CharactorBag {
 	}
 
 	private Predicate<Key> isRightKey(Door door) {
-		return key -> {
-			for (Door d : key.getDoors()) {
-				if (d.getId() == door.getId()) {
-					return true;
-				}
-			}
-			return false;
-		};
+		return key -> key.getDoors().stream().anyMatch(keyDoor -> keyDoor.getId() == door.getId());
 	}
 
 	public Optional<CharactorBagItemBroker> getItemBroker(Item item) {
