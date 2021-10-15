@@ -2,6 +2,7 @@ package com.jeff.mud.domain.charactor.domain;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import javax.persistence.Entity;
@@ -53,15 +54,19 @@ public class CharactorBag {
 		return itemBrokers.stream()
 			.map(CharactorBagItemBroker::getItem)
 			.filter(item -> item instanceof Key)
-			.map(item -> (Key)item)
-			.anyMatch(key -> {
-				for (Door d : key.getDoors()) {
-					if (d.getId() == door.getId()) {
-						return true;
-					}
+			.map(item -> (Key) item)
+			.anyMatch(isRightKey(door));
+	}
+
+	private Predicate<Key> isRightKey(Door door) {
+		return key -> {
+			for (Door d : key.getDoors()) {
+				if (d.getId() == door.getId()) {
+					return true;
 				}
-				return false;
-			});
+			}
+			return false;
+		};
 	}
 
 	public Optional<CharactorBagItemBroker> getItemBroker(Item item) {
