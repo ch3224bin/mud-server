@@ -5,10 +5,10 @@
 
 ## 실행방법
 
-아래는 test profile로 H2서버를 사용하여 실행한다
+아래는 local profile로 H2서버를 사용하여 실행한다
 
 ```bash
-gradlew clean bootRun -Pprofile=test
+gradlew clean bootRun -Pprofile=local
 ```
 
 ~~1. http://localhost:8080 접속~~
