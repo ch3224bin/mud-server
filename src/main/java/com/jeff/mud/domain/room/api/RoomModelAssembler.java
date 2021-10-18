@@ -14,10 +14,10 @@ public class RoomModelAssembler implements RepresentationModelAssembler<RoomDc, 
 
 	@Override
 	public EntityModel<RoomDc> toModel(RoomDc room) {
-		return new EntityModel<>(room,
-			      linkTo(methodOn(RoomController.class).one(room.getId())).withSelfRel()
-//			      linkTo(methodOn(RoomController.class).all()).withRel("rooms")
-			      );
+		return EntityModel.of(room,
+			      linkTo(methodOn(RoomController.class).one(room.getId())).withSelfRel(),
+						linkTo(methodOn(RoomController.class).updateRoom(room.getId(), room)).withRel("update")
+		);
 	}
 
 }
