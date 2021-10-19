@@ -1,7 +1,7 @@
 package com.jeff.mud.domain.room.api;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.PagedModel;
@@ -28,17 +28,17 @@ public class RoomController {
 	
 	private final RoomModelAssembler assembler;
 	private final RoomService roomService;
-	private final PagedResourcesAssembler<RoomDc> pagedAssembler;
-	
-	public RoomController(RoomModelAssembler assembler, RoomService roomService, PagedResourcesAssembler<RoomDc> pagedAssembler) {
+
+	public RoomController(RoomModelAssembler assembler, RoomService roomService) {
 		this.assembler = assembler;
 		this.roomService = roomService;
-		this.pagedAssembler = pagedAssembler;
 	}
 
 	@GetMapping
 	public ResponseEntity<PagedModel<EntityModel<RoomDc>>> paging(Pageable pageable) {
-		return ResponseEntity.ok(pagedAssembler.toModel(roomService.getPagedRooms(pageable), assembler));
+		Page<RoomDc> pagedRooms = roomService.getPagedRooms(pageable);
+		PagedModel<EntityModel<RoomDc>> body = assembler.toPagedModel(pagedRooms);
+		return ResponseEntity.ok(body);
 	}
 	
 	@GetMapping("/{id}")
