@@ -68,4 +68,11 @@ public class Room {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public Wayout createWayout(Direction direction) {
+		return Wayout.builder()
+			.direction(direction)
+			.room(this)
+			.build();
+	}
 }

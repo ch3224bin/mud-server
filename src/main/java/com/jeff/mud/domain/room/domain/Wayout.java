@@ -14,14 +14,12 @@ import javax.persistence.Table;
 
 import com.jeff.mud.domain.room.constants.Direction;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "wayout")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
+@Getter @AllArgsConstructor @Builder
 public class Wayout implements Comparable<Wayout> {
 
 	@Id
@@ -37,7 +35,7 @@ public class Wayout implements Comparable<Wayout> {
 	private Direction direction;
 	
 	@OneToOne
-    @JoinColumn(name = "next_room_id", nullable = false)
+	@JoinColumn(name = "next_room_id", nullable = false)
 	private Room nextRoom;
 	
 	@ManyToOne
