@@ -53,5 +53,8 @@ public class Wayout implements Comparable<Wayout> {
 	public String toString() {
 		return direction.getName() + (this.getDoor().isLocked() ? "(잠김)" : "");
 	}
-	
+
+	public void installDoor(Door door) {
+		this.door = door;
+	}
 }
