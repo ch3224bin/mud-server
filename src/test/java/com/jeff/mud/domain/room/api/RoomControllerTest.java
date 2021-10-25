@@ -1,6 +1,6 @@
 package com.jeff.mud.domain.room.api;
 
-import com.jeff.mud.domain.room.RoomService;
+import com.jeff.mud.domain.room.service.RoomService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

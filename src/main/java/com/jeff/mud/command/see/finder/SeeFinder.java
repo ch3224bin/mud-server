@@ -11,7 +11,7 @@ import com.jeff.mud.command.see.model.NotFoundObject;
 import com.jeff.mud.command.see.model.Seeable;
 import com.jeff.mud.domain.charactor.service.CharactorService;
 import com.jeff.mud.domain.item.service.RoomItemBrokerService;
-import com.jeff.mud.domain.room.RoomService;
+import com.jeff.mud.domain.room.service.RoomService;
 
 /**
  * 보이는 물건 찾기

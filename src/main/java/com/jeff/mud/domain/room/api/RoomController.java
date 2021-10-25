@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jeff.mud.domain.room.RoomService;
+import com.jeff.mud.domain.room.service.RoomService;
 import com.jeff.mud.domain.room.dto.RoomDc;
 
 /**

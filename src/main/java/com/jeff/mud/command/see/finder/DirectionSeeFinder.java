@@ -10,7 +10,7 @@ import com.jeff.mud.command.common.finder.Finder;
 import com.jeff.mud.command.see.model.SeeDenyObject;
 import com.jeff.mud.command.see.model.Seeable;
 import com.jeff.mud.domain.charactor.service.CharactorService;
-import com.jeff.mud.domain.room.RoomService;
+import com.jeff.mud.domain.room.service.RoomService;
 import com.jeff.mud.domain.room.constants.Direction;
 import com.jeff.mud.domain.room.domain.Wayout;
 

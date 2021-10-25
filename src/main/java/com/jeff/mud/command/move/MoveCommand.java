@@ -1,6 +1,5 @@
 package com.jeff.mud.command.move;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +9,7 @@ import com.jeff.mud.command.Command;
 import com.jeff.mud.command.CommandDataCarrier;
 import com.jeff.mud.command.constants.CommandConstants;
 import com.jeff.mud.domain.charactor.service.CharactorService;
-import com.jeff.mud.domain.room.RoomService;
+import com.jeff.mud.domain.room.service.RoomService;
 import com.jeff.mud.domain.room.constants.Direction;
 import com.jeff.mud.domain.room.domain.Room;
 import com.jeff.mud.domain.room.domain.Wayout;
@@ -35,7 +34,7 @@ public class MoveCommand extends Command {
 
 	@Override
 	protected List<CharactorState> allowStates() {
-		return Arrays.asList(CharactorState.NORMAL);
+		return List.of(CharactorState.NORMAL);
 	}
 
 	@Override

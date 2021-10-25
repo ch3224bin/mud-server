@@ -1,4 +1,4 @@
-package com.jeff.mud.domain.room;
+package com.jeff.mud.domain.room.service;
 
 import java.util.Collection;
 import java.util.Collections;
