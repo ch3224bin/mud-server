@@ -57,4 +57,8 @@ public class Wayout implements Comparable<Wayout> {
 	public void installDoor(Door door) {
 		this.door = door;
 	}
+
+	public void setNextRoom(Room nextRoom) {
+		this.nextRoom = nextRoom;
+	}
 }
