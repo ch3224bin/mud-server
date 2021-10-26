@@ -58,9 +58,8 @@ public class Wayout implements Comparable<Wayout> {
 		this.door = door;
 	}
 
-	public Wayout linkAnotherRoom(Room anotherRoom, Direction yourWay) {
+	public void linkAnotherRoom(Room anotherRoom, Direction yourWay) {
 		Wayout anotherWayout = anotherRoom.createWayout(this.room, yourWay);
 		Door.setup(this, anotherWayout);
-		return anotherWayout;
 	}
 }
