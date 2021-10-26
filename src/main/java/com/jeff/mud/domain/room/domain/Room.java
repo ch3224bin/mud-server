@@ -1,19 +1,10 @@
 package com.jeff.mud.domain.room.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-import com.google.common.base.Strings;
 import com.jeff.mud.domain.room.constants.Direction;
 
 import lombok.AccessLevel;
@@ -38,28 +29,21 @@ public class Room {
 	
 	@Column(name = "description", nullable = false)
 	private String description;
-	
-	@OneToMany(mappedBy = "room")
-	private List<Wayout> wayouts;
+
+	@Embedded
+	@Builder.Default
+	private Wayouts wayouts = new Wayouts();
 	
 	public List<Wayout> getSortedWayouts() {
-		return wayouts.stream()
-				.sorted()
-				.collect(Collectors.toList());
+		return wayouts.getSortedWayouts();
 	}
 	
 	public String getExitString() {
-		String exitString = this.wayouts.stream()
-				.filter(x -> x.isShow())
-				.map(x -> x.toString())
-				.collect(Collectors.joining(" "));
-		return Strings.isNullOrEmpty(exitString.strip()) ? "없음" : exitString;
+		return wayouts.getExitString();
 	}
 	
 	public Optional<Wayout> getWayoutByDirection(Direction direction) {
-		return this.wayouts.stream()
-			.filter(wayout -> wayout.getDirection() == direction)
-			.findFirst();
+		return wayouts.getWayoutByDirection(direction);
 	}
 
 	public void setSummary(String summary) {
@@ -77,10 +61,7 @@ public class Room {
 	}
 
 	private void addWayout(Wayout wayout) {
-		if (this.wayouts == null) {
-			this.wayouts = new ArrayList<>();
-		}
-		this.wayouts.add(wayout);
+		wayouts.add(wayout);
 	}
 
 	private Wayout create(Room nextRoom, Direction direction) {

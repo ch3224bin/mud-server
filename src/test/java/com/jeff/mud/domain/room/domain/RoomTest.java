@@ -26,7 +26,7 @@ public class RoomTest {
     Wayout wayout = room.createWayout(nextRoom, direction);
     assertThat(wayout.getDirection()).isEqualTo(direction);
     assertThat(wayout.getRoom()).isEqualTo(room);
-    assertThat(room.getWayouts()).containsOnlyOnce(wayout);
+    assertThat(room.getWayouts().getSortedWayouts()).containsOnlyOnce(wayout);
   }
 
   @DisplayName("방과 방을 연결한다")
