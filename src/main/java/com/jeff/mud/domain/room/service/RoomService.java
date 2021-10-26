@@ -1,10 +1,10 @@
 package com.jeff.mud.domain.room.service;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import com.jeff.mud.domain.room.constants.Direction;
+import com.jeff.mud.domain.room.exception.RoomNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -28,10 +28,6 @@ public class RoomService {
 		this.roomRepository = roomRepository;
 	}
 	
-	public RoomDc getRoomDcWithItems(Room room) {
-		return new RoomDc(room, roomItemBrokerService.findItemByRoom(room));
-	}
-	
 	public RoomDc getRoomDcWithItems(Room room, List<CharactorDc> charactors) {
 		return new RoomDc(room, roomItemBrokerService.findItemByRoom(room), charactors);
 	}
@@ -40,16 +36,10 @@ public class RoomService {
 		return new RoomDc(room, Collections.emptyList(), charactors);
 	}
 
-	public Collection<RoomDc> getAll() {
-		return roomRepository.findAll().stream()
-				.map(RoomDc::new)
-				.collect(Collectors.toList());
-	}
-
 	public RoomDc getRoom(final long id) {
 		return roomRepository.findById(id)
 				.map(RoomDc::new)
-				.orElseThrow(() -> new RuntimeException());
+				.orElseThrow(() -> new RoomNotFoundException(id));
 	}
 
 	public RoomDc updateRoom(long id, RoomDc req) {
@@ -59,7 +49,7 @@ public class RoomService {
 				room.setDescription(room.getDescription());
 				return new RoomDc(room);
 			})
-			.orElseThrow(() -> new RuntimeException());
+			.orElseThrow(() -> new RoomNotFoundException(id));
 	}
 
 	public RoomDc createRoom(RoomDc req) {
@@ -69,5 +59,12 @@ public class RoomService {
 	public Page<RoomDc> getPagedRooms(Pageable pageable) {
 		return roomRepository.findAll(pageable)
 			.map(RoomDc::new);
+	}
+
+	public List<Room> linkAnotherRoom(long roomId1, long roomId2, Direction dir1, Direction dir2) {
+		Room room1 = roomRepository.findById(roomId1).orElseThrow(() -> new RoomNotFoundException(roomId1));
+		Room room2 = roomRepository.findById(roomId2).orElseThrow(() -> new RoomNotFoundException(roomId2));
+		room1.linkAnotherRoom(room2, dir1, dir2);
+		return List.of(room1, room2);
 	}
 }
