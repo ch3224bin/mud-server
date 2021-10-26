@@ -1,5 +1,6 @@
 package com.jeff.mud.domain.room.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -69,10 +70,29 @@ public class Room {
 		this.description = description;
 	}
 
-	public Wayout createWayout(Direction direction) {
+	public Wayout createWayout(Room nextRoom, Direction direction) {
+		Wayout wayout = create(nextRoom, direction);
+		addWayout(wayout);
+		return wayout;
+	}
+
+	private void addWayout(Wayout wayout) {
+		if (this.wayouts == null) {
+			this.wayouts = new ArrayList<>();
+		}
+		this.wayouts.add(wayout);
+	}
+
+	private Wayout create(Room nextRoom, Direction direction) {
 		return Wayout.builder()
 			.direction(direction)
 			.room(this)
+			.nextRoom(nextRoom)
 			.build();
+	}
+
+	public void linkAnotherRoom(Room anotherRoom, Direction myWay, Direction yourWay) {
+		this.createWayout(anotherRoom, myWay)
+			.linkAnotherRoom(anotherRoom, yourWay);
 	}
 }

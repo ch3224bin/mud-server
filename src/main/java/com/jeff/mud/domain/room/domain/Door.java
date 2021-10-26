@@ -32,10 +32,10 @@ public class Door {
 		this.isLocked = true;
 	}
 
-	public void link(Wayout wo1, Wayout wo2) {
-		wo1.installDoor(this);
-		wo2.installDoor(this);
-		wo1.setNextRoom(wo2.getRoom());
-		wo2.setNextRoom(wo1.getRoom());
+	public static Door setup(Wayout wo1, Wayout wo2) {
+		Door door = new Door();
+		wo1.installDoor(door);
+		wo2.installDoor(door);
+		return door;
 	}
 }

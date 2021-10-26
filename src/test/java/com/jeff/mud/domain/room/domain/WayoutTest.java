@@ -1,5 +1,6 @@
 package com.jeff.mud.domain.room.domain;
 
+import com.jeff.mud.domain.room.constants.Direction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,5 +15,16 @@ public class WayoutTest {
     Door door = new Door();
     wo.installDoor(door);
     assertThat(wo.getDoor()).isEqualTo(door);
+  }
+
+  @DisplayName("출구와 출구를 연결한다")
+  @Test
+  void testLinkAnotherWayout() {
+    Room room2 = Room.builder().id(2L).build();
+    Wayout wo1 = Wayout.builder().id(1L).room(Room.builder().id(1L).build()).nextRoom(room2).build();
+    Wayout wo2 = wo1.linkAnotherRoom(room2, Direction.EAST);
+    assertThat(wo1.getDoor()).isNotNull().isEqualTo(wo2.getDoor());
+    assertThat(wo1.getNextRoom()).isNotNull().isEqualTo(wo2.getRoom());
+    assertThat(wo2.getNextRoom()).isNotNull().isEqualTo(wo1.getRoom());
   }
 }

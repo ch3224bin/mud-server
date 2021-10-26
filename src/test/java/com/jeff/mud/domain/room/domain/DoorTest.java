@@ -12,12 +12,11 @@ public class DoorTest {
   @Test
   void testLink() {
     Room westRoom = Room.builder().id(1L).summary("Test1").description("Test1").build();
-    Wayout eastWayout = westRoom.createWayout(Direction.EAST);
     Room eastRoom = Room.builder().id(2L).summary("Test2").description("Test2").build();
-    Wayout westWayout = eastRoom.createWayout(Direction.WEST);
+    Wayout eastWayout = westRoom.createWayout(eastRoom, Direction.EAST);
+    Wayout westWayout = eastRoom.createWayout(westRoom, Direction.WEST);
 
-    Door door = new Door();
-    door.link(eastWayout, westWayout);
+    Door door = Door.setup(eastWayout, westWayout);
 
     assertThat(eastWayout.getDoor()).isEqualTo(door);
     assertThat(westWayout.getDoor()).isEqualTo(door);
